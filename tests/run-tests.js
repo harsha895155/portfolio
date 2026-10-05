@@ -89,7 +89,9 @@ async function main() {
 
   console.log('\n3. Document Text Extraction & Diff Engine:');
   await runAsyncTest('Extracts information from existing PDF certificate', async () => {
-    const samplePdf = path.resolve(__dirname, '../NOC26CS45S145150024704536444.pdf');
+    const samplePdf = fs.existsSync(path.resolve(__dirname, '../storage/media/NOC26CS45S145150024704536444.pdf'))
+      ? path.resolve(__dirname, '../storage/media/NOC26CS45S145150024704536444.pdf')
+      : path.resolve(__dirname, '../NOC26CS45S145150024704536444.pdf');
     if (fs.existsSync(samplePdf)) {
       const result = await documentExtractor.extract(samplePdf, '.pdf');
       assert.strictEqual(result.success, true, 'Extraction succeeds');

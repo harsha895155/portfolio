@@ -130,8 +130,9 @@ async function runAiTests() {
   console.log('  ✓ Generated ATS-aligned description');
 
   // 8. Test Multi-Modal Document Upload & ChangeSet Generation (NPTEL PDF Certificate)
-  console.log('\n8. Testing Multi-Modal Document Analysis & ChangeSet Lifecycle:');
-  const samplePdf = path.resolve(__dirname, '../NOC26CS45S145150024704536444.pdf');
+  const samplePdf = fs.existsSync(path.resolve(__dirname, '../storage/media/NOC26CS45S145150024704536444.pdf'))
+    ? path.resolve(__dirname, '../storage/media/NOC26CS45S145150024704536444.pdf')
+    : path.resolve(__dirname, '../NOC26CS45S145150024704536444.pdf');
   assert(fs.existsSync(samplePdf), 'Real NPTEL PDF certificate exists in workspace');
 
   const boundary = '----WebKitFormBoundaryAiMultiModalTest';

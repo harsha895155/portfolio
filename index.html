@@ -276,7 +276,7 @@
       <p class="hero-desc">Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn-gold">↗ Get In Touch</a>
-        <a href="./Thimmareddygari_Harshavardhan_Reddy_Resume.pdf" class="btn-ghost resume-trigger" data-href="/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf" target="_blank" rel="noopener noreferrer">📄 View Resume</a>
+        <a href="media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf" class="btn-ghost resume-trigger" data-href="/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf" target="_blank" rel="noopener noreferrer">📄 View Resume</a>
         <a href="#projects" class="btn-ghost">View Projects →</a>
       </div>
     </div>
@@ -1217,7 +1217,7 @@ document.addEventListener('click', (e) => {
   if (card.classList.contains('resume-trigger') || card.classList.contains('view-resume-btn')) {
     finalHref = (window.PROFILE && window.PROFILE.resume && window.PROFILE.resume.url)
       ? window.PROFILE.resume.url
-      : (card.getAttribute('data-href') || card.getAttribute('href') || '/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf');
+      : (card.getAttribute('data-href') || card.getAttribute('href') || 'media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf');
     title = (window.PROFILE && window.PROFILE.name) ? window.PROFILE.name : 'Thimmareddygari Harshavardhan Reddy';
     subtitle = 'Curriculum Vitae (Resume) · B.Tech CSE';
     icon = '📄';

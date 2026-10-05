@@ -21,7 +21,10 @@ async function test() {
   console.log('✓ Admin login successful');
 
   // 2. Upload sample real PDF resume
-  const pdfBytes = fs.readFileSync('Thimmareddygari_Harshavardhan_Reddy_Resume.pdf');
+  const resumePath = fs.existsSync('storage/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf')
+    ? 'storage/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf'
+    : (fs.existsSync('media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf') ? 'media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf' : 'Thimmareddygari_Harshavardhan_Reddy_Resume.pdf');
+  const pdfBytes = fs.readFileSync(resumePath);
   const boundary = '--------------------' + Date.now();
   const pre = Buffer.from(
     '--' + boundary + '\r\n' +

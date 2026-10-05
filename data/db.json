@@ -36,7 +36,7 @@
     "resume": {
       "url": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
       "label": "📄 View Resume",
-      "updatedAt": "2026-10-05T09:34:52.103Z"
+      "updatedAt": "2026-10-05T09:51:38.264Z"
     },
     "education": [
       {
@@ -903,7 +903,7 @@
     "resume": {
       "url": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
       "label": "📄 View Resume",
-      "updatedAt": "2026-10-05T09:34:52.103Z"
+      "updatedAt": "2026-10-05T09:51:38.264Z"
     },
     "education": [
       {
@@ -1645,7 +1645,7 @@
       "achievements": true,
       "contact": true
     },
-    "avatar": "/media/media_1791192894933_vk6lm.jpg",
+    "avatar": "/media/media_1791193900819_2egoy.jpg",
     "avatarAlt": "Candidate Professional Headshot",
     "codingProfiles": [
       {
@@ -1739,6 +1739,40 @@
     }
   },
   "pendingChanges": [
+    {
+      "id": "chg_1791193890833_uwah5",
+      "detectedAt": "2026-10-05T09:51:30.833Z",
+      "status": "rejected",
+      "category": "Skills",
+      "field": "skills",
+      "label": "Irrelevant Skill",
+      "oldValue": "None",
+      "detectedValue": "Fortran",
+      "source": "Test Doc",
+      "rejectedBy": "admin_test",
+      "rejectedReason": "Not relevant",
+      "rejectedAt": "2026-10-05T09:51:30.844Z",
+      "updatedAt": "2026-10-05T09:51:30.844Z"
+    },
+    {
+      "id": "chg_1791193890790_6xafx",
+      "detectedAt": "2026-10-05T09:51:30.791Z",
+      "status": "approved",
+      "category": "Skills",
+      "field": "skills",
+      "label": "New Skill Detected",
+      "oldValue": "None",
+      "detectedValue": "TypeScript",
+      "source": "Test Doc",
+      "meta": {
+        "newSkills": [
+          "TypeScript"
+        ]
+      },
+      "approvedBy": "admin_test",
+      "approvedAt": "2026-10-05T09:51:30.811Z",
+      "updatedAt": "2026-10-05T09:51:30.811Z"
+    },
     {
       "id": "chg_1791192885052_5z6yh",
       "detectedAt": "2026-10-05T09:34:45.052Z",
@@ -2660,6 +2694,45 @@
   ],
   "documents": [
     {
+      "id": "doc_1791193897676_q35lt1",
+      "diskFilename": "doc_1791193897676_q35lt1.txt",
+      "originalName": "Test_Harsha_Resume.txt",
+      "ext": ".txt",
+      "mimeType": "text/plain",
+      "sizeBytes": 435,
+      "docType": "Resume",
+      "status": "Processed",
+      "snippet": "Thimmareddygari Harshavardhan Reddy Nellore, Andhra Pradesh, India | harshavardhan10003@gmail.com Education: Geethanjali Institute of Science & Technology, B.Tech CSE, 2023-2027, 9.1 CGPA Skills: Core Java, React.js, Python, Node.js, Express, Django, TypeScript, Rust, Docker, Kubernetes Projects: AirGuard IoT, VideStore, GRAMMPAY, Hollow Expense Tracker Certifications: Natural Language Processing Elite NPTEL IIT Kharagpur 60%",
+      "extractedData": {
+        "candidateName": "Thimmareddygari Harshavardhan Reddy",
+        "institution": null,
+        "issuer": "NPTEL · IIT Kharagpur",
+        "title": null,
+        "credentialId": null,
+        "date": "2023",
+        "gradeOrScore": "60%",
+        "detectedSkills": [
+          "Java",
+          "Core Java",
+          "Python",
+          "TypeScript",
+          "Rust",
+          "React.js",
+          "React",
+          "Node.js",
+          "Express",
+          "Django",
+          "Docker",
+          "Kubernetes",
+          "Natural Language Processing",
+          "IoT"
+        ],
+        "projects": [],
+        "confidence": "medium"
+      },
+      "uploadedAt": "2026-10-05T09:51:37.717Z"
+    },
+    {
       "id": "doc_1791192891536_95ls5a",
       "diskFilename": "doc_1791192891536_95ls5a.txt",
       "originalName": "Test_Harsha_Resume.txt",
@@ -2844,6 +2917,366 @@
     }
   ],
   "history": [
+    {
+      "id": "hist_1791193900853_ning1",
+      "timestamp": "2026-10-05T09:51:40.853Z",
+      "field": "profile_avatar",
+      "oldValue": "/media/media_1791191882233_887kk.jpg",
+      "newValue": "/media/media_1791193900819_2egoy.jpg",
+      "source": "AI Agent Avatar Update",
+      "status": "Draft Updated",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193900747_hvgk1",
+      "timestamp": "2026-10-05T09:51:40.747Z",
+      "field": "skill_add",
+      "oldValue": "None",
+      "newValue": "Languages: Natural Language Processing",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193900687_8rqsk",
+      "timestamp": "2026-10-05T09:51:40.687Z",
+      "field": "cert_add",
+      "oldValue": "None",
+      "newValue": "Natural Language Processing Elite",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898530_x3ol6",
+      "timestamp": "2026-10-05T09:51:38.530Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1791193898510.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898346_p57fl",
+      "timestamp": "2026-10-05T09:51:38.346Z",
+      "field": "seo_update",
+      "oldValue": "Prior SEO",
+      "newValue": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898324_05i3o",
+      "timestamp": "2026-10-05T09:51:38.324Z",
+      "field": "section_visibility",
+      "oldValue": "Prior Visibility",
+      "newValue": "{\"hero\":true,\"marquee\":true,\"about\":true,\"skills\":true,\"experience\":true,\"projects\":true,\"certs\":true,\"achievements\":true,\"contact\":true}",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898275_l6i6w",
+      "timestamp": "2026-10-05T09:51:38.275Z",
+      "field": "resume_update",
+      "oldValue": "Resume Link",
+      "newValue": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898244_qd7x4",
+      "timestamp": "2026-10-05T09:51:38.244Z",
+      "field": "achievement_delete",
+      "oldValue": "National Level Hackathon Winner",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898227_qvvt2",
+      "timestamp": "2026-10-05T09:51:38.227Z",
+      "field": "achievement_add",
+      "oldValue": "None",
+      "newValue": "National Level Hackathon Winner",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898194_4rk6r",
+      "timestamp": "2026-10-05T09:51:38.194Z",
+      "field": "cert_delete",
+      "oldValue": "Certified Kubernetes Administrator (CKA)",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898124_w8w7g",
+      "timestamp": "2026-10-05T09:51:38.124Z",
+      "field": "cert_add",
+      "oldValue": "None",
+      "newValue": "Certified Kubernetes Administrator (CKA)",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898108_8p639",
+      "timestamp": "2026-10-05T09:51:38.108Z",
+      "field": "project_delete",
+      "oldValue": "QuantumCipher CMS Test",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898094_2g85j",
+      "timestamp": "2026-10-05T09:51:38.094Z",
+      "field": "project_update",
+      "oldValue": "quantumcipher-cms-test",
+      "newValue": "QuantumCipher CMS Test",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898066_nhz9b",
+      "timestamp": "2026-10-05T09:51:38.066Z",
+      "field": "project_add",
+      "oldValue": "None",
+      "newValue": "QuantumCipher CMS Test",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898055_cp4dt",
+      "timestamp": "2026-10-05T09:51:38.055Z",
+      "field": "experience_delete",
+      "oldValue": "Lead IoT Research Intern at Smart City Lab",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898044_ei39s",
+      "timestamp": "2026-10-05T09:51:38.044Z",
+      "field": "experience_update",
+      "oldValue": "exp_muv2ll3o_d5e4",
+      "newValue": "Lead IoT Research Intern at Smart City Lab",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193898017_0psds",
+      "timestamp": "2026-10-05T09:51:38.017Z",
+      "field": "experience_add",
+      "oldValue": "None",
+      "newValue": "IoT Research Intern at Smart City Lab",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193897974_vao8m",
+      "timestamp": "2026-10-05T09:51:37.974Z",
+      "field": "education_delete",
+      "oldValue": "Test University",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193897934_dc3s9",
+      "timestamp": "2026-10-05T09:51:37.934Z",
+      "field": "education_add",
+      "oldValue": "None",
+      "newValue": "Test University",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193897918_7jfw6",
+      "timestamp": "2026-10-05T09:51:37.918Z",
+      "field": "skill_delete",
+      "oldValue": "GraphQL",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193897906_0plvl",
+      "timestamp": "2026-10-05T09:51:37.906Z",
+      "field": "skill_add",
+      "oldValue": "None",
+      "newValue": "Languages: GraphQL",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193897828_7dlnq",
+      "timestamp": "2026-10-05T09:51:37.828Z",
+      "field": "about_section",
+      "oldValue": "Prior About",
+      "newValue": "6 paragraphs",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193897815_ybaas",
+      "timestamp": "2026-10-05T09:51:37.815Z",
+      "field": "profile_hero",
+      "oldValue": "Thimmareddygari Harshavardhan Reddy",
+      "newValue": "Thimmareddygari Harshavardhan Reddy",
+      "source": "Admin CMS",
+      "status": "Saved to Draft",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193897636_wfz0o",
+      "timestamp": "2026-10-05T09:51:37.636Z",
+      "field": "remove_platform_unstop",
+      "oldValue": "unstop",
+      "newValue": "Removed / Unlinked",
+      "source": "Admin Platform Manager",
+      "status": "Platform Removed",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193897596_an1gg",
+      "timestamp": "2026-10-05T09:51:37.596Z",
+      "field": "sync_credly",
+      "oldValue": "Credly verified active & reachable (367ms, HTTP 200).",
+      "newValue": "Credly verified active & reachable (715ms, HTTP 200).",
+      "source": "Platform Sync Engine",
+      "status": "Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193896864_pib4c",
+      "timestamp": "2026-10-05T09:51:36.864Z",
+      "field": "sync_github",
+      "oldValue": "GitHub sync complete! Found 8 public repos (0 new queued).",
+      "newValue": "GitHub sync complete! Found 8 public repos (0 new queued).",
+      "source": "Platform Sync Engine",
+      "status": "Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193896693_8u65t",
+      "timestamp": "2026-10-05T09:51:36.693Z",
+      "field": "sync_linkedin",
+      "oldValue": "LinkedIn profile URL verified active (434ms). Note: Automated sync is not available for this platform without authenticated API access.",
+      "newValue": "LinkedIn profile URL verified active (412ms). Note: Automated sync is not available for this platform without authenticated API access.",
+      "source": "Platform Sync Engine",
+      "status": "Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193896650_q9y0z",
+      "timestamp": "2026-10-05T09:51:36.650Z",
+      "field": "sync_credly",
+      "oldValue": "Prior sync",
+      "newValue": "Credly verified active & reachable (367ms, HTTP 200).",
+      "source": "Platform Sync Engine",
+      "status": "Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193896254_9wbo3",
+      "timestamp": "2026-10-05T09:51:36.254Z",
+      "field": "remove_platform_leetcode",
+      "oldValue": "leetcode",
+      "newValue": "Removed / Unlinked",
+      "source": "Admin Platform Manager",
+      "status": "Platform Removed",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193896193_lgm21",
+      "timestamp": "2026-10-05T09:51:36.193Z",
+      "field": "social_platform_leetcode",
+      "oldValue": "Unconfigured",
+      "newValue": "https://leetcode.com/u/harsha10003/",
+      "source": "Admin Platform Manager",
+      "status": "Verified & Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193895038_xnsnv",
+      "timestamp": "2026-10-05T09:51:35.038Z",
+      "field": "remove_platform_leetcode",
+      "oldValue": "leetcode",
+      "newValue": "Removed / Unlinked",
+      "source": "Admin Platform Manager",
+      "status": "Platform Removed",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193893845_0ozkp",
+      "timestamp": "2026-10-05T09:51:33.845Z",
+      "field": "social_platform_credly",
+      "oldValue": "https://www.credly.com/users/harsha10003/badges/credly",
+      "newValue": "https://www.credly.com/users/harsha10003/badges/credly",
+      "source": "Admin Platform Manager",
+      "status": "Verified & Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791193890971_f57hw",
+      "timestamp": "2026-10-05T09:51:30.971Z",
+      "field": "full_profile_rollback",
+      "oldValue": "Prior snapshot: snapshot_1791193890924.json",
+      "newValue": "Restored to snapshot: snapshot_1791193890863.json",
+      "source": "Admin Rollback Action",
+      "status": "Restored",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791193890886_fbezb",
+      "timestamp": "2026-10-05T09:51:30.886Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1791193890863.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791193890854_r07xu",
+      "timestamp": "2026-10-05T09:51:30.854Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "Fortran",
+      "source": "Test Doc",
+      "status": "Rejected",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791193890822_jxiep",
+      "timestamp": "2026-10-05T09:51:30.822Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "TypeScript",
+      "source": "Test Doc",
+      "status": "Approved & Merged to Draft",
+      "approvedBy": "admin_test"
+    },
     {
       "id": "hist_1791192894976_6dxmq",
       "timestamp": "2026-10-05T09:34:54.976Z",
@@ -3483,371 +3916,11 @@
       "source": "Admin Platform Manager",
       "status": "Platform Removed",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191873102_jw5ye",
-      "timestamp": "2026-10-05T09:17:53.102Z",
-      "field": "sync_credly",
-      "oldValue": "Credly verified active & reachable (377ms, HTTP 200).",
-      "newValue": "Credly verified active & reachable (344ms, HTTP 200).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191872720_i2g15",
-      "timestamp": "2026-10-05T09:17:52.721Z",
-      "field": "sync_linkedin",
-      "oldValue": "LinkedIn profile URL verified active (455ms). Note: Automated sync is not available for this platform without authenticated API access.",
-      "newValue": "LinkedIn profile URL verified active (1167ms). Note: Automated sync is not available for this platform without authenticated API access.",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191872150_rcth3",
-      "timestamp": "2026-10-05T09:17:52.150Z",
-      "field": "sync_github",
-      "oldValue": "GitHub sync complete! Found 8 public repos (0 new queued).",
-      "newValue": "GitHub sync complete! Found 8 public repos (0 new queued).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191871928_ltcj8",
-      "timestamp": "2026-10-05T09:17:51.928Z",
-      "field": "sync_credly",
-      "oldValue": "Prior sync",
-      "newValue": "Credly verified active & reachable (377ms, HTTP 200).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191871535_j25y1",
-      "timestamp": "2026-10-05T09:17:51.535Z",
-      "field": "remove_platform_leetcode",
-      "oldValue": "leetcode",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191871462_at6fc",
-      "timestamp": "2026-10-05T09:17:51.462Z",
-      "field": "social_platform_leetcode",
-      "oldValue": "Unconfigured",
-      "newValue": "https://leetcode.com/u/harsha10003/",
-      "source": "Admin Platform Manager",
-      "status": "Verified & Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191870400_ib59y",
-      "timestamp": "2026-10-05T09:17:50.400Z",
-      "field": "remove_platform_leetcode",
-      "oldValue": "leetcode",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191867494_n3g39",
-      "timestamp": "2026-10-05T09:17:47.494Z",
-      "field": "social_platform_credly",
-      "oldValue": "https://www.credly.com/users/harsha10003/badges/credly",
-      "newValue": "https://www.credly.com/users/harsha10003/badges/credly",
-      "source": "Admin Platform Manager",
-      "status": "Verified & Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191861197_045v8",
-      "timestamp": "2026-10-05T09:17:41.197Z",
-      "field": "full_profile_rollback",
-      "oldValue": "Prior snapshot: snapshot_1791191861116.json",
-      "newValue": "Restored to snapshot: snapshot_1791191860992.json",
-      "source": "Admin Rollback Action",
-      "status": "Restored",
-      "approvedBy": "admin_test"
-    },
-    {
-      "id": "hist_1791191861041_rxzzn",
-      "timestamp": "2026-10-05T09:17:41.041Z",
-      "field": "full_profile",
-      "oldValue": "Snapshot: snapshot_1791191860992.json",
-      "newValue": "Published Draft to Live Portfolio",
-      "source": "Admin Publish Action",
-      "status": "Published",
-      "approvedBy": "admin_test"
-    },
-    {
-      "id": "hist_1791191860964_22faj",
-      "timestamp": "2026-10-05T09:17:40.964Z",
-      "field": "skills",
-      "oldValue": "None",
-      "newValue": "Fortran",
-      "source": "Test Doc",
-      "status": "Rejected",
-      "approvedBy": "admin_test"
-    },
-    {
-      "id": "hist_1791191860896_poc7w",
-      "timestamp": "2026-10-05T09:17:40.896Z",
-      "field": "skills",
-      "oldValue": "None",
-      "newValue": "TypeScript",
-      "source": "Test Doc",
-      "status": "Approved & Merged to Draft",
-      "approvedBy": "admin_test"
-    },
-    {
-      "id": "hist_1791191469778_ro2ys",
-      "timestamp": "2026-10-05T09:11:09.778Z",
-      "field": "profile_avatar",
-      "oldValue": "/media/media_1791171240491_xmv1l.jpg",
-      "newValue": "/media/media_1791191469731_rbwqk.jpg",
-      "source": "AI Agent Avatar Update",
-      "status": "Draft Updated",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191469628_1ct3c",
-      "timestamp": "2026-10-05T09:11:09.628Z",
-      "field": "skill_add",
-      "oldValue": "None",
-      "newValue": "Languages: Natural Language Processing",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191469557_4pf4q",
-      "timestamp": "2026-10-05T09:11:09.557Z",
-      "field": "cert_add",
-      "oldValue": "None",
-      "newValue": "Natural Language Processing Elite",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467378_jp60j",
-      "timestamp": "2026-10-05T09:11:07.378Z",
-      "field": "full_profile",
-      "oldValue": "Snapshot: snapshot_1791191467365.json",
-      "newValue": "Published Draft to Live Portfolio",
-      "source": "Admin Publish Action",
-      "status": "Published",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467201_l71xb",
-      "timestamp": "2026-10-05T09:11:07.201Z",
-      "field": "seo_update",
-      "oldValue": "Prior SEO",
-      "newValue": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467192_pd1jb",
-      "timestamp": "2026-10-05T09:11:07.192Z",
-      "field": "section_visibility",
-      "oldValue": "Prior Visibility",
-      "newValue": "{\"hero\":true,\"marquee\":true,\"about\":true,\"skills\":true,\"experience\":true,\"projects\":true,\"certs\":true,\"achievements\":true,\"contact\":true}",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467132_iqw2e",
-      "timestamp": "2026-10-05T09:11:07.132Z",
-      "field": "resume_update",
-      "oldValue": "Resume Link",
-      "newValue": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467119_czklj",
-      "timestamp": "2026-10-05T09:11:07.119Z",
-      "field": "achievement_delete",
-      "oldValue": "National Level Hackathon Winner",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467049_nrjum",
-      "timestamp": "2026-10-05T09:11:07.049Z",
-      "field": "achievement_add",
-      "oldValue": "None",
-      "newValue": "National Level Hackathon Winner",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467040_nu8rg",
-      "timestamp": "2026-10-05T09:11:07.040Z",
-      "field": "cert_delete",
-      "oldValue": "Certified Kubernetes Administrator (CKA)",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467022_9elc2",
-      "timestamp": "2026-10-05T09:11:07.022Z",
-      "field": "cert_add",
-      "oldValue": "None",
-      "newValue": "Certified Kubernetes Administrator (CKA)",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467012_5rlo4",
-      "timestamp": "2026-10-05T09:11:07.012Z",
-      "field": "project_delete",
-      "oldValue": "QuantumCipher CMS Test",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191467003_scd7g",
-      "timestamp": "2026-10-05T09:11:07.003Z",
-      "field": "project_update",
-      "oldValue": "quantumcipher-cms-test",
-      "newValue": "QuantumCipher CMS Test",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466991_pma0c",
-      "timestamp": "2026-10-05T09:11:06.991Z",
-      "field": "project_add",
-      "oldValue": "None",
-      "newValue": "QuantumCipher CMS Test",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466921_p3o6i",
-      "timestamp": "2026-10-05T09:11:06.921Z",
-      "field": "experience_delete",
-      "oldValue": "Lead IoT Research Intern at Smart City Lab",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466844_59ef0",
-      "timestamp": "2026-10-05T09:11:06.844Z",
-      "field": "experience_update",
-      "oldValue": "exp_muv15h5r_fo4g",
-      "newValue": "Lead IoT Research Intern at Smart City Lab",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466804_kwf7f",
-      "timestamp": "2026-10-05T09:11:06.804Z",
-      "field": "experience_add",
-      "oldValue": "None",
-      "newValue": "IoT Research Intern at Smart City Lab",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466762_y53wf",
-      "timestamp": "2026-10-05T09:11:06.762Z",
-      "field": "education_delete",
-      "oldValue": "Test University",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466683_wl20b",
-      "timestamp": "2026-10-05T09:11:06.683Z",
-      "field": "education_add",
-      "oldValue": "None",
-      "newValue": "Test University",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466630_xjed2",
-      "timestamp": "2026-10-05T09:11:06.630Z",
-      "field": "skill_delete",
-      "oldValue": "GraphQL",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466603_4k8q9",
-      "timestamp": "2026-10-05T09:11:06.603Z",
-      "field": "skill_add",
-      "oldValue": "None",
-      "newValue": "Languages: GraphQL",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466578_8hdu0",
-      "timestamp": "2026-10-05T09:11:06.578Z",
-      "field": "about_section",
-      "oldValue": "Prior About",
-      "newValue": "6 paragraphs",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466535_viz63",
-      "timestamp": "2026-10-05T09:11:06.535Z",
-      "field": "profile_hero",
-      "oldValue": "Thimmareddygari Harshavardhan Reddy",
-      "newValue": "Thimmareddygari Harshavardhan Reddy",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191466448_befhk",
-      "timestamp": "2026-10-05T09:11:06.448Z",
-      "field": "remove_platform_unstop",
-      "oldValue": "unstop",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-05T09:34:52.525Z",
-    "lastSyncCheckAt": "2026-10-05T09:34:51.129Z",
+    "lastPublishedAt": "2026-10-05T09:51:38.515Z",
+    "lastSyncCheckAt": "2026-10-05T09:51:36.869Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,
     "sourcePriority": [
@@ -3861,11 +3934,11 @@
         "syncMethod": "Public Badge Verification URLs",
         "status": "Active",
         "verified": true,
-        "lastVerifiedAt": "2026-10-05T09:34:48.557Z",
-        "lastSyncedAt": "2026-10-05T09:34:51.453Z",
+        "lastVerifiedAt": "2026-10-05T09:51:33.819Z",
+        "lastSyncedAt": "2026-10-05T09:51:37.592Z",
         "lastSyncStatus": "Active",
-        "lastSyncMessage": "Credly verified active & reachable (316ms, HTTP 200).",
-        "latencyMs": 316,
+        "lastSyncMessage": "Credly verified active & reachable (715ms, HTTP 200).",
+        "latencyMs": 715,
         "profileData": null,
         "lastDiff": {
           "added": [],
@@ -3875,14 +3948,18 @@
         }
       },
       "github": {
-        "lastSyncedAt": "2026-10-05T09:34:51.111Z",
+        "lastSyncedAt": "2026-10-05T09:51:36.860Z",
         "lastSyncStatus": "Active",
         "lastSyncMessage": "GitHub sync complete! Found 8 public repos (0 new queued).",
-        "latencyMs": 478,
+        "latencyMs": 589,
         "profileData": {
           "publicRepos": 8,
           "newRepositoriesCount": 0,
           "repositories": [
+            {
+              "name": "portfolio",
+              "language": "JavaScript"
+            },
             {
               "name": "harsha895155",
               "language": "JavaScript"
@@ -3890,10 +3967,6 @@
             {
               "name": "IOT-Based-Hyperlocal-Air-Quality-Monitoring-and-alert-System",
               "language": null
-            },
-            {
-              "name": "portfolio",
-              "language": "HTML"
             },
             {
               "name": "Hollow",
@@ -3919,25 +3992,13 @@
         },
         "lastDiff": {
           "platformId": "github",
-          "hasChanges": false,
+          "hasChanges": true,
           "added": [],
-          "changed": [],
-          "removed": [],
-          "unchanged": [
-            {
-              "field": "publicRepos",
-              "label": "Public Repositories",
-              "value": 8
-            },
-            {
-              "field": "newRepositoriesCount",
-              "label": "New Repositories Count",
-              "value": 0
-            },
+          "changed": [
             {
               "field": "repositories",
               "label": "Repositories",
-              "value": [
+              "oldValue": [
                 {
                   "name": "harsha895155",
                   "language": "JavaScript"
@@ -3970,16 +4031,63 @@
                   "name": "VIDESTORE",
                   "language": "JavaScript"
                 }
+              ],
+              "newValue": [
+                {
+                  "name": "portfolio",
+                  "language": "JavaScript"
+                },
+                {
+                  "name": "harsha895155",
+                  "language": "JavaScript"
+                },
+                {
+                  "name": "IOT-Based-Hyperlocal-Air-Quality-Monitoring-and-alert-System",
+                  "language": null
+                },
+                {
+                  "name": "Hollow",
+                  "language": "JavaScript"
+                },
+                {
+                  "name": "Digital-Notes-Management-System",
+                  "language": "JavaScript"
+                },
+                {
+                  "name": "blog_folut-main",
+                  "language": "Python"
+                },
+                {
+                  "name": "FineTech",
+                  "language": "HTML"
+                },
+                {
+                  "name": "VIDESTORE",
+                  "language": "JavaScript"
+                }
               ]
+            }
+          ],
+          "removed": [],
+          "unchanged": [
+            {
+              "field": "publicRepos",
+              "label": "Public Repositories",
+              "value": 8
+            },
+            {
+              "field": "newRepositoriesCount",
+              "label": "New Repositories Count",
+              "value": 0
             }
           ]
         }
       },
       "linkedin": {
-        "lastSyncedAt": "2026-10-05T09:34:51.072Z",
+        "lastSyncedAt": "2026-10-05T09:51:36.688Z",
         "lastSyncStatus": "Active",
-        "lastSyncMessage": "LinkedIn profile URL verified active (434ms). Note: Automated sync is not available for this platform without authenticated API access.",
-        "latencyMs": 434,
+        "lastSyncMessage": "LinkedIn profile URL verified active (412ms). Note: Automated sync is not available for this platform without authenticated API access.",
+        "latencyMs": 412,
         "profileData": null,
         "lastDiff": {
           "added": [],
@@ -3992,7 +4100,7 @@
         "syncMethod": "Competitive Coding Profile",
         "status": "Active",
         "verified": true,
-        "lastVerifiedAt": "2026-10-05T09:34:50.526Z"
+        "lastVerifiedAt": "2026-10-05T09:51:36.162Z"
       },
       "unstop": {
         "lastSyncedAt": "2026-10-04T19:14:29.876Z",
@@ -5064,9 +5172,370 @@
           }
         ]
       }
+    },
+    {
+      "id": "aimsg_1791193900296_vq7f",
+      "timestamp": "2026-10-05T09:51:40.296Z",
+      "conversationId": "conv_1791193900296",
+      "role": "user",
+      "content": "Run AI portfolio audit and check for missing information",
+      "attachments": []
+    },
+    {
+      "id": "aimsg_1791193900321_k2zy",
+      "timestamp": "2026-10-05T09:51:40.321Z",
+      "role": "assistant",
+      "content": "Portfolio Audit Complete!\n\n• **Overall Portfolio Health**: **90/100**\n• SEO: 100/100 | Content: 70/100 | Projects: 95/100\n• Profile: 80/100 | Accessibility: 100/100 | Media: 100/100\n\nIdentified **4** area(s) for improvement:\n• **[WARNING] Weak Professional Headline**: Professional title should highlight primary engineering domains.\n• **[WARNING] Missing Career Objective**: Career objective section is empty or brief.\n• **[WARNING] Incomplete Biography**: No detailed about paragraphs found.\n• **[INFO] Missing Code/Demo Link for \"Vibrant National Level 48-Hour Hackathon\"**: Project \"Vibrant National Level 48-Hour Hackathon\" has neither GitHub URL nor live demo URL.",
+      "auditResult": {
+        "id": "audit_1791193900302",
+        "timestamp": "2026-10-05T09:51:40.302Z",
+        "overallScore": 90,
+        "scores": {
+          "seo": 100,
+          "content": 70,
+          "projects": 95,
+          "profile": 80,
+          "accessibility": 100,
+          "media": 100
+        },
+        "issuesCount": 4,
+        "issues": [
+          {
+            "id": "iss_profile_title",
+            "section": "Profile",
+            "category": "profile",
+            "severity": "warning",
+            "title": "Weak Professional Headline",
+            "description": "Professional title should highlight primary engineering domains.",
+            "recommendation": "Update headline to reflect full-stack and IoT expertise.",
+            "fixAction": {
+              "section": "profile",
+              "field": "title",
+              "proposedValue": "Full Stack Developer & IoT Engineer | Problem Solver"
+            }
+          },
+          {
+            "id": "iss_about_objective",
+            "section": "About",
+            "category": "content",
+            "severity": "warning",
+            "title": "Missing Career Objective",
+            "description": "Career objective section is empty or brief.",
+            "recommendation": "Add a concise, future-focused career objective statement.",
+            "fixAction": {
+              "section": "about",
+              "field": "careerObjective",
+              "proposedValue": "Aspiring software engineer focused on building robust, high-performance web applications and cloud-connected IoT solutions."
+            }
+          },
+          {
+            "id": "iss_about_paragraphs",
+            "section": "About",
+            "category": "content",
+            "severity": "warning",
+            "title": "Incomplete Biography",
+            "description": "No detailed about paragraphs found.",
+            "recommendation": "Add structured biography describing academic highlights and engineering passions.",
+            "fixAction": {
+              "section": "about",
+              "field": "paragraphs",
+              "proposedValue": [
+                "Computer Science and Engineering student with strong fundamentals in algorithms, full-stack development, and IoT sensor systems."
+              ]
+            }
+          },
+          {
+            "id": "iss_proj_links_4",
+            "section": "Projects",
+            "category": "projects",
+            "severity": "info",
+            "title": "Missing Code/Demo Link for \"Vibrant National Level 48-Hour Hackathon\"",
+            "description": "Project \"Vibrant National Level 48-Hour Hackathon\" has neither GitHub URL nor live demo URL.",
+            "recommendation": "Provide source code repository link."
+          }
+        ]
+      },
+      "actionCard": {
+        "type": "audit_card",
+        "title": "Portfolio Health Score: 90/100",
+        "status": "EXCELLENT",
+        "details": [
+          "SEO: 100% | Projects: 95%",
+          "Identified Issues: 4",
+          "Recommendations: 1-Click Fixes Available"
+        ],
+        "actions": [
+          {
+            "label": "View Health Audit",
+            "action": "switch_subtab",
+            "subtab": "subtab-audit"
+          }
+        ]
+      }
+    },
+    {
+      "id": "aimsg_1791193900330_cs1s",
+      "timestamp": "2026-10-05T09:51:40.330Z",
+      "conversationId": "conv_1791193900330",
+      "role": "user",
+      "content": "Check whether my portfolio has duplicate projects",
+      "attachments": []
+    },
+    {
+      "id": "aimsg_1791193900342_0a56",
+      "timestamp": "2026-10-05T09:51:40.342Z",
+      "role": "assistant",
+      "content": "Duplicate Analysis:\n\nIdentified **1 duplicate entry/entries** in your portfolio:\n• **[Skills]**: Skill \"Natural Language Processing\" exists in multiple categories"
+    },
+    {
+      "id": "aimsg_1791193900430_t3yk",
+      "timestamp": "2026-10-05T09:51:40.430Z",
+      "conversationId": "conv_1791193900430",
+      "role": "user",
+      "content": "Analyze this certificate and update my portfolio.",
+      "attachments": [
+        {
+          "filename": "NOC26CS45S145150024704536444.pdf",
+          "mimetype": "application/pdf",
+          "size": 1297175
+        }
+      ]
+    },
+    {
+      "id": "aimsg_1791193900651_3jsv",
+      "timestamp": "2026-10-05T09:51:40.651Z",
+      "role": "assistant",
+      "content": "Analyzed **NOC26CS45S145150024704536444.pdf**:\n\n• **Document Type**: Certification\n• **Category**: Certifications\n• **Confidence**: 96%\n• **Summary**: Analyzed NOC26CS45S145150024704536444.pdf: Identified as Certification from NPTEL - IIT Kharagpur / SWAYAM.\n• **Organization**: NPTEL - IIT Kharagpur / SWAYAM\n• **Credential ID**: NPTEL26CS45S1451500247\n• **Score**: 60%\n",
+      "changeSetId": "cs_1791193900625_1jwp",
+      "actionCard": {
+        "type": "document_verification",
+        "title": "Certification Verification: Natural Language Processing Elite",
+        "status": "VERIFIED",
+        "details": [
+          "Issuer: NPTEL - IIT Kharagpur / SWAYAM",
+          "Credential ID: NPTEL26CS45S1451500247",
+          "Proposed Changes: 2"
+        ],
+        "changeSetId": "cs_1791193900625_1jwp",
+        "actions": [
+          {
+            "label": "Review Changes",
+            "action": "preview_changeset",
+            "changeSetId": "cs_1791193900625_1jwp"
+          },
+          {
+            "label": "Apply to Portfolio",
+            "action": "approve_changeset",
+            "changeSetId": "cs_1791193900625_1jwp"
+          }
+        ]
+      }
+    },
+    {
+      "id": "aimsg_1791193900794_nyk8",
+      "timestamp": "2026-10-05T09:51:40.794Z",
+      "conversationId": "conv_1791193900794",
+      "role": "user",
+      "content": "Use this image as my profile photo.",
+      "attachments": [
+        {
+          "filename": "harsha_profile.jpg",
+          "mimetype": "image/jpeg",
+          "size": 164676
+        }
+      ]
+    },
+    {
+      "id": "aimsg_1791193900832_nww4",
+      "timestamp": "2026-10-05T09:51:40.832Z",
+      "role": "assistant",
+      "content": "Analyzed **harsha_profile.jpg**:\n\n• **Detected Purpose**: Profile Headshot / Avatar\n• **Suitability**: Verified suitable as professional avatar (96% confidence)\n• **Secure URL**: `/media/media_1791193900819_2egoy.jpg`\n\nI have prepared a ChangeSet to replace your current profile avatar. Click **Review & Apply** to update your draft portfolio.",
+      "changeSetId": "cs_1791193900821_0u72",
+      "actionCard": {
+        "type": "avatar_update",
+        "title": "Profile Avatar Update",
+        "status": "PROPOSED",
+        "imageUrl": "/media/media_1791193900819_2egoy.jpg",
+        "changeSetId": "cs_1791193900821_0u72",
+        "actions": [
+          {
+            "label": "Review Changes",
+            "action": "preview_changeset",
+            "changeSetId": "cs_1791193900821_0u72"
+          },
+          {
+            "label": "Approve & Apply",
+            "action": "approve_changeset",
+            "changeSetId": "cs_1791193900821_0u72"
+          }
+        ]
+      }
+    },
+    {
+      "id": "aimsg_1791193908510_uvlo",
+      "timestamp": "2026-10-05T09:51:48.510Z",
+      "conversationId": "conv_1791193908510",
+      "role": "user",
+      "content": "How many problems have I solved?",
+      "attachments": []
+    },
+    {
+      "id": "aimsg_1791193908520_i570",
+      "timestamp": "2026-10-05T09:51:48.520Z",
+      "role": "assistant",
+      "content": "You have solved a total of **37 problems** on LeetCode!\n\n• 🟢 **Easy**: 19\n• 🟡 **Medium**: 17\n• 🔴 **Hard**: 1\n• ⚡ **Acceptance Rate**: 68.4%\n• 🏆 **Contest / Global Rank**: Top 18%\n\nThis data is verified and synchronized live with your public portfolio."
+    },
+    {
+      "id": "aimsg_1791193908532_fu2k",
+      "timestamp": "2026-10-05T09:51:48.532Z",
+      "conversationId": "conv_1791193908532",
+      "role": "user",
+      "content": "Verify my LeetCode profile",
+      "attachments": []
+    },
+    {
+      "id": "aimsg_1791193909601_u129",
+      "timestamp": "2026-10-05T09:51:49.601Z",
+      "role": "assistant",
+      "content": "LeetCode Profile Verification:\n\n• **Status**: NOT_VERIFIED\n• **Profile URL**: https://leetcode.com/u/harsha895155\n• **Verified Username**: @harsha895155\n• **Problems Solved**: 350\n• **Verification Source**: LeetCode user @harsha895155 does not exist.\n• **Verification Time**: 5/10/2026, 3:21:48 pm",
+      "actionCard": {
+        "type": "profile_verification",
+        "title": "LeetCode Profile Verification",
+        "status": "NOT_VERIFIED",
+        "details": [
+          "Status: 🟢 VERIFIED",
+          "Username: @harsha895155",
+          "Problems Solved: 350",
+          "Method: LeetCode Official GraphQL API"
+        ],
+        "actions": [
+          {
+            "label": "View Coding Profiles",
+            "action": "switch_tab",
+            "tab": "tab-social"
+          }
+        ]
+      }
+    },
+    {
+      "id": "aimsg_1791193909604_p3fs",
+      "timestamp": "2026-10-05T09:51:49.604Z",
+      "conversationId": "conv_1791193909604",
+      "role": "user",
+      "content": "Check my GitHub changes",
+      "attachments": []
+    },
+    {
+      "id": "aimsg_1791193909815_nkhr",
+      "timestamp": "2026-10-05T09:51:49.815Z",
+      "role": "assistant",
+      "content": "GitHub Synchronization Complete!\n\n• **Profile**: @harsha895155 (Verified)\n• **Public Repositories**: **8**\n• **New Repositories Found**: **0**\n\nAll repositories are already in sync with your portfolio.",
+      "actionCard": {
+        "type": "github_sync",
+        "title": "GitHub Repository Sync",
+        "status": "VERIFIED",
+        "details": [
+          "Profile: github.com/harsha895155",
+          "Repositories: 8 public repos",
+          "New Detected: 0 projects queued"
+        ],
+        "actions": [
+          {
+            "label": "View Repositories",
+            "action": "switch_tab",
+            "tab": "tab-social"
+          }
+        ]
+      }
     }
   ],
   "aiChangeSets": [
+    {
+      "id": "cs_1791193900821_0u72",
+      "createdAt": "2026-10-05T09:51:40.821Z",
+      "status": "APPROVED",
+      "sourceDocument": "harsha_profile.jpg",
+      "reasoning": "Visual analysis verified this image is suitable as a professional profile avatar (High-resolution professional headshot photograph of the candidate, suitable for portfolio avatar and hero section.).",
+      "affectedSections": [
+        "profile_avatar"
+      ],
+      "changes": [
+        {
+          "id": "chg_1791193900821_0",
+          "section": "profile_avatar",
+          "field": "avatar",
+          "label": "Update Profile Avatar",
+          "oldValue": "/media/media_1791191882233_887kk.jpg",
+          "proposedValue": "/media/media_1791193900819_2egoy.jpg",
+          "status": "APPROVED",
+          "payload": {
+            "url": "/media/media_1791193900819_2egoy.jpg",
+            "altText": "Candidate Professional Headshot"
+          }
+        }
+      ],
+      "reviewedAt": "2026-10-05T09:51:40.856Z",
+      "approvedBy": "admin",
+      "updatedAt": "2026-10-05T09:51:40.856Z"
+    },
+    {
+      "id": "cs_1791193900625_1jwp",
+      "createdAt": "2026-10-05T09:51:40.625Z",
+      "status": "APPROVED",
+      "sourceDocument": "NOC26CS45S145150024704536444.pdf",
+      "reasoning": "Analyzed NOC26CS45S145150024704536444.pdf: Identified as Certification from NPTEL - IIT Kharagpur / SWAYAM.",
+      "affectedSections": [
+        "certifications",
+        "skills"
+      ],
+      "changes": [
+        {
+          "id": "chg_1791193900625_0",
+          "section": "certifications",
+          "field": "new_entry",
+          "label": "Add Certification: \"Natural Language Processing Elite\"",
+          "oldValue": "Not present in certifications list",
+          "proposedValue": {
+            "name": "Natural Language Processing Elite",
+            "issuer": "NPTEL - IIT Kharagpur / SWAYAM",
+            "date": "Apr 2026",
+            "score": "60%",
+            "credentialId": "NPTEL26CS45S1451500247"
+          },
+          "status": "APPROVED",
+          "payload": {
+            "name": "Natural Language Processing Elite",
+            "issuer": "NPTEL - IIT Kharagpur / SWAYAM",
+            "date": "Apr 2026",
+            "credentialId": "NPTEL26CS45S1451500247",
+            "score": "60%",
+            "url": "",
+            "icon": "📜",
+            "description": "Successfully earned Natural Language Processing Elite issued by NPTEL - IIT Kharagpur / SWAYAM with a score of 60%. Demonstrates verified proficiency in Natural Language Processing."
+          }
+        },
+        {
+          "id": "chg_1791193900625_1",
+          "section": "skills",
+          "field": "associated_skills",
+          "label": "Associate Skills: Natural Language Processing",
+          "oldValue": "Existing skill categories",
+          "proposedValue": [
+            "Natural Language Processing"
+          ],
+          "status": "APPROVED",
+          "payload": {
+            "skills": [
+              "Natural Language Processing"
+            ],
+            "category": "Languages"
+          }
+        }
+      ],
+      "reviewedAt": "2026-10-05T09:51:40.762Z",
+      "approvedBy": "admin",
+      "updatedAt": "2026-10-05T09:51:40.763Z"
+    },
     {
       "id": "cs_1791192894936_7lcy",
       "createdAt": "2026-10-05T09:34:54.936Z",
@@ -6457,6 +6926,75 @@
   ],
   "aiAudits": [
     {
+      "id": "audit_1791193900302",
+      "timestamp": "2026-10-05T09:51:40.302Z",
+      "overallScore": 90,
+      "scores": {
+        "seo": 100,
+        "content": 70,
+        "projects": 95,
+        "profile": 80,
+        "accessibility": 100,
+        "media": 100
+      },
+      "issuesCount": 4,
+      "issues": [
+        {
+          "id": "iss_profile_title",
+          "section": "Profile",
+          "category": "profile",
+          "severity": "warning",
+          "title": "Weak Professional Headline",
+          "description": "Professional title should highlight primary engineering domains.",
+          "recommendation": "Update headline to reflect full-stack and IoT expertise.",
+          "fixAction": {
+            "section": "profile",
+            "field": "title",
+            "proposedValue": "Full Stack Developer & IoT Engineer | Problem Solver"
+          }
+        },
+        {
+          "id": "iss_about_objective",
+          "section": "About",
+          "category": "content",
+          "severity": "warning",
+          "title": "Missing Career Objective",
+          "description": "Career objective section is empty or brief.",
+          "recommendation": "Add a concise, future-focused career objective statement.",
+          "fixAction": {
+            "section": "about",
+            "field": "careerObjective",
+            "proposedValue": "Aspiring software engineer focused on building robust, high-performance web applications and cloud-connected IoT solutions."
+          }
+        },
+        {
+          "id": "iss_about_paragraphs",
+          "section": "About",
+          "category": "content",
+          "severity": "warning",
+          "title": "Incomplete Biography",
+          "description": "No detailed about paragraphs found.",
+          "recommendation": "Add structured biography describing academic highlights and engineering passions.",
+          "fixAction": {
+            "section": "about",
+            "field": "paragraphs",
+            "proposedValue": [
+              "Computer Science and Engineering student with strong fundamentals in algorithms, full-stack development, and IoT sensor systems."
+            ]
+          }
+        },
+        {
+          "id": "iss_proj_links_4",
+          "section": "Projects",
+          "category": "projects",
+          "severity": "info",
+          "title": "Missing Code/Demo Link for \"Vibrant National Level 48-Hour Hackathon\"",
+          "description": "Project \"Vibrant National Level 48-Hour Hackathon\" has neither GitHub URL nor live demo URL.",
+          "recommendation": "Provide source code repository link."
+        }
+      ]
+    },
+    {
       "id": "audit_1791192894455",
       "timestamp": "2026-10-05T09:34:54.455Z",
       "overallScore": 90,
@@ -7805,91 +8343,19 @@
           "recommendation": "Provide source code repository link."
         }
       ]
-    },
-    {
-      "id": "audit_1791130364586",
-      "timestamp": "2026-10-04T16:12:44.586Z",
-      "overallScore": 87,
-      "scores": {
-        "seo": 100,
-        "content": 70,
-        "projects": 95,
-        "profile": 80,
-        "accessibility": 100,
-        "media": 75
-      },
-      "issuesCount": 5,
-      "issues": [
-        {
-          "id": "iss_profile_title",
-          "section": "Profile",
-          "category": "profile",
-          "severity": "warning",
-          "title": "Weak Professional Headline",
-          "description": "Professional title should highlight primary engineering domains.",
-          "recommendation": "Update headline to reflect full-stack and IoT expertise.",
-          "fixAction": {
-            "section": "profile",
-            "field": "title",
-            "proposedValue": "Full Stack Developer & IoT Engineer | Problem Solver"
-          }
-        },
-        {
-          "id": "iss_avatar_missing",
-          "section": "Media & Avatar",
-          "category": "media",
-          "severity": "warning",
-          "title": "Missing Profile Photo / Avatar",
-          "recommendation": "Upload a clear professional headshot.",
-          "fixAction": {
-            "section": "avatar",
-            "field": "avatar",
-            "proposedValue": "Photo from 🖤⃝🦋𓍯𓂃𓏧♡🫵🏻🫶🏻.jpg"
-          }
-        },
-        {
-          "id": "iss_about_objective",
-          "section": "About",
-          "category": "content",
-          "severity": "warning",
-          "title": "Missing Career Objective",
-          "description": "Career objective section is empty or brief.",
-          "recommendation": "Add a concise, future-focused career objective statement.",
-          "fixAction": {
-            "section": "about",
-            "field": "careerObjective",
-            "proposedValue": "Aspiring software engineer focused on building robust, high-performance web applications and cloud-connected IoT solutions."
-          }
-        },
-        {
-          "id": "iss_about_paragraphs",
-          "section": "About",
-          "category": "content",
-          "severity": "warning",
-          "title": "Incomplete Biography",
-          "description": "No detailed about paragraphs found.",
-          "recommendation": "Add structured biography describing academic highlights and engineering passions.",
-          "fixAction": {
-            "section": "about",
-            "field": "paragraphs",
-            "proposedValue": [
-              "Computer Science and Engineering student with strong fundamentals in algorithms, full-stack development, and IoT sensor systems."
-            ]
-          }
-        },
-        {
-          "id": "iss_proj_links_4",
-          "section": "Projects",
-          "category": "projects",
-          "severity": "info",
-          "title": "Missing Code/Demo Link for \"Vibrant National Level 48-Hour Hackathon\"",
-          "description": "Project \"Vibrant National Level 48-Hour Hackathon\" has neither GitHub URL nor live demo URL.",
-          "recommendation": "Provide source code repository link."
-        }
-      ]
     }
   ],
   "contentVersions": [
+    {
+      "id": "ver_1791193900849_9ihh",
+      "timestamp": "2026-10-05T09:51:40.849Z",
+      "entity": "profile",
+      "entityId": "avatar",
+      "field": "avatar",
+      "oldValue": "/media/media_1791191882233_887kk.jpg",
+      "newValue": "/media/media_1791193900819_2egoy.jpg",
+      "changeSource": "AI Agent"
+    },
     {
       "id": "ver_1791192894972_wqv1",
       "timestamp": "2026-10-05T09:34:54.973Z",
@@ -8044,7 +8510,7 @@
   "verifiedRecords": [
     {
       "id": "vr_test_exp_1",
-      "createdAt": "2026-10-05T09:34:59.092Z",
+      "createdAt": "2026-10-05T09:51:44.107Z",
       "type": "internship",
       "title": "AWS Gen AI Virtual Intern",
       "organization": "AICTE - EduSkills",
@@ -8053,11 +8519,11 @@
       "fileHashes": [
         "hash_offer_123"
       ],
-      "approvedAt": "2026-10-05T09:34:59.092Z"
+      "approvedAt": "2026-10-05T09:51:44.107Z"
     },
     {
       "id": "vr_test_nptel_1",
-      "createdAt": "2026-10-05T09:34:55.618Z",
+      "createdAt": "2026-10-05T09:51:41.429Z",
       "type": "certification",
       "title": "Natural Language Processing",
       "issuer": "NPTEL",
@@ -8071,7 +8537,7 @@
         "hash": "7d287727d444db4479c7f7e1172b777d425b2c20302127986fd33c3b90aee7de",
         "filename": "NOC26CS45S145150024704536444.pdf"
       },
-      "approvedAt": "2026-10-05T09:34:55.617Z"
+      "approvedAt": "2026-10-05T09:51:41.429Z"
     },
     {
       "id": "vr_1791133360638_hc107",
@@ -8204,6 +8670,13 @@
     }
   ],
   "verificationAuditLogs": [
+    {
+      "id": "val_1791193904113_do8ba",
+      "timestamp": "2026-10-05T09:51:44.113Z",
+      "action": "SYSTEM_TEST_AUDIT_ENTRY",
+      "user": "admin",
+      "details": "Audit verification test entry"
+    },
     {
       "id": "val_1791192899098_cgnv1",
       "timestamp": "2026-10-05T09:34:59.098Z",

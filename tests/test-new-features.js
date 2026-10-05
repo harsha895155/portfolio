@@ -101,7 +101,12 @@ const config = require('../config');
 
   // 6. Test Resume Upload endpoint (multipart/form-data)
   const boundary = '----WebKitFormBoundary7MA4YWxkTrZu0gW';
-  const realPdfBuffer = fs.readFileSync(path.resolve(__dirname, '../Thimmareddygari_Harshavardhan_Reddy_Resume.pdf'));
+  const resumeFile = fs.existsSync(path.resolve(__dirname, '../storage/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf'))
+    ? path.resolve(__dirname, '../storage/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf')
+    : (fs.existsSync(path.resolve(__dirname, '../media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf'))
+      ? path.resolve(__dirname, '../media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf')
+      : path.resolve(__dirname, '../Thimmareddygari_Harshavardhan_Reddy_Resume.pdf'));
+  const realPdfBuffer = fs.readFileSync(resumeFile);
   const header = `--${boundary}\r\nContent-Disposition: form-data; name="resume"; filename="Thimmareddygari_Harshavardhan_Reddy_Resume.pdf"\r\nContent-Type: application/pdf\r\n\r\n`;
   const footer = `\r\n--${boundary}--`;
   const multipartBody = Buffer.concat([Buffer.from(header), realPdfBuffer, Buffer.from(footer)]);

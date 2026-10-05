@@ -46,12 +46,19 @@ async function main() {
   console.log('===============================================================\n');
 
   const rootDir = config.paths.root;
-  const nptelPdf1 = path.join(rootDir, 'NOC26CS45S145150024704536444.pdf');
+  const resolvePdf = (name) => {
+    const p1 = path.join(rootDir, 'storage', 'media', name);
+    if (fs.existsSync(p1)) return p1;
+    const p2 = path.join(rootDir, 'media', name);
+    if (fs.existsSync(p2)) return p2;
+    return path.join(rootDir, name);
+  };
+  const nptelPdf1 = resolvePdf('NOC26CS45S145150024704536444.pdf');
   const nptelPdfDup = fs.existsSync(path.join(rootDir, 'NOC26CS45S145150024704536444(1).pdf'))
     ? path.join(rootDir, 'NOC26CS45S145150024704536444(1).pdf')
     : nptelPdf1;
-  const offerLetterPdf = path.join(rootDir, 'Offer_Letter_996565_1389872.pdf');
-  const courseraPdf = path.join(rootDir, 'Coursera AS6TIAD3EVQN.pdf');
+  const offerLetterPdf = resolvePdf('Offer_Letter_996565_1389872.pdf');
+  const courseraPdf = resolvePdf('Coursera AS6TIAD3EVQN.pdf');
 
   // ── SECTION 1: CERTIFICATE VERIFICATION & INTEGRITY ──────────────────────
   console.log('1. Certificate PDF Integrity, Hashing & Extraction:');
