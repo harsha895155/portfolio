@@ -1,0 +1,32 @@
+{
+  "name": "harshavardhan-portfolio",
+  "version": "2.0.0",
+  "description": "Professional, secure, data-driven portfolio with private admin management portal for Thimmareddygari Harshavardhan Reddy",
+  "main": "src/server/index.js",
+  "scripts": {
+    "start": "node src/server/index.js",
+    "dev": "node --watch src/server/index.js",
+    "build:profile": "node src/domains/profile/services/syncProfileService.js",
+    "test": "node tests/run-tests.js && node tests/api-tests.js && node tests/test-ai-agent.js && node tests/test-verification-system.js && node tests/test-upgrade-verification.js"
+  },
+  "keywords": [
+    "portfolio",
+    "full-stack",
+    "cms",
+    "admin-portal",
+    "resume-parser",
+    "github-sync"
+  ],
+  "author": "Thimmareddygari Harshavardhan Reddy",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1"
+  }
+}

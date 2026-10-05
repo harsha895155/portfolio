@@ -1,0 +1,2621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private Portfolio Management Console | Thimmareddygari Harshavardhan Reddy</title>
+  <!-- Disallow search engines from indexing the private management console -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin-assets/admin.css?v=2.3">
+</head>
+<body>
+
+  <!-- ─── AUTHENTICATION GATE (LOGIN MODAL) ─── -->
+  <div id="auth-modal" class="auth-modal-overlay">
+    <div class="auth-card">
+      <div class="auth-icon">🔐</div>
+      <h2 class="auth-title">Portfolio Admin</h2>
+      <p class="auth-desc">Enter your administrative credentials to manage portfolio profile data, review document extractions, and publish changes.</p>
+      
+      <div id="login-error" class="alert-box alert-error" style="display: none;"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-username">Admin Username</label>
+          <input type="text" id="login-username" class="form-input" placeholder="e.g. admin" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Master Password</label>
+          <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" id="login-btn" class="btn-primary btn-block">Authenticate &amp; Enter</button>
+      </form>
+      <div class="auth-footer">
+        <span>Protected route · Session secured with cryptographic JWT</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MAIN ADMIN PORTAL (HIDDEN UNTIL AUTHENTICATED) ─── -->
+  <div id="admin-app" class="admin-wrapper" style="display: none;">
+    
+    <!-- TOP NAVIGATION BAR -->
+    <header class="admin-topbar">
+      <div class="brand-area">
+        <span class="brand-icon">⚡</span>
+        <div>
+          <div class="brand-title">Harsha Portfolio Console</div>
+          <div class="brand-sub">Complete Portfolio Management System</div>
+        </div>
+      </div>
+
+      <!-- GLOBAL ADMIN SEARCH BAR (CTRL+K) -->
+      <div class="topbar-search-wrap">
+        <span class="topbar-search-icon">🔍</span>
+        <input type="text" id="admin-global-search-input" class="topbar-search-input" placeholder="Search portfolio, certs, coding profiles, AI chats... (Ctrl+K)" autocomplete="off">
+        <kbd class="search-kbd">Ctrl K</kbd>
+
+        <!-- Dynamic Search Results Dropdown -->
+        <div id="admin-search-dropdown" class="search-dropdown-menu" style="display: none;">
+          <div class="search-dropdown-header">
+            <span style="font-weight: 700; color: var(--gold2);">Global Search Results</span>
+            <span id="search-total-count" class="search-count-badge">0 found</span>
+          </div>
+          <div id="admin-search-results-list" class="search-results-list">
+            <!-- Results grouped by category populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="sync-badge" id="system-status-badge">
+          <span class="pulse-dot"></span> <span id="status-text">Synchronized &amp; Live</span>
+        </div>
+        <a href="/preview" target="_blank" id="preview-draft-btn" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; font-size: 0.85rem; padding: 0.55rem 1rem;">
+          <span>👁️</span> Preview Draft
+        </a>
+        <button id="quick-publish-btn" class="btn-publish">
+          <span>🚀</span> Publish Live
+        </button>
+        <button id="logout-btn" class="btn-ghost-sm">Logout</button>
+      </div>
+    </header>
+
+    <div class="admin-layout">
+      <!-- SIDEBAR NAVIGATION -->
+      <aside class="admin-sidebar">
+        <nav class="nav-menu">
+          
+          <div class="nav-section-title">Dashboard</div>
+          <button class="nav-tab active" data-tab="tab-overview">
+            <span class="tab-icon">📊</span> Overview &amp; Analytics
+          </button>
+          <button class="nav-tab" data-tab="tab-ai-agent" id="nav-btn-ai-agent" style="background: linear-gradient(90deg, rgba(212,168,67,0.18), rgba(245,212,122,0.06)); border: 1px solid rgba(212,168,67,0.35);">
+            <span class="tab-icon">🤖</span> <strong>Portfolio AI Agent</strong>
+            <span class="badge-count" style="background: #d4a843; color: #06060e; font-weight: 700; display: inline-block;">AI</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-queue">
+            <span class="tab-icon">⚖️</span> Review Queue
+            <span class="badge-count" id="badge-pending-count" style="display: none;">0</span>
+          </button>
+
+          <div class="nav-section-title">Content CMS</div>
+          <button class="nav-tab" data-tab="tab-profile">
+            <span class="tab-label-text"><span class="tab-icon">👤</span> Profile &amp; Hero</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-profile" title="Save &amp; Confirm Profile Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-about">
+            <span class="tab-label-text"><span class="tab-icon">📝</span> About Section</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-about" title="Save &amp; Confirm About Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-skills">
+            <span class="tab-label-text"><span class="tab-icon">⚡</span> Skills Management</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-skills" title="Save &amp; Confirm Skills Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-experience">
+            <span class="tab-label-text"><span class="tab-icon">💼</span> Experience &amp; Internships</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-experience" title="Save &amp; Confirm Experience Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-projects">
+            <span class="tab-label-text"><span class="tab-icon">📦</span> Projects CMS</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-projects" title="Save &amp; Confirm Projects Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-education">
+            <span class="tab-label-text"><span class="tab-icon">🎓</span> Education</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-education" title="Save &amp; Confirm Education Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-certs">
+            <span class="tab-label-text"><span class="tab-icon">🎖️</span> Certifications</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-certs" title="Save &amp; Confirm Certifications Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-achievements">
+            <span class="tab-label-text"><span class="tab-icon">🏆</span> Achievements</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-achievements" title="Save &amp; Confirm Achievements Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-coding-profiles">
+            <span class="tab-label-text"><span class="tab-icon">⚡</span> Competitive Profiles</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-coding-profiles" title="Save &amp; Confirm Coding Profiles &amp; Telemetry">💾 Save</span>
+          </button>
+
+          <div class="nav-section-title">Media &amp; Assets</div>
+          <button class="nav-tab" data-tab="tab-resume">
+            <span class="tab-icon">📄</span> Resume Manager
+          </button>
+          <button class="nav-tab" data-tab="tab-media">
+            <span class="tab-icon">🖼️</span> Media Library
+          </button>
+          <button class="nav-tab" data-tab="tab-documents">
+            <span class="tab-icon">📁</span> Document Upload
+          </button>
+
+          <div class="nav-section-title">Integrations</div>
+          <button class="nav-tab" data-tab="tab-social">
+            <span class="tab-icon">🌐</span> GitHub &amp; Social Sync
+          </button>
+
+          <div class="nav-section-title">Website &amp; SEO</div>
+          <button class="nav-tab" data-tab="tab-sections">
+            <span class="tab-label-text"><span class="tab-icon">👁️</span> Section Visibility</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-sections" title="Save &amp; Confirm Section Visibility">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-contact">
+            <span class="tab-label-text"><span class="tab-icon">📫</span> Contact &amp; Footer</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-contact" title="Save &amp; Confirm Contact Details">💾 Save</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-seo">
+            <span class="tab-label-text"><span class="tab-icon">🔍</span> SEO &amp; Meta</span>
+            <span class="sidebar-save-btn" data-save-tab="tab-seo" title="Save &amp; Confirm SEO Settings">💾 Save</span>
+          </button>
+
+          <div class="nav-section-title">System</div>
+          <button class="nav-tab" data-tab="tab-history">
+            <span class="tab-icon">📜</span> History &amp; Snapshots
+          </button>
+          <button class="nav-tab" data-tab="tab-backup">
+            <span class="tab-icon">💾</span> Backup &amp; Restore
+          </button>
+          <button class="nav-tab" data-tab="tab-settings">
+            <span class="tab-icon">⚙️</span> Admin Settings
+          </button>
+
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="sf-item"><strong>Admin:</strong> <span id="admin-user-display">admin</span></div>
+          <div class="sf-item"><a href="/" target="_blank" class="public-link">↗ View Public Website</a></div>
+        </div>
+      </aside>
+
+      <!-- CONTENT PANELS -->
+      <main class="admin-content">
+
+        <!-- ── TAB 1: OVERVIEW ── -->
+        <section id="tab-overview" class="tab-panel active">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">System Overview &amp; Analytics</h1>
+              <p class="panel-sub">Real-time status of your portfolio, active draft changes, and external channels.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn-secondary" onclick="loadDashboard()">↻ Refresh</button>
+              <button class="btn-primary" onclick="window.adminActions.publishAllDraft()">🚀 Publish Live</button>
+            </div>
+          </div>
+
+          <!-- PROFILE COMPLETENESS PROGRESS BAR -->
+          <div class="card mb-4" style="border-left: 4px solid var(--gold);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <div>
+                <strong style="font-size: 1.05rem; color: var(--gold2);">Profile Completeness &amp; Readiness</strong>
+                <p class="card-desc" style="margin-bottom: 0;">Comprehensive score of portfolio sections, external links, and verification assets.</p>
+              </div>
+              <span id="completeness-score-text" style="font-size: 1.3rem; font-weight: 700; color: #4ade80; font-family: var(--font-mono);">95%</span>
+            </div>
+            <div class="progress-bar" style="height: 10px; border-radius: 5px;">
+              <div id="completeness-progress-fill" class="progress-fill" style="width: 95%;"></div>
+            </div>
+          </div>
+
+          <!-- COMPLETE 8-CARD METRICS GRID -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="mc-label">Active Projects</div>
+              <div class="mc-value" id="stat-projects">-</div>
+              <div class="mc-sub">AirGuard, VideStore, GRAMMPAY, Hollow</div>
+            </div>
+            <div class="metric-card">
+              <div class="mc-label">Skills Configured</div>
+              <div class="mc-value" id="stat-skills">-</div>
+              <div class="mc-sub">Java, React, Python, AWS, Node, SQL</div>
+            </div>
+            <div class="metric-card">
+              <div class="mc-label">Certifications</div>
+              <div class="mc-value" id="stat-certs">-</div>
+              <div class="mc-sub">NPTEL, AWS, Google Cloud, Infosys, IIT</div>
+            </div>
+            <div class="metric-card">
+              <div class="mc-label">Experience &amp; Internships</div>
+              <div class="mc-value" id="stat-exp">-</div>
+              <div class="mc-sub">AICTE-EduSkills, APSCHE, Amdox</div>
+            </div>
+            <div class="metric-card">
+              <div class="mc-label">Education Milestones</div>
+              <div class="mc-value" id="stat-education">-</div>
+              <div class="mc-sub">B.Tech (GIST), Intermediate, 10th</div>
+            </div>
+            <div class="metric-card">
+              <div class="mc-label">Achievements &amp; Awards</div>
+              <div class="mc-value" id="stat-achievements">-</div>
+              <div class="mc-sub">Perfect Score, Grade-O, Hackathons</div>
+            </div>
+            <div class="metric-card">
+              <div class="mc-label">Pending Review</div>
+              <div class="mc-value highlight-gold" id="stat-pending">0</div>
+              <div class="mc-sub">Detected changes from uploads/GitHub</div>
+            </div>
+            <div class="metric-card">
+              <div class="mc-label">Stored Documents</div>
+              <div class="mc-value" id="stat-docs">-</div>
+              <div class="mc-sub">Resumes, Certificates, PDFs in storage/</div>
+            </div>
+          </div>
+
+          <!-- QUICK ACTIONS BAR -->
+          <div class="card mt-4">
+            <h3 class="card-title">Quick Content Shortcuts</h3>
+            <p class="card-desc">Jump straight to frequent editing tasks without writing any code.</p>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem;">
+              <button class="btn-primary" onclick="window.adminActions.openNewProjectModal()">＋ Add New Project</button>
+              <button class="btn-secondary" onclick="window.adminActions.openNewSkillModal()">＋ Add Skill</button>
+              <button class="btn-secondary" onclick="window.adminActions.openNewCertModal()">＋ Add Certification</button>
+              <button class="btn-secondary" onclick="window.adminActions.switchTab('tab-resume')">📄 Update Resume</button>
+              <button class="btn-secondary" onclick="window.adminActions.switchTab('tab-documents')">📁 Upload Document</button>
+              <button class="btn-secondary" onclick="window.adminActions.switchTab('tab-social')">🌐 Sync Social Profiles</button>
+            </div>
+          </div>
+
+          <!-- RECENT AUDIT ACTIVITY -->
+          <div class="card mt-4">
+            <h3 class="card-title">Recent Activity &amp; Audit Trail</h3>
+            <div id="recent-activity-list" class="activity-list">
+              <div class="loading-spinner">Loading activity...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 2: REVIEW QUEUE ── -->
+        <section id="tab-queue" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Review &amp; Approval Queue</h1>
+              <p class="panel-sub">New information detected from uploaded documents or GitHub. Review side-by-side before publishing.</p>
+            </div>
+            <div class="queue-bulk-actions">
+              <button id="btn-approve-all" class="btn-success">✓ Approve All</button>
+              <button id="btn-reject-all" class="btn-danger">✕ Reject All</button>
+            </div>
+          </div>
+          <div id="pending-changes-container">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ── TAB: PORTFOLIO AI AGENT ── -->
+        <section id="tab-ai-agent" class="tab-panel">
+          <div class="panel-header" style="margin-bottom: 1.25rem;">
+            <div>
+              <h1 class="panel-title" style="display: flex; align-items: center; gap: 0.65rem;">
+                <span>🤖</span> Portfolio AI Agent
+                <span class="status-pill status-active" id="ai-provider-badge">Multi-Modal AI Ready</span>
+              </h1>
+              <p class="panel-sub">Autonomous portfolio management system. Upload certificates, resumes, or profile photos — the agent analyzes, maps to sections, generates descriptions, and queues changes for review.</p>
+            </div>
+            <div class="header-action-group" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button id="ai-run-audit-btn" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                <span>📊</span> Run Portfolio Audit
+              </button>
+              <button id="ai-check-duplicates-btn" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                <span>🔍</span> Check Duplicates
+              </button>
+              <button id="ai-clear-chat-btn" class="btn-ghost-sm" title="Clear conversation">Clear Chat</button>
+            </div>
+          </div>
+
+          <div class="ai-agent-workspace">
+            <!-- LEFT PANEL: CHATGPT-STYLE CONVERSATIONS & PROMPTS -->
+            <div class="ai-panel ai-panel-left">
+              <div class="ai-panel-header" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="panel-icon">💬</span>
+                  <h4>Conversations</h4>
+                </div>
+                <button type="button" id="ai-new-chat-btn" class="ai-new-chat-btn" title="Start a fresh chat">
+                  <span>＋</span> New Chat
+                </button>
+              </div>
+
+              <div class="ai-panel-left-content">
+                <!-- Search Chats Input -->
+                <div class="ai-search-chats-wrap">
+                  <input type="text" id="ai-search-chats-input" class="ai-search-chats-input" placeholder="Search conversations...">
+                </div>
+
+                <!-- Conversations Session List -->
+                <div class="ai-conv-list" id="ai-conversations-list">
+                  <!-- Dynamically populated conversation threads -->
+                </div>
+
+                <!-- Capabilities & Quick Prompts Drawer -->
+                <div class="ai-prompts-drawer">
+                  <div class="prompt-group-title" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" id="toggle-quick-prompts-btn">
+                    <span>⚡ Quick AI Actions</span>
+                    <span id="quick-prompts-arrow">▾</span>
+                  </div>
+                  <div id="quick-prompts-body" class="ai-prompts-collapsible">
+                    <button type="button" class="ai-prompt-chip" data-prompt="Verify my LeetCode profile">
+                      <span>⚡</span> Verify LeetCode Profile
+                    </button>
+                    <button type="button" class="ai-prompt-chip" data-prompt="Sync all coding platforms">
+                      <span>🌐</span> Sync All Platforms
+                    </button>
+                    <button type="button" class="ai-prompt-chip" data-prompt="How many problems have I solved?">
+                      <span>📊</span> Solved Problems Count
+                    </button>
+                    <button type="button" class="ai-prompt-chip" data-prompt="Check my GitHub changes">
+                      <span>🐙</span> Check GitHub Changes
+                    </button>
+                    <button type="button" class="ai-prompt-chip" data-prompt="Verify all my public profile links">
+                      <span>🔗</span> Verify All Public Links
+                    </button>
+                    <button type="button" class="ai-prompt-chip" data-prompt="Run AI portfolio audit and check for missing information or weak descriptions.">
+                      <span>📊</span> Portfolio Health Audit
+                    </button>
+                    <button type="button" class="ai-prompt-chip" data-prompt="Check whether my portfolio has duplicate projects or skills.">
+                      <span>🔍</span> Detect Duplicates
+                    </button>
+                    <button type="button" class="ai-prompt-chip" data-prompt="Improve my About section biography with an impactful, professional summary.">
+                      <span>✨</span> Optimize About Section
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CENTER PANEL: CONVERSATION & ASSISTANT WORKSPACE -->
+            <div class="ai-panel ai-panel-center">
+              <!-- PANEL HEADER -->
+              <div class="ai-panel-header" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="panel-icon">🤖</span>
+                  <h4>Portfolio Assistant</h4>
+                  <span class="msg-tag" style="margin-left: 0.25rem;">Autonomous</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <button type="button" id="ai-clear-chat-stream-btn" class="btn-ghost-sm" title="Clear current chat messages" style="font-size: 0.75rem; padding: 0.25rem 0.55rem;">Clear Chat</button>
+                </div>
+              </div>
+
+              <!-- CHAT STREAM -->
+              <div id="ai-chat-stream" class="ai-chat-stream">
+                <div class="chat-msg chat-msg-ai">
+                  <div class="msg-avatar">🤖</div>
+                  <div class="msg-body">
+                    <div class="msg-author">Portfolio AI Agent <span class="msg-tag">Autonomous CMS Assistant</span></div>
+                    <div class="msg-text">
+                      Welcome, Harshavardhan. I am your <strong>Portfolio AI Agent</strong>. I can analyze uploaded certificates, resumes, and photos, detect where they belong, generate professional descriptions, and prepare verified changes for your review.<br><br>
+                      Attach a document using 📎 below or ask me a question to begin.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PROCESSING STATUS BAR -->
+              <div id="ai-processing-bar" class="ai-processing-status" style="display: none;">
+                <span class="spinner-sm"></span>
+                <span id="ai-processing-text">Analyzing document semantics and extracting portfolio entities...</span>
+              </div>
+
+              <!-- COMMAND INPUT -->
+              <form id="ai-chat-form" class="ai-chat-form">
+                <!-- Staged Attachment Chips -->
+                <div id="ai-attached-chips" class="ai-attached-chips" style="display: none;"></div>
+                <div class="ai-input-wrap">
+                  <button type="button" id="ai-attach-btn" class="ai-icon-btn" title="Attach file (PDF, Image, Doc)">📎</button>
+                  <input type="file" id="ai-file-input" multiple accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.webp" style="display: none;">
+                  <textarea id="ai-message-input" class="ai-input-textarea" placeholder="Message Portfolio AI... (e.g. 'Verify my LeetCode profile', 'Sync coding platforms', 'Check GitHub')" rows="1"></textarea>
+                  <button type="button" id="ai-mic-btn" class="ai-icon-btn" title="Voice dictation (speech-to-text)" style="font-size: 1rem;">🎤</button>
+                  <button type="submit" id="ai-send-btn" class="btn-primary ai-submit-btn" title="Send message (Enter)">↵</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- RIGHT PANEL: CHANGE PREVIEW & AUDIT WORKSPACE -->
+            <div class="ai-panel ai-panel-right">
+              <div class="ai-panel-tabs">
+                <button type="button" class="ai-subtab active" data-subtab="subtab-changes">
+                  <span>👀</span> Proposed Changes
+                  <span id="ai-badge-change-count" class="badge-count" style="display: none;">0</span>
+                </button>
+                <button type="button" class="ai-subtab" data-subtab="subtab-audit">
+                  <span>📊</span> Health Audit
+                </button>
+                <button type="button" class="ai-subtab" data-subtab="subtab-versions">
+                  <span>📜</span> Version History
+                </button>
+              </div>
+
+              <!-- SUBTAB: PROPOSED CHANGES -->
+              <div id="subtab-changes" class="ai-subtab-content active">
+                <div id="ai-changes-header" class="subtab-header-box" style="display: none;">
+                  <div class="changeset-meta">
+                    <div class="meta-title" id="ai-cs-title">ChangeSet Pending Review</div>
+                    <div class="meta-sub" id="ai-cs-reason">Reasoning</div>
+                  </div>
+                  <div class="changeset-actions">
+                    <button type="button" id="ai-approve-selected-btn" class="btn-primary btn-sm"><span>✓</span> Approve Selected</button>
+                    <button type="button" id="ai-reject-all-btn" class="btn-danger btn-sm"><span>✕</span> Reject</button>
+                  </div>
+                </div>
+
+                <div id="ai-changes-list" class="ai-changes-list">
+                  <div class="empty-state-card">
+                    <span class="empty-icon">✨</span>
+                    <h4>No Pending Proposals</h4>
+                    <p>When you upload documents or request optimizations, proposed changes will appear here for comparison and approval.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SUBTAB: PORTFOLIO AUDIT -->
+              <div id="subtab-audit" class="ai-subtab-content">
+                <div id="ai-audit-loading" style="display: none; text-align: center; padding: 2rem;">
+                  <span class="spinner-sm"></span> Calculating portfolio health...
+                </div>
+                <div id="ai-audit-view" class="ai-audit-view">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+
+              <!-- SUBTAB: VERSION HISTORY -->
+              <div id="subtab-versions" class="ai-subtab-content">
+                <div id="ai-versions-list" class="ai-versions-list">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 3: PROFILE & HERO ── -->
+        <section id="tab-profile" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Profile &amp; Hero Management</h1>
+              <p class="panel-sub">Manage your personal identity, headline, hero tag, CTA buttons, and statistics.</p>
+            </div>
+            <button id="save-profile-btn" class="btn-primary">💾 Save Profile &amp; Hero to Draft</button>
+          </div>
+
+          <form id="form-profile-hero">
+            <div class="card">
+              <h3 class="card-title">Personal Identity</h3>
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label>Full Name</label>
+                  <input type="text" id="prof-name" class="form-input" required>
+                </div>
+                <div class="form-group flex-1">
+                  <label>Short Name</label>
+                  <input type="text" id="prof-shortname" class="form-input">
+                </div>
+                <div class="form-group flex-1">
+                  <label>Nickname / Brand</label>
+                  <input type="text" id="prof-nickname" class="form-input">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Professional Headline</label>
+                <input type="text" id="prof-headline" class="form-input" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label>Hero Tagline</label>
+                  <input type="text" id="prof-herotag" class="form-input">
+                </div>
+                <div class="form-group flex-1">
+                  <label>Profile Image / Avatar URL (or select from Media Library)</label>
+                  <div class="profile-image-upload-wrapper" style="display: flex; gap: 0.75rem; align-items: center; margin-top: 0.35rem;">
+                    <div class="profile-avatar-preview-box" id="prof-image-preview-container" style="width: 52px; height: 52px; border-radius: 50%; overflow: hidden; border: 2px solid var(--gold); background: rgba(0,0,0,0.3); flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                      <img id="prof-image-preview" src="/og-image.png" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; document.getElementById('prof-image-fallback-icon').style.display='block';">
+                      <span id="prof-image-fallback-icon" style="display: none; font-size: 1.5rem;">👤</span>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <input type="text" id="prof-image" class="form-input" placeholder="/og-image.png or /media/avatar.png" style="margin-bottom: 0.4rem;">
+                      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <input type="file" id="prof-image-file-input" accept="image/*" style="display: none;">
+                        <button type="button" id="btn-upload-profile-image" class="btn-primary" style="font-size: 0.78rem; padding: 0.35rem 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                          <span>📤</span> Upload Photo
+                        </button>
+                        <button type="button" id="btn-select-profile-media" class="btn-secondary" style="font-size: 0.78rem; padding: 0.35rem 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                          <span>🖼️</span> Select from Media
+                        </button>
+                        <button type="button" id="btn-clear-profile-image" class="btn-ghost-sm" style="font-size: 0.75rem; padding: 0.35rem 0.6rem;">
+                          Clear
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <label style="margin-bottom: 0;">Hero Description</label>
+                  <button type="button" class="btn-ai-assist" data-target="prof-herodesc" data-type="hero">✨ AI Assist</button>
+                </div>
+                <textarea id="prof-herodesc" class="form-textarea" rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="card mt-4">
+              <div class="card-header-flex">
+                <div>
+                  <h3 class="card-title">Hero Call-To-Action (CTA) Buttons &amp; Resume</h3>
+                  <p class="card-desc">Configure the action buttons displayed in the hero section and manage your live viewable &amp; downloadable resume PDF.</p>
+                </div>
+                <div class="hero-resume-status-badge" id="hero-resume-status-badge" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.78rem; color: #4ade80;">
+                  <span style="display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e;"></span>
+                  <span id="hero-resume-status-text">Resume Linked</span>
+                </div>
+              </div>
+
+              <div class="hero-cta-resume-grid" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 1.5rem; margin-top: 1rem;">
+                
+                <!-- LEFT COLUMN: Hero CTA Buttons -->
+                <div class="hero-cta-inputs-col" style="display: flex; flex-direction: column; gap: 1rem;">
+                  <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                      <strong style="color: var(--gold2); font-size: 0.9rem;">CTA Button 1 (Primary Action)</strong>
+                      <span class="badge-subtle" style="font-size: 0.72rem; padding: 0.2rem 0.5rem;">Gold Button</span>
+                    </div>
+                    <div class="form-row" style="margin-bottom: 0;">
+                      <div class="form-group flex-1" style="margin-bottom: 0;">
+                        <label style="font-size: 0.78rem;">Button Label</label>
+                        <input type="text" id="prof-cta1-label" class="form-input" value="↗ Get In Touch" placeholder="↗ Get In Touch">
+                      </div>
+                      <div class="form-group flex-1" style="margin-bottom: 0;">
+                        <label style="font-size: 0.78rem;">Target Link / Anchor</label>
+                        <input type="text" id="prof-cta1-url" class="form-input" value="#contact" placeholder="#contact">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                      <strong style="color: var(--gold2); font-size: 0.9rem;">CTA Button 2 (Secondary Action)</strong>
+                      <span class="badge-subtle" style="font-size: 0.72rem; padding: 0.2rem 0.5rem;">Ghost Button</span>
+                    </div>
+                    <div class="form-row" style="margin-bottom: 0;">
+                      <div class="form-group flex-1" style="margin-bottom: 0;">
+                        <label style="font-size: 0.78rem;">Button Label</label>
+                        <input type="text" id="prof-cta2-label" class="form-input" value="View Projects →" placeholder="View Projects →">
+                      </div>
+                      <div class="form-group flex-1" style="margin-bottom: 0;">
+                        <label style="font-size: 0.78rem;">Target Link / Anchor</label>
+                        <input type="text" id="prof-cta2-url" class="form-input" value="#projects" placeholder="#projects">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="background: rgba(245, 158, 11, 0.04); border: 1px solid rgba(245, 158, 11, 0.28); border-radius: 8px; padding: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                      <strong style="color: var(--gold2); font-size: 0.9rem;">CTA Button 3 — View Resume Button</strong>
+                      <span class="badge-subtle" style="background: rgba(245, 158, 11, 0.15); color: var(--gold2); border: 1px solid rgba(245, 158, 11, 0.3); font-size: 0.72rem; padding: 0.2rem 0.5rem;">Hero Resume Trigger</span>
+                    </div>
+                    <div class="form-row" style="margin-bottom: 0.5rem;">
+                      <div class="form-group flex-1" style="margin-bottom: 0;">
+                        <label style="font-size: 0.78rem;">Button Label</label>
+                        <input type="text" id="prof-resume-label" class="form-input" value="📄 View Resume" placeholder="📄 View Resume">
+                      </div>
+                      <div class="form-group flex-1" style="margin-bottom: 0;">
+                        <label style="font-size: 0.78rem;">Linked Resume File Path / URL</label>
+                        <input type="text" id="prof-resume-url" class="form-input" placeholder="./Thimmareddygari_Harshavardhan_Reddy_Resume.pdf" readonly style="background: rgba(0,0,0,0.3); color: #94a3b8; font-family: monospace; font-size: 0.8rem;">
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
+                      <button type="button" id="btn-hero-preview-resume" class="btn-secondary" style="font-size: 0.8rem; padding: 0.4rem 0.85rem; border-color: var(--gold2); color: var(--gold2);">
+                        👁️ Preview Resume in Viewer
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Direct Resume Upload Card ("side display the option to upload my resume") -->
+                <div class="hero-resume-upload-card" style="background: rgba(0, 0, 0, 0.25); border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+                      <span style="font-size: 1.35rem;">📤</span>
+                      <h4 style="margin: 0; font-size: 0.98rem; color: #fff; font-weight: 600;">Upload &amp; Link Resume PDF</h4>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.82rem; line-height: 1.45; margin-bottom: 1rem;">
+                      Upload your updated CV/Resume PDF. It immediately links to the "View Resume" button on your portfolio website so clients and recruiters can view it directly.
+                    </p>
+
+                    <!-- Active File Info Box -->
+                    <div id="hero-resume-current-info" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem;">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Active Portfolio Resume:</span>
+                        <span id="hero-resume-active-tag" class="badge-subtle" style="color: #4ade80; border-color: rgba(74, 222, 128, 0.3); font-size: 0.72rem; padding: 0.15rem 0.45rem;">● Active</span>
+                      </div>
+                      <div id="hero-resume-current-filename" style="font-family: monospace; font-size: 0.82rem; color: var(--gold2); word-break: break-all; margin-bottom: 0.35rem;">
+                        Thimmareddygari_Harshavardhan_Reddy_Resume.pdf
+                      </div>
+                      <div id="hero-resume-updated-at" style="font-size: 0.75rem; color: var(--text-muted);">
+                        Last Updated: Recently
+                      </div>
+                    </div>
+
+                    <!-- File Picker Dropzone Area -->
+                    <div class="resume-drop-zone" id="hero-resume-dropzone" style="border: 2px dashed rgba(255, 255, 255, 0.16); border-radius: 6px; padding: 1.25rem; text-align: center; cursor: pointer; transition: all 0.2s ease; background: rgba(255, 255, 255, 0.02);">
+                      <input type="file" id="hero-resume-file-input" accept=".pdf,application/pdf" style="display: none;">
+                      <div style="font-size: 1.8rem; margin-bottom: 0.35rem;">📄</div>
+                      <div style="font-size: 0.85rem; font-weight: 500; color: #fff; margin-bottom: 0.25rem;" id="hero-resume-picker-text">
+                        Click or drag to select PDF resume
+                      </div>
+                      <div style="font-size: 0.75rem; color: var(--text-muted);">
+                        Supports PDF files up to 20MB
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 1.25rem; display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                    <button type="button" id="btn-upload-hero-resume" class="btn-primary" style="flex: 1; padding: 0.55rem 1rem; font-size: 0.85rem;" disabled>
+                      ⬆️ Upload &amp; Set as Active Resume
+                    </button>
+                    <button type="button" id="btn-hero-resume-view-ext" class="btn-secondary" style="padding: 0.55rem 0.85rem; font-size: 0.85rem;" title="View Current Active Resume">
+                      👁️ View Current
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card mt-4">
+              <h3 class="card-title">Hero Floating Statistics &amp; Tags</h3>
+              <p class="card-desc">Manage the floating counter pills and keyword tags rendered in the Hero section.</p>
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label>Hero Keyword Tags (Comma separated)</label>
+                  <input type="text" id="prof-herotags" class="form-input" placeholder="Core Java, React.js, Python, Node.js, AWS Cloud">
+                </div>
+                <div class="form-group flex-1">
+                  <label>Marquee Banner Ticker Items (Comma separated)</label>
+                  <input type="text" id="prof-marquee" class="form-input" placeholder="Full-Stack Developer, Core Java, AirGuard IoT, React.js &amp; Vite">
+                </div>
+              </div>
+            </div>
+
+            <div class="card mt-4">
+              <h3 class="card-title">Contact &amp; Location Information</h3>
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label>Email Address</label>
+                  <input type="email" id="prof-email" class="form-input" required>
+                </div>
+                <div class="form-group flex-1">
+                  <label>Phone Number</label>
+                  <input type="text" id="prof-phone" class="form-input">
+                </div>
+                <div class="form-group flex-1">
+                  <label>Location</label>
+                  <input type="text" id="prof-location" class="form-input">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Availability Statement</label>
+                <input type="text" id="prof-availability" class="form-input" placeholder="Available for Software Engineering internships and technical collaborations.">
+              </div>
+            </div>
+            
+            <div class="mt-4" style="display: flex; justify-content: flex-end;">
+              <button type="submit" class="btn-primary">💾 Save Profile &amp; Hero to Draft</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ── TAB 4: ABOUT SECTION ── -->
+        <section id="tab-about" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">About Section Management</h1>
+              <p class="panel-sub">Manage biographical paragraphs, highlights, and career objective.</p>
+            </div>
+            <button id="save-about-btn" class="btn-primary">💾 Save About Section to Draft</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Biographical Paragraphs</h3>
+                <p class="card-desc">Paragraphs displayed on the public website under About Me. HTML tags (&lt;span class="hl"&gt;, &lt;a&gt;) supported.</p>
+              </div>
+              <button type="button" class="btn-secondary" id="btn-add-about-paragraph">＋ Add Paragraph</button>
+            </div>
+            <div id="about-paragraphs-container" class="mt-3">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 5: SKILLS MANAGEMENT ── -->
+        <section id="tab-skills" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Skills &amp; Competencies Management</h1>
+              <p class="panel-sub">Full CRUD capability for technical categories, skill pills, and proficiency level indicators.</p>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="btn-secondary" onclick="window.adminActions.openAddCategoryModal()" style="border-color: rgba(212, 175, 55, 0.45); color: var(--gold2);">📁＋ Add Category</button>
+              <button type="button" class="btn-secondary btn-danger-hover" style="border-color: rgba(239, 68, 68, 0.45); color: #f87171;" onclick="window.adminActions.openDeleteCategoryModal()">📁🗑️ Delete Category</button>
+              <button type="button" class="btn-secondary btn-danger-hover" style="border-color: rgba(239, 68, 68, 0.45); color: #f87171;" onclick="window.adminActions.openDeleteSkillModal()">🗑️ Delete Skill</button>
+              <button type="button" class="btn-primary" onclick="window.adminActions.openNewSkillModal()">＋ Add Skill</button>
+            </div>
+          </div>
+
+          <div id="skills-categories-container">
+            <!-- Dynamically populated skill categories and cards -->
+          </div>
+        </section>
+
+        <!-- ── TAB 6: EXPERIENCE & INTERNSHIPS ── -->
+        <section id="tab-experience" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Experience &amp; Internships</h1>
+              <p class="panel-sub">Manage professional roles, virtual internships, training certifications, and key contributions.</p>
+            </div>
+            <button class="btn-primary" onclick="window.adminActions.openNewExpModal()">＋ Add Experience / Internship</button>
+          </div>
+
+          <div id="experience-list-container" class="item-cards-list">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ── TAB 7: PROJECTS CMS ── -->
+        <section id="tab-projects" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Projects CMS</h1>
+              <p class="panel-sub">Complete content management for major projects, live demos, repositories, and case studies.</p>
+            </div>
+            <button class="btn-primary" onclick="window.adminActions.openNewProjectModal()">＋ Add New Project</button>
+          </div>
+
+          <div id="projects-cms-container" class="item-cards-list">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ── TAB 8: EDUCATION ── -->
+        <section id="tab-education" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Education Management</h1>
+              <p class="panel-sub">Academic degrees, universities, CGPA scores, and roll numbers displayed publicly.</p>
+            </div>
+            <button class="btn-primary" onclick="window.adminActions.openNewEduModal()">＋ Add Education Entry</button>
+          </div>
+
+          <div id="education-list-container" class="item-cards-list">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ── TAB 9: CERTIFICATIONS ── -->
+        <section id="tab-certs" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Certifications &amp; Credentials</h1>
+              <p class="panel-sub">Official credentials, verification links, and scores from NPTEL, AWS, Google Cloud, and Infosys.</p>
+            </div>
+            <button class="btn-primary" onclick="window.adminActions.openNewCertModal()">＋ Add Certification</button>
+          </div>
+
+          <div id="certs-cms-container" class="item-cards-list">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ── TAB 10: ACHIEVEMENTS & HACKATHONS ── -->
+        <section id="tab-achievements" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Achievements &amp; Hackathons</h1>
+              <p class="panel-sub">National hackathon selections, academic milestones, and competitive programming achievements.</p>
+            </div>
+            <button class="btn-primary" onclick="window.adminActions.openNewAchvModal()">＋ Add Achievement</button>
+          </div>
+
+          <div id="achievements-cms-container" class="item-cards-list">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ── TAB: COMPETITIVE PROGRAMMING & VERIFIED PROFILES ── -->
+        <section id="tab-coding-profiles" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Competitive Programming &amp; Verified Profiles</h1>
+              <p class="panel-sub">Manage live telemetry problem counts, coding platform identities, ratings, and verified credentials.</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+              <button class="btn-primary" onclick="window.adminActions.openNewCodingProfileModal()">＋ Add Coding Profile</button>
+            </div>
+          </div>
+
+          <!-- TELEMETRY BANNER EDITOR -->
+          <div class="card mb-4">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Live Telemetry Stat Highlights</h3>
+                <p class="card-desc">These counters are prominently displayed at the top of the Competitive Programming section in your portfolio.</p>
+              </div>
+              <button type="button" class="btn-secondary" id="btn-save-telemetry-stats" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                💾 Save Telemetry Stats
+              </button>
+            </div>
+            <div class="form-row mt-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+              <div class="form-group">
+                <label>Problems Solved</label>
+                <input type="text" id="telemetry-edit-problems" class="form-input" placeholder="350+" value="350+">
+              </div>
+              <div class="form-group">
+                <label>Active Profiles</label>
+                <input type="text" id="telemetry-edit-profiles" class="form-input" placeholder="9+" value="9+">
+              </div>
+              <div class="form-group">
+                <label>Cryptographically Verified</label>
+                <input type="text" id="telemetry-edit-verified" class="form-input" placeholder="100%" value="100%">
+              </div>
+              <div class="form-group">
+                <label>Open Source Repos</label>
+                <input type="text" id="telemetry-edit-repos" class="form-input" placeholder="24+" value="24+">
+              </div>
+            </div>
+          </div>
+
+          <!-- CODING PROFILES CARDS LIST -->
+          <div class="card">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Configured Coding Profiles</h3>
+                <p class="card-desc">All verified profiles currently shown on your portfolio. Click "Edit" on any profile to modify ratings, solved counts, or links.</p>
+              </div>
+            </div>
+            <div id="coding-profiles-admin-list" class="coding-profiles-admin-grid mt-3">
+              <div class="text-muted">Loading coding profiles...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 11: RESUME MANAGER ── -->
+        <section id="tab-resume" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Resume Manager</h1>
+              <p class="panel-sub">Upload, replace, and set the active resume. All public "View Resume" buttons update automatically.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Currently Active Resume</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border); margin-top: 1rem;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="font-size: 2.2rem;">📄</span>
+                <div>
+                  <strong id="active-resume-name" style="font-size: 1.05rem; color: var(--gold2);">Thimmareddygari_Harshavardhan_Reddy_Resume.pdf</strong>
+                  <div id="active-resume-path" style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);">Path: ./Thimmareddygari_Harshavardhan_Reddy_Resume.pdf</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                <button type="button" id="btn-view-active-resume" class="btn-secondary" style="border-color: var(--gold2); color: var(--gold2); font-weight: 500; padding: 0.55rem 1rem; font-size: 0.85rem;" onclick="window.adminActions.viewDocument(document.getElementById('btn-download-active-resume')?.getAttribute('href') || '/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf', 'Active Portfolio Resume')">
+                  👁️ View Current Resume
+                </button>
+                <a id="btn-download-active-resume" href="./Thimmareddygari_Harshavardhan_Reddy_Resume.pdf" target="_blank" class="btn-primary" download style="text-decoration: none; padding: 0.55rem 1rem; font-size: 0.85rem;">⬇️ Download Current Resume</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <h3 class="card-title">Upload / Replace Active Resume</h3>
+            <p class="card-desc">Select a new PDF resume. It will be stored securely and immediately configured as the active download for your entire portfolio.</p>
+            
+            <form id="form-upload-resume" class="mt-3">
+              <div class="form-group">
+                <label>Choose Resume PDF File</label>
+                <input type="file" id="resume-file-input" class="form-input" accept=".pdf,.doc,.docx" required>
+              </div>
+              <button type="submit" id="btn-submit-resume" class="btn-primary">📤 Upload &amp; Set Active Resume</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ── TAB 12: MEDIA LIBRARY ── -->
+        <section id="tab-media" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Media Library</h1>
+              <p class="panel-sub">Central asset repository with strict content-hash deduplication and section folder classification. View and manage every uploaded file.</p>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+              <button class="btn-primary" onclick="window.adminActions.openMediaUploadModal()">＋ Upload to Section Folder</button>
+              <button class="btn-secondary" onclick="loadMediaLibrary()">↻ Refresh Media</button>
+            </div>
+          </div>
+
+          <!-- ZERO-DUPLICATE INTEGRITY & STORAGE STATS BAR -->
+          <div class="media-stats-banner">
+            <div class="media-stat-item">
+              <span class="media-stat-icon">🛡️</span>
+              <div>
+                <div class="media-stat-val" id="media-stat-status" style="color: #4ade80;">Active (0 Duplicates)</div>
+                <div class="media-stat-label">SHA-256 Deduplication</div>
+              </div>
+            </div>
+            <div class="media-stat-item">
+              <span class="media-stat-icon">📁</span>
+              <div>
+                <div class="media-stat-val" id="media-stat-total">38 Assets</div>
+                <div class="media-stat-label">Total Unique Files</div>
+              </div>
+            </div>
+            <div class="media-stat-item">
+              <span class="media-stat-icon">💾</span>
+              <div>
+                <div class="media-stat-val" id="media-stat-size">-- MB</div>
+                <div class="media-stat-label">Total Storage Used</div>
+              </div>
+            </div>
+            <div class="media-stat-item">
+              <span class="media-stat-icon">✨</span>
+              <div>
+                <div class="media-stat-val" id="media-stat-prevented">0 Blocked</div>
+                <div class="media-stat-label">Redundant Copies Prevented</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION FOLDERS & MEDIA GRID CARD -->
+          <div class="card mt-3">
+            <div style="margin-bottom: 0.8rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                <h3 class="card-title" style="font-size: 0.95rem; margin: 0;">📁 Section Folders</h3>
+                <span class="text-muted" style="font-size: 0.8rem;">Click a section folder to filter uploaded files</span>
+              </div>
+              <div id="media-folders-bar" class="media-folders-bar">
+                <!-- Dynamically rendered folder pills with live counts -->
+              </div>
+            </div>
+
+            <!-- SEARCH, FORMAT FILTER & SORT CONTROLS -->
+            <div class="media-filter-toolbar">
+              <div class="media-search-box">
+                <span class="media-search-icon">🔍</span>
+                <input type="text" id="media-search-input" placeholder="Search by filename or title..." oninput="window.adminActions.filterMediaGrid()">
+                <button type="button" id="media-search-clear" onclick="window.adminActions.clearMediaSearch()" style="display: none;">&times;</button>
+              </div>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <select id="media-type-filter" class="form-select form-select-sm" onchange="window.adminActions.filterMediaGrid()">
+                  <option value="all">All File Types</option>
+                  <option value="PDF">PDF Documents</option>
+                  <option value="Image">Images</option>
+                  <option value="Document">Other Documents</option>
+                </select>
+                <select id="media-sort-select" class="form-select form-select-sm" onchange="window.adminActions.filterMediaGrid()">
+                  <option value="newest">Sort: Newest First</option>
+                  <option value="oldest">Sort: Oldest First</option>
+                  <option value="name">Sort: Name (A-Z)</option>
+                  <option value="size">Sort: Size (Largest)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ACTIVE FOLDER HEADER -->
+            <div class="media-active-section-header">
+              <div id="media-current-folder-title" style="display: flex; align-items: center; gap: 0.5rem;">
+                <span id="media-current-folder-icon" style="font-size: 1.15rem;">📁</span>
+                <strong id="media-current-folder-name" style="font-size: 0.95rem; color: var(--gold2);">All Files</strong>
+                <span id="media-current-folder-count" class="folder-badge">38 files</span>
+              </div>
+              <span class="text-muted" style="font-size: 0.78rem;" id="media-current-folder-hint">Showing all unique files across all portfolio section folders</span>
+            </div>
+
+            <!-- MEDIA ASSETS GRID -->
+            <div id="media-grid-container" class="media-grid mt-3">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 13: DOCUMENT UPLOAD & EXTRACTION ── -->
+        <section id="tab-documents" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Document Upload &amp; Entity Extraction</h1>
+              <p class="panel-sub">Upload private documents (PDF, DOCX, TXT). Text and credentials will be extracted and queued for review.</p>
+            </div>
+          </div>
+
+          <!-- DROPZONE -->
+          <div class="card">
+            <div class="upload-dropzone" id="upload-dropzone">
+              <div class="dropzone-icon">📄</div>
+              <h3 class="dropzone-title">Drag &amp; Drop Documents Here</h3>
+              <p class="dropzone-sub">Supports PDF, DOCX, TXT, PNG, JPG (Max 15MB)</p>
+              
+              <div class="upload-options">
+                <label for="doc-category-select">Document Category:</label>
+                <select id="doc-category-select" class="form-select">
+                  <option value="Auto-Detect">Auto-Detect Type</option>
+                  <option value="Resume">Resume / CV</option>
+                  <option value="Certification">Course / Technical Certificate</option>
+                  <option value="Internship Offer">Internship Offer / Experience Letter</option>
+                  <option value="Hackathon Certificate">Hackathon Certificate</option>
+                  <option value="Academic Document">Academic Document / Marksheet</option>
+                </select>
+              </div>
+
+              <input type="file" id="file-input" style="display: none;" accept=".pdf,.txt,.doc,.docx,.png,.jpg,.jpeg">
+              <button type="button" class="btn-primary mt-3" onclick="document.getElementById('file-input').click()">
+                Choose File from Computer
+              </button>
+            </div>
+
+            <!-- UPLOAD PROGRESS & EXTRACTION STATUS -->
+            <div id="upload-status-box" class="upload-status-card" style="display: none;">
+              <div class="upload-status-header">
+                <span id="upload-filename">Document.pdf</span>
+                <span id="upload-percentage">Uploading...</span>
+              </div>
+              <div class="progress-bar">
+                <div id="upload-progress-fill" class="progress-fill" style="width: 0%;"></div>
+              </div>
+              <div id="extraction-log" class="extraction-log"></div>
+            </div>
+          </div>
+
+          <!-- UPLOADED DOCUMENTS TABLE -->
+          <div class="card mt-4">
+            <h3 class="card-title">Uploaded Private Documents</h3>
+            <p class="card-desc">These files are stored in private storage and are NEVER publicly exposed or linked directly on your portfolio.</p>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Filename</th>
+                    <th>Category</th>
+                    <th>Size</th>
+                    <th>Upload Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="documents-table-body">
+                  <tr><td colspan="6" class="text-center">Loading documents...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 14: SOCIAL SYNC & CONNECTED PLATFORMS ── -->
+        <section id="tab-social" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Public Profile &amp; Multi-Website Synchronization</h1>
+              <p class="panel-sub">Synchronize your portfolio across GitHub, Credly credentials, competitive profiles, and all linked websites in real time.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="sync-platform-row">
+              <div class="platform-info">
+                <div class="platform-name">🌐 Universal Platform Synchronization Hub</div>
+                <div class="platform-desc">Simultaneously verify and sync all connected accounts: discover GitHub repositories, verify Credly badge credentials, and validate live availability for all linked platforms.</div>
+                <div class="platform-meta" style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; flex-wrap: wrap;">
+                  <span><strong>Channels:</strong> <span id="sync-active-count-label">Loading channels...</span></span>
+                  <span><strong>GitHub Account:</strong> <a href="https://github.com/harsha895155" target="_blank" rel="noopener noreferrer">github.com/harsha895155</a></span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                <button id="btn-sync-all" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 18px rgba(212, 168, 67, 0.35);">
+                  <span>↻</span> Sync All Connected Websites &amp; Platforms
+                </button>
+                <button id="btn-sync-github" class="btn-secondary" style="font-size: 0.85rem; padding: 0.6rem 1rem;">
+                  <span>🐙</span> Sync GitHub Only
+                </button>
+              </div>
+            </div>
+
+            <!-- MULTI-PLATFORM SYNC REPORT CONTAINER -->
+            <div id="sync-all-results" class="mt-4" style="display: none;">
+              <div class="sync-results-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+                <h4 class="subhead" style="margin-bottom: 0;">Multi-Platform Sync Status Report</h4>
+                <span id="sync-summary-pill" class="diff-category-badge" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.3);">All Checked</span>
+              </div>
+              <div id="sync-platforms-grid" class="sync-platforms-grid">
+                <!-- Dynamically populated platform status cards -->
+              </div>
+            </div>
+
+            <!-- GITHUB DETECTED REPOSITORIES -->
+            <div id="github-sync-results" class="mt-4" style="display: none;">
+              <h4 class="subhead">GitHub Repositories Found:</h4>
+              <div id="github-repos-grid" class="repos-grid"></div>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Connected Platforms Status</h3>
+                <p class="card-desc">Active developer profiles, coding platforms, and sync channels. You can sync, edit, delete, or link new websites.</p>
+              </div>
+              <div>
+                <button id="btn-add-platform" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; padding: 0.6rem 1.2rem;">
+                  <span>＋</span> Link New Website / Platform
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Platform</th>
+                    <th>Profile URL</th>
+                    <th>Integration Method</th>
+                    <th>Status</th>
+                    <th style="text-align: right; min-width: 190px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="social-platforms-table">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 15: SECTION VISIBILITY ── -->
+        <section id="tab-sections" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Public Section Visibility</h1>
+              <p class="panel-sub">Turn any section ON or OFF on the public portfolio. Hidden sections and their nav links are omitted automatically.</p>
+            </div>
+            <button id="save-sections-btn" class="btn-primary">💾 Save Visibility to Draft</button>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Section Switches</h3>
+            <div class="section-switches-grid mt-3">
+              <div class="switch-row">
+                <div>
+                  <strong>Hero Section</strong>
+                  <div class="text-muted">Introduction, headline, CTA buttons, and floating counter stats</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-hero" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="switch-row">
+                <div>
+                  <strong>Marquee Banner</strong>
+                  <div class="text-muted">Infinite sliding ticker showcasing competencies</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-marquee" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="switch-row">
+                <div>
+                  <strong>About Section</strong>
+                  <div class="text-muted">Biographical paragraphs, education cards, and career objectives</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-about" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="switch-row">
+                <div>
+                  <strong>Skills Section</strong>
+                  <div class="text-muted">Categorized skill badges and proficiency percentage progress bars</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-skills" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="switch-row">
+                <div>
+                  <strong>Experience Section</strong>
+                  <div class="text-muted">Virtual internships, training milestones, and key technical contributions</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-experience" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="switch-row">
+                <div>
+                  <strong>Projects Section</strong>
+                  <div class="text-muted">Showcase projects, live demo links, and GitHub repositories</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-projects" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="switch-row">
+                <div>
+                  <strong>Certifications Section</strong>
+                  <div class="text-muted">NPTEL, AWS, Google Cloud, Infosys, and verified credentials</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-certs" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="switch-row">
+                <div>
+                  <strong>Achievements Section</strong>
+                  <div class="text-muted">Academic milestones, Grade-O evaluations, and symposium awards</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-achievements" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="switch-row">
+                <div>
+                  <strong>Contact Section</strong>
+                  <div class="text-muted">Email, phone, social channel pills, and availability note</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sec-contact" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 16: CONTACT & FOOTER ── -->
+        <section id="tab-contact" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Contact &amp; Footer Management</h1>
+              <p class="panel-sub">Configure direct contact channels, availability statements, and copyright notices.</p>
+            </div>
+            <button id="save-contact-btn" class="btn-primary">💾 Save Contact &amp; Footer</button>
+          </div>
+
+          <form id="form-contact-footer">
+            <div class="card">
+              <h3 class="card-title">Footer Configuration</h3>
+              <div class="form-group">
+                <label>Footer Copyright Text</label>
+                <input type="text" id="footer-copyright-text" class="form-input" placeholder="&copy; 2026 · THIMMAREDDYGARI HARSHAVARDHAN REDDY · All Rights Reserved">
+              </div>
+              <div class="form-group">
+                <label>Footer Location Line</label>
+                <input type="text" id="footer-location-text" class="form-input" placeholder="📍 Geethanjali Institute of Science &amp; Technology · Nellore, AP">
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- ── TAB 17: SEO & META ── -->
+        <section id="tab-seo" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">SEO &amp; Structured Data Management</h1>
+              <p class="panel-sub">Manage search engine titles, OpenGraph metadata, Twitter cards, and Schema.org structured data.</p>
+            </div>
+            <button id="save-seo-btn" class="btn-primary">💾 Save SEO to Draft</button>
+          </div>
+
+          <form id="form-seo-settings">
+            <div class="card">
+              <h3 class="card-title">Primary Search Engine Metadata</h3>
+              <div class="form-group">
+                <label>Page Title Tag (&lt;title&gt;)</label>
+                <input type="text" id="seo-page-title" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label>Meta Description</label>
+                <textarea id="seo-meta-desc" class="form-textarea" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Meta Keywords (Comma separated)</label>
+                <input type="text" id="seo-meta-keywords" class="form-input">
+              </div>
+              <div class="form-group">
+                <label>Canonical Production URL</label>
+                <input type="url" id="seo-canonical-url" class="form-input">
+              </div>
+              <div class="form-group">
+                <label>Google Search Console Verification Token</label>
+                <input type="text" id="seo-google-token" class="form-input">
+              </div>
+            </div>
+
+            <div class="card mt-4">
+              <h3 class="card-title">Social Sharing (OpenGraph &amp; Twitter Cards)</h3>
+              <div class="form-group">
+                <label>OpenGraph / Twitter Social Share Image URL</label>
+                <input type="text" id="seo-og-image" class="form-input" placeholder="https://harsha895155.github.io/portfolio/og-image.png">
+              </div>
+            </div>
+
+            <div class="card mt-4">
+              <h3 class="card-title">Live Schema.org JSON-LD Structured Data Preview</h3>
+              <p class="card-desc">Automatically compiled Person, WebSite, and SoftwareSourceCode graph for Google Rich Snippets.</p>
+              <pre id="jsonld-preview-box" class="json-preview-box"></pre>
+            </div>
+          </form>
+        </section>
+
+        <!-- ── TAB 18: HISTORY & SNAPSHOTS ── -->
+        <section id="tab-history" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Change History &amp; Snapshots</h1>
+              <p class="panel-sub">Complete audit trail of profile modifications and 1-click snapshot restoration.</p>
+            </div>
+          </div>
+
+          <!-- SNAPSHOTS -->
+          <div class="card">
+            <h3 class="card-title">Backup Snapshots</h3>
+            <p class="card-desc">Automatic snapshots created every time you publish changes. You can restore any past version at any time.</p>
+            <div id="snapshots-list" class="snapshots-grid">
+              <div class="text-muted">Loading snapshots...</div>
+            </div>
+          </div>
+
+          <!-- AUDIT LOG TABLE -->
+          <div class="card mt-4">
+            <h3 class="card-title">Audit Trail</h3>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Field / Category</th>
+                    <th>Source</th>
+                    <th>Old Value</th>
+                    <th>New Value</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="history-table-body">
+                  <tr><td colspan="6" class="text-center">Loading audit log...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TAB 19: BACKUP & RESTORE ── -->
+        <section id="tab-backup" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Portfolio Backup &amp; Disaster Recovery</h1>
+              <p class="panel-sub">Export your entire portfolio state or restore from an uploaded JSON backup file.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Export Full Portfolio Backup</h3>
+            <p class="card-desc">Download a complete JSON export of all published information, draft configurations, credentials, and settings.</p>
+            <a href="/api/cms/backup/export" class="btn-primary mt-2" download>💾 Download Full Portfolio Backup JSON</a>
+          </div>
+
+          <div class="card mt-4">
+            <h3 class="card-title">Restore Portfolio from Backup File</h3>
+            <p class="card-desc">Upload a previously exported JSON backup file. A safety snapshot will be created before restoring.</p>
+            <form id="form-restore-backup" class="mt-3">
+              <div class="form-group">
+                <label>Select Backup JSON File</label>
+                <input type="file" id="backup-file-input" class="form-input" accept=".json" required>
+              </div>
+              <button type="submit" id="btn-submit-restore" class="btn-danger">↺ Restore Portfolio from Backup</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ── TAB 20: ADMIN SETTINGS & SECURITY ── -->
+        <section id="tab-settings" class="tab-panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Settings &amp; Security</h1>
+              <p class="panel-sub">Manage admin credentials, security tokens, and active sessions.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Change Master Password</h3>
+            <form id="change-password-form" class="mt-3">
+              <div class="form-group">
+                <label>Current Password</label>
+                <input type="password" id="old-pass" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label>New Password (min 8 characters)</label>
+                <input type="password" id="new-pass" class="form-input" required minlength="8">
+              </div>
+              <button type="submit" class="btn-primary">Update Password</button>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: ADD / EDIT PROJECT ─── -->
+  <div id="modal-project" class="modal-overlay" style="display: none;">
+    <div class="modal-container modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-project-title">📦 Add New Project</h3>
+        <button type="button" class="modal-close-btn" id="close-project-modal">&times;</button>
+      </div>
+      <form id="form-project-modal">
+        <div class="modal-body">
+          <input type="hidden" id="proj-form-id">
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label>Project Title</label>
+              <input type="text" id="proj-form-title" class="form-input" placeholder="e.g. VideStore E-Commerce" required>
+            </div>
+            <div class="form-group flex-1">
+              <label>Tag / Category</label>
+              <input type="text" id="proj-form-tag" class="form-input" placeholder="e.g. Full-Stack Web App">
+            </div>
+          </div>
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label style="margin-bottom: 0;">Description</label>
+              <button type="button" class="btn-ai-assist" data-target="proj-form-desc" data-type="project">✨ AI Assist</button>
+            </div>
+            <textarea id="proj-form-desc" class="form-textarea" rows="3" placeholder="Describe architecture, user workflow, and technical achievements..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Technologies Used (Comma separated)</label>
+            <input type="text" id="proj-form-tech" class="form-input" placeholder="React 18, Node.js, Express, MongoDB, Tailwind CSS">
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>GitHub Repository URL</label>
+              <input type="url" id="proj-form-github" class="form-input" placeholder="https://github.com/harsha895155/...">
+            </div>
+            <div class="form-group flex-1">
+              <label>Live Demo URL</label>
+              <input type="url" id="proj-form-demo" class="form-input" placeholder="https://...">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Case Study URL (Optional)</label>
+              <input type="text" id="proj-form-case" class="form-input" placeholder="projects/airguard/">
+            </div>
+            <div class="form-group flex-1">
+              <label>Status</label>
+              <select id="proj-form-status" class="form-select">
+                <option value="Completed">Completed</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Planned">Planned</option>
+                <option value="Archived">Archived</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="proj-form-featured">
+              <span>⭐ Feature this project prominently on the homepage</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-project-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Save Project to Draft</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: ADD / EDIT SKILL ─── -->
+  <div id="modal-skill" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-skill-title">⚡ Add New Skill</h3>
+        <button type="button" class="modal-close-btn" id="close-skill-modal">&times;</button>
+      </div>
+      <form id="form-skill-modal">
+        <div class="modal-body">
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label style="margin-bottom: 0;">Skill Category *</label>
+              <button type="button" class="btn-sm-sync" onclick="document.getElementById('modal-skill').style.display='none'; window.adminActions.openAddCategoryModal();" style="font-size: 0.72rem; padding: 0.2rem 0.55rem; cursor: pointer;">📁＋ New Category</button>
+            </div>
+            <select id="skill-form-category" class="form-select" required>
+              <option value="">-- Select Category --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Skill Name</label>
+            <input type="text" id="skill-form-name" class="form-input" placeholder="e.g. Docker, TypeScript, Core Java" required>
+          </div>
+          <div class="form-group">
+            <label>Proficiency Level % (Optional, 1-100 for visual progress bar)</label>
+            <input type="number" id="skill-form-proficiency" class="form-input" min="1" max="100" placeholder="e.g. 85">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-skill-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Save Skill</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: ADD / EDIT EDUCATION ─── -->
+  <div id="modal-education" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-education-title">🎓 Add Education Entry</h3>
+        <button type="button" class="modal-close-btn" id="close-education-modal">&times;</button>
+      </div>
+      <form id="form-education-modal">
+        <div class="modal-body">
+          <input type="hidden" id="edu-form-index" value="-1">
+          <div class="form-group">
+            <label>Institution / College Name</label>
+            <input type="text" id="edu-form-inst" class="form-input" placeholder="e.g. Geethanjali Institute of Science &amp; Technology" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Degree</label>
+              <input type="text" id="edu-form-deg" class="form-input" placeholder="e.g. Bachelor of Technology (B.Tech)" required>
+            </div>
+            <div class="form-group flex-1">
+              <label>Field / Branch</label>
+              <input type="text" id="edu-form-field" class="form-input" placeholder="e.g. Computer Science &amp; Engineering">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Start Year</label>
+              <input type="text" id="edu-form-start" class="form-input" placeholder="2023" required>
+            </div>
+            <div class="form-group flex-1">
+              <label>End Year</label>
+              <input type="text" id="edu-form-end" class="form-input" placeholder="2027" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>CGPA / Score</label>
+              <input type="text" id="edu-form-cgpa" class="form-input" placeholder="e.g. 9.1 or 83.63%">
+            </div>
+            <div class="form-group flex-1">
+              <label>Roll Number (Optional)</label>
+              <input type="text" id="edu-form-roll" class="form-input" placeholder="e.g. 232U1A05H3">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Affiliation</label>
+              <input type="text" id="edu-form-affil" class="form-input" placeholder="e.g. Affiliated to JNTU Anantapur">
+            </div>
+            <div class="form-group flex-1">
+              <label>Location</label>
+              <input type="text" id="edu-form-loc" class="form-input" placeholder="e.g. Nellore, AP">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-education-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Save Education Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: ADD / VERIFY INTERNSHIP (VERIFICATION FIRST) ─── -->
+  <div id="modal-experience" class="modal-overlay" style="display: none;">
+    <div class="modal-container modal-lg" style="max-width: 860px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-experience-title">💼 Add &amp; Verify Internship (Verification First)</h3>
+        <button type="button" class="modal-close-btn" id="close-experience-modal">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+        
+        <!-- STEP 1: CANDIDATE ID & DOCUMENT UPLOADS -->
+        <div class="card" style="margin-bottom: 1rem; background: rgba(255,255,255,0.02); border-color: rgba(212,168,67,0.3);">
+          <div class="card-header-flex" style="margin-bottom: 0.75rem;">
+            <div>
+              <h4 style="color: var(--gold2); margin-bottom: 0.2rem;">Step 1: Candidate Identification &amp; Document Intake</h4>
+              <p style="font-size: 0.78rem; color: var(--text-light); margin: 0;">Provide official Candidate ID and upload authentic internship PDF documents for cross-verification.</p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="exp-verify-candidate-id"><strong>Candidate ID (Required)</strong> <span style="color: #ef4444;">*</span></label>
+              <div style="display:flex;gap:0.5rem;align-items:center;">
+                <input type="text" id="exp-verify-candidate-id" class="form-input" placeholder="e.g. STU67a3881a20bc81738770458 or INT-2026-123" required style="flex:1;">
+                <button type="button" id="btn-auto-gen-candidate-id" class="btn-secondary" style="font-size:0.78rem;padding:0.4rem 0.75rem;white-space:nowrap;flex-shrink:0;" title="Auto-extract Candidate ID from uploaded offer letter">
+                  🔍 Auto-Extract
+                </button>
+              </div>
+              <small class="form-help">Must match the student/candidate identification on the offer letter. Or click 🔍 Auto-Extract after uploading the offer letter PDF.</small>
+            </div>
+            <div class="form-group flex-1">
+              <label for="exp-verify-status"><strong>Internship Status</strong></label>
+              <select id="exp-verify-status" class="form-select">
+                <option value="Completed" selected>Completed (Requires 3 Documents)</option>
+                <option value="Ongoing">Ongoing (Requires Offer Letter)</option>
+                <option value="Upcoming">Upcoming (Requires Offer Letter)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Document Upload Inputs -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
+            <div class="form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <label style="margin-bottom: 0;">1. Offer Letter PDF <span style="color: #ef4444;">*</span></label>
+                <button type="button" class="btn-sm-sync" style="padding: 0.15rem 0.45rem; font-size: 0.7rem;" onclick="window.adminActions.previewLocalInputFile('exp-verify-offer-file')">👁️ Preview</button>
+              </div>
+              <input type="file" id="exp-verify-offer-file" class="form-input" accept=".pdf" required>
+            </div>
+            <div class="form-group" id="group-completion-file">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <label style="margin-bottom: 0;">2. Completion Certificate PDF <span style="color: #ef4444;">*</span></label>
+                <button type="button" class="btn-sm-sync" style="padding: 0.15rem 0.45rem; font-size: 0.7rem;" onclick="window.adminActions.previewLocalInputFile('exp-verify-completion-file')">👁️ Preview</button>
+              </div>
+              <input type="file" id="exp-verify-completion-file" class="form-input" accept=".pdf">
+            </div>
+            <div class="form-group" id="group-report-file">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <label style="margin-bottom: 0;">3. Internship Report PDF <span style="color: #ef4444;">*</span></label>
+                <button type="button" class="btn-sm-sync" style="padding: 0.15rem 0.45rem; font-size: 0.7rem;" onclick="window.adminActions.previewLocalInputFile('exp-verify-report-file')">👁️ Preview</button>
+              </div>
+              <input type="file" id="exp-verify-report-file" class="form-input" accept=".pdf">
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 0.85rem;">
+            <button type="button" id="btn-exp-run-verify" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+              <span>🔍</span> Analyze &amp; Cross-Verify Documents
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: CROSS-VERIFICATION RESULTS PANEL (Hidden until analyzed) -->
+        <div id="exp-verify-results-panel" class="verification-box" style="display: none;">
+          <div class="verify-header-flex">
+            <div class="verify-title">
+              <span>⚖️</span> Three-Document Cross-Verification Report
+            </div>
+            <span id="exp-verify-status-badge" class="verify-badge verified">VERIFIED</span>
+          </div>
+
+          <!-- Alert for critical mismatch or duplicate -->
+          <div id="exp-verify-alert" class="conflict-alert-box" style="display: none;"></div>
+
+          <!-- Verification Matrix Table -->
+          <div class="matrix-container">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th>Verification Field</th>
+                  <th>Offer Letter</th>
+                  <th>Completion Certificate</th>
+                  <th>Internship Report</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="exp-matrix-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="exp-dup-check-result" class="check-sub" style="margin-top: 0.5rem; color: var(--gold2);"></div>
+        </div>
+
+        <!-- STEP 3: EXTRACTED FORM (Pre-filled by AI) -->
+        <form id="form-experience-modal">
+          <input type="hidden" id="exp-form-id">
+          
+          <h4 style="color: var(--text-primary); margin: 1.25rem 0 0.5rem 0; border-top: 1px solid var(--border); padding-top: 1rem;">
+            Step 2: Portfolio Record Review &amp; Edits
+          </h4>
+          <p class="card-desc" style="margin-bottom: 0.85rem;">Fields populated automatically from validated documents. Review before approving.</p>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Role / Position Title</label>
+              <input type="text" id="exp-form-role" class="form-input" placeholder="e.g. AWS Gen AI Virtual Intern" required>
+            </div>
+            <div class="form-group flex-1">
+              <label>Company / Organization</label>
+              <input type="text" id="exp-form-company" class="form-input" placeholder="e.g. AICTE - EduSkills Virtual Internship" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Employment Type</label>
+              <select id="exp-form-type" class="form-select">
+                <option value="Virtual Internship">Virtual Internship</option>
+                <option value="Internship">Internship</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Training Program">Training Program</option>
+                <option value="Contract">Contract</option>
+              </select>
+            </div>
+            <div class="form-group flex-1">
+              <label>Location / Mode</label>
+              <input type="text" id="exp-form-location" class="form-input" placeholder="e.g. Remote (Online)">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Start Date</label>
+              <input type="text" id="exp-form-start" class="form-input" placeholder="e.g. Apr 2026" required>
+            </div>
+            <div class="form-group flex-1">
+              <label>End Date</label>
+              <input type="text" id="exp-form-end" class="form-input" placeholder="e.g. Jun 2026">
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 0.6rem;">
+              <label style="display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                <input type="checkbox" id="exp-form-current">
+                <span>Currently Active</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label style="margin-bottom: 0;">Key Responsibilities &amp; Deliverables</label>
+              <button type="button" class="btn-ai-assist" data-target="exp-form-responsibilities" data-type="experience">✨ AI Assist</button>
+            </div>
+            <textarea id="exp-form-responsibilities" class="form-textarea" rows="4" placeholder="Enter deliverables, technologies applied, and milestones..."></textarea>
+          </div>
+
+          <div class="modal-footer" style="padding: 1rem 0 0 0; margin-top: 1rem; border-top: 1px solid var(--border);">
+            <button type="button" class="btn-secondary" id="cancel-experience-modal">Cancel</button>
+            <button type="submit" id="btn-exp-submit-verified" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+              <span>💾</span> Approve &amp; Save Verified Internship
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: ADD / VERIFY CERTIFICATION (VERIFICATION FIRST) ─── -->
+  <div id="modal-certification" class="modal-overlay" style="display: none;">
+    <div class="modal-container modal-lg" style="max-width: 820px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-certification-title">🎖️ Add &amp; Verify Certification (Verification First)</h3>
+        <button type="button" class="modal-close-btn" id="close-certification-modal">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+        
+        <!-- STEP 1: UPLOAD CERTIFICATE PDF & PUBLIC CREDENTIAL URL -->
+        <div class="card" style="margin-bottom: 1rem; background: rgba(255,255,255,0.02); border-color: rgba(212,168,67,0.3);">
+          <h4 style="color: var(--gold2); margin-bottom: 0.2rem;">Step 1: Document Intake &amp; Public Link Verification</h4>
+          <p style="font-size: 0.78rem; color: var(--text-light); margin-bottom: 0.85rem;">Upload the official certificate PDF. The AI extracts credentials, checks for duplicate hashes/records, and verifies against the public URL.</p>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <label for="cert-verify-pdf-file" style="margin-bottom: 0;"><strong>Certificate PDF File <span style="color: #ef4444;">*</span></strong></label>
+              <button type="button" class="btn-sm-sync" style="padding: 0.15rem 0.45rem; font-size: 0.7rem;" onclick="window.adminActions.previewLocalInputFile('cert-verify-pdf-file')">👁️ Preview Selected</button>
+            </div>
+            <input type="file" id="cert-verify-pdf-file" class="form-input" accept=".pdf" required>
+            <small class="form-help">Secure file hash (SHA-256) will be computed to guarantee file integrity and prevent duplicate submissions.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="cert-verify-public-url">Public Certificate Verification URL (Recommended)</label>
+            <input type="url" id="cert-verify-public-url" class="form-input" placeholder="https://www.credly.com/badges/... or https://coursera.org/verify/...">
+            <small class="form-help">System connects to the official portal to independently corroborate recipient identity and credential validity.</small>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 0.75rem;">
+            <button type="button" id="btn-cert-run-verify" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+              <span>🔍</span> Analyze &amp; Verify Certificate
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: VERIFICATION RESULTS PANEL (Hidden until analyzed) -->
+        <div id="cert-verification-panel" class="verification-box" style="display: none;">
+          <div class="verify-header-flex">
+            <div class="verify-title">
+              <span>🛡️</span> Certificate Verification &amp; Authenticity Report
+            </div>
+            <span id="cert-verify-status-badge" class="verify-badge verified">VERIFIED</span>
+          </div>
+
+          <!-- Alert for duplicates or failure -->
+          <div id="cert-verify-alert" class="conflict-alert-box" style="display: none;"></div>
+
+          <!-- Checklist Grid -->
+          <div class="verify-checklist-grid">
+            <div class="verify-check-item passed" id="cert-chk-integrity">
+              <span class="check-ico">✓</span>
+              <div>
+                <div class="check-label">PDF Integrity &amp; Structure</div>
+                <div class="check-sub" id="cert-chk-integrity-sub">Checked</div>
+              </div>
+            </div>
+            <div class="verify-check-item passed" id="cert-chk-dup">
+              <span class="check-ico">✓</span>
+              <div>
+                <div class="check-label">Duplicate Prevention</div>
+                <div class="check-sub" id="cert-chk-dup-sub">Unique cryptographic signature</div>
+              </div>
+            </div>
+            <div class="verify-check-item" id="cert-chk-url">
+              <span class="check-ico">🌐</span>
+              <div>
+                <div class="check-label">Public URL Verification</div>
+                <div class="check-sub" id="cert-chk-url-sub">Pending check</div>
+              </div>
+            </div>
+            <div class="verify-check-item" id="cert-chk-entity">
+              <span class="check-ico">⚖️</span>
+              <div>
+                <div class="check-label">Entity Cross-Match</div>
+                <div class="check-sub" id="cert-chk-entity-sub">Identity &amp; Credential check</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: EXTRACTED FORM (Pre-filled by AI) -->
+        <form id="form-certification-modal">
+          <input type="hidden" id="cert-form-id">
+          
+          <h4 style="color: var(--text-primary); margin: 1.25rem 0 0.5rem 0; border-top: 1px solid var(--border); padding-top: 1rem;">
+            Step 2: Portfolio Record Review &amp; Edits
+          </h4>
+          <p class="card-desc" style="margin-bottom: 0.85rem;">Review extracted metadata before publishing to draft portfolio.</p>
+
+          <div class="form-group">
+            <label>Certification Name</label>
+            <input type="text" id="cert-form-name" class="form-input" placeholder="e.g. Natural Language Processing — Elite" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Issuing Organization</label>
+              <input type="text" id="cert-form-issuer" class="form-input" placeholder="e.g. NPTEL · IIT Kharagpur" required>
+            </div>
+            <div class="form-group flex-1">
+              <label>Issue Date</label>
+              <input type="text" id="cert-form-date" class="form-input" placeholder="e.g. Jan–Apr 2026">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Credential ID</label>
+              <input type="text" id="cert-form-id-val" class="form-input" placeholder="e.g. NPTEL26CS45S1451500247">
+            </div>
+            <div class="form-group flex-1">
+              <label>Score / Honors</label>
+              <input type="text" id="cert-form-score" class="form-input" placeholder="e.g. 60% · 4 Academic Credits">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Official Verification URL</label>
+            <input type="url" id="cert-form-url" class="form-input" placeholder="https://www.credly.com/... or https://coursera.org/verify/...">
+          </div>
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label style="margin-bottom: 0;">Description &amp; Key Competencies</label>
+              <button type="button" class="btn-ai-assist" data-target="cert-form-desc" data-type="certification">✨ AI Assist</button>
+            </div>
+            <textarea id="cert-form-desc" class="form-textarea" rows="3" placeholder="Verified skills and course competencies..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Icon / Emoji</label>
+            <input type="text" id="cert-form-icon" class="form-input" placeholder="🏅, ☁️, 📜" maxlength="4" value="🏅">
+          </div>
+
+          <div class="modal-footer" style="padding: 1rem 0 0 0; margin-top: 1rem; border-top: 1px solid var(--border);">
+            <button type="button" class="btn-secondary" id="cancel-certification-modal">Cancel</button>
+            <button type="submit" id="btn-cert-submit-verified" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+              <span>💾</span> Approve &amp; Add Verified Certificate
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: ADD / EDIT ACHIEVEMENT ─── -->
+  <div id="modal-achievement" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-achievement-title">🏆 Add Achievement</h3>
+        <button type="button" class="modal-close-btn" id="close-achievement-modal">&times;</button>
+      </div>
+      <form id="form-achievement-modal">
+        <div class="modal-body">
+          <input type="hidden" id="achv-form-id">
+          <!-- DOCUMENT INTAKE & AUTO-GENERATE -->
+          <div class="form-group" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(212,168,67,0.3); border-radius: 6px; padding: 0.85rem; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label style="color: var(--gold2); font-weight: 600; margin-bottom: 0;">📄 Upload Proof / Certificate (PDF or Image)</label>
+              <button type="button" class="btn-sm-sync" style="padding: 0.15rem 0.45rem; font-size: 0.7rem;" onclick="window.adminActions.previewLocalInputFile('achv-upload-file')">👁️ Preview</button>
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="file" id="achv-upload-file" class="form-input" accept=".pdf,.png,.jpg,.jpeg,.webp" style="flex: 1;">
+              <button type="button" id="btn-achv-auto-fill" class="btn-primary" style="white-space: nowrap; padding: 0.45rem 0.85rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.3rem;">
+                <span>✨</span> Auto-Generate
+              </button>
+            </div>
+            <small class="form-help">Upload document to auto-extract details and generate rich description based on PDF data.</small>
+          </div>
+
+          <div class="form-group">
+            <label>Achievement Title</label>
+            <input type="text" id="achv-form-title" class="form-input" placeholder="e.g. Perfect Score — 10th Standard" required>
+          </div>
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label style="margin-bottom: 0;">Description</label>
+              <button type="button" class="btn-ai-assist" data-target="achv-form-desc" data-type="achievement">✨ AI Assist</button>
+            </div>
+            <textarea id="achv-form-desc" class="form-textarea" rows="3" placeholder="Describe the accomplishment, rank, or evaluation benchmark..." required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <label style="margin-bottom: 0;">Proof Document / Certificate URL</label>
+                <button type="button" id="btn-preview-achv-url" class="btn-sm-sync" style="padding: 0.15rem 0.45rem; font-size: 0.7rem;" onclick="window.adminActions.viewDocument(document.getElementById('achv-form-cert').value, document.getElementById('achv-form-title').value)">👁️ View File</button>
+              </div>
+              <input type="text" id="achv-form-cert" class="form-input" placeholder="./hackathon-certificate.jpg or /api/documents/doc_.../view">
+            </div>
+            <div class="form-group flex-1">
+              <label>Icon / Emoji</label>
+              <input type="text" id="achv-form-icon" class="form-input" placeholder="🏆, 🥇, ⚡" maxlength="4">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-achievement-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Save Achievement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: EDIT PLATFORM ─── -->
+  <div id="modal-edit-platform" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title"><span id="edit-platform-icon">✏️</span> Edit Platform Integration</h3>
+        <button type="button" class="modal-close-btn" id="close-edit-platform">&times;</button>
+      </div>
+      <form id="form-edit-platform">
+        <div class="modal-body">
+          <input type="hidden" id="edit-platform-id">
+          
+          <div class="form-group">
+            <label for="edit-platform-name">Platform / Website Name</label>
+            <input type="text" id="edit-platform-name" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label for="edit-platform-url" style="margin-bottom: 0;">Profile / Account Public URL</label>
+              <button type="button" id="btn-verify-edit-url" class="btn-verify-badge">
+                🔍 Verify Link
+              </button>
+            </div>
+            <input type="url" id="edit-platform-url" class="form-input" placeholder="https://..." required>
+            <div id="edit-verify-feedback" class="verify-feedback-box" style="display: none;"></div>
+            <small class="form-help">Enter your public profile or badge verification URL. Link will be verified before saving.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-platform-method">Integration Method</label>
+            <input type="text" id="edit-platform-method" class="form-input" placeholder="e.g. Public Badge Verification URLs, Verified URL">
+          </div>
+
+          <div class="form-group">
+            <label for="edit-platform-status">Platform Status</label>
+            <select id="edit-platform-status" class="form-input">
+              <option value="Active">Active</option>
+              <option value="Configured">Configured</option>
+              <option value="Needs URL">Needs URL</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-edit-platform">Cancel</button>
+          <button type="submit" class="btn-primary" id="btn-save-platform">Save &amp; Sync Live</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: LINK NEW WEBSITE / PLATFORM ─── -->
+  <div id="modal-add-platform" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title"><span>🔗</span> Link New Website / Platform</h3>
+        <button type="button" class="modal-close-btn" id="close-add-platform">&times;</button>
+      </div>
+      <form id="form-add-platform">
+        <div class="modal-body">
+          <div>
+            <label style="font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.4rem;">
+              Quick Presets (Click to Auto-fill):
+            </label>
+            <div class="preset-pills">
+              <button type="button" class="preset-pill" data-name="GitHub" data-icon="🐙" data-method="Official Public REST API (v3)" data-prefix="https://github.com/">🐙 GitHub</button>
+              <button type="button" class="preset-pill" data-name="LinkedIn" data-icon="💼" data-method="Manual Data Import / Verified URL" data-prefix="https://www.linkedin.com/in/">💼 LinkedIn</button>
+              <button type="button" class="preset-pill" data-name="Credly" data-icon="🎖️" data-method="Public Badge Verification URLs" data-prefix="https://www.credly.com/users/">🎖️ Credly</button>
+              <button type="button" class="preset-pill" data-name="Unstop" data-icon="🚀" data-method="Verified URL / Certificate Import" data-prefix="https://unstop.com/">🚀 Unstop</button>
+              <button type="button" class="preset-pill" data-name="LeetCode" data-icon="⚡" data-method="Competitive Coding Profile" data-prefix="https://leetcode.com/u/">⚡ LeetCode</button>
+              <button type="button" class="preset-pill" data-name="HackerRank" data-icon="🎯" data-method="Verified Skill &amp; Badges" data-prefix="https://www.hackerrank.com/profile/">🎯 HackerRank</button>
+              <button type="button" class="preset-pill" data-name="Codeforces" data-icon="🏆" data-method="Competitive Programming Profile" data-prefix="https://codeforces.com/profile/">🏆 Codeforces</button>
+              <button type="button" class="preset-pill" data-name="CodeChef" data-icon="🧑‍🍳" data-method="Competitive Programming Profile" data-prefix="https://www.codechef.com/users/">🧑‍🍳 CodeChef</button>
+              <button type="button" class="preset-pill" data-name="Kaggle" data-icon="📊" data-method="Data Science &amp; ML Portfolio" data-prefix="https://www.kaggle.com/">📊 Kaggle</button>
+              <button type="button" class="preset-pill" data-name="Dev.to" data-icon="✍️" data-method="Technical Articles &amp; Posts" data-prefix="https://dev.to/">✍️ Dev.to</button>
+              <button type="button" class="preset-pill" data-name="Medium" data-icon="📝" data-method="Engineering Blog" data-prefix="https://medium.com/@">📝 Medium</button>
+              <button type="button" class="preset-pill" data-name="X / Twitter" data-icon="🐦" data-method="Public Profile Link" data-prefix="https://x.com/">🐦 X (Twitter)</button>
+              <button type="button" class="preset-pill" data-name="Personal Website" data-icon="🌐" data-method="Verified Website Link" data-prefix="https://">🌐 Custom Website</button>
+            </div>
+          </div>
+
+          <div class="form-group mt-3">
+            <label for="add-platform-name">Platform / Website Name</label>
+            <input type="text" id="add-platform-name" class="form-input" placeholder="e.g. LeetCode, Codeforces, Personal Blog" required>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label for="add-platform-url" style="margin-bottom: 0;">Website / Profile URL</label>
+              <button type="button" id="btn-verify-add-url" class="btn-verify-badge">
+                🔍 Verify Link
+              </button>
+            </div>
+            <input type="url" id="add-platform-url" class="form-input" placeholder="https://..." required>
+            <div id="add-verify-feedback" class="verify-feedback-box" style="display: none;"></div>
+            <small class="form-help">Link will be verified for matching platform domain &amp; live reachability before adding.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="add-platform-method">Integration / Verification Method</label>
+            <input type="text" id="add-platform-method" class="form-input" placeholder="e.g. Competitive Coding Profile, Verified Public Link" value="Verified Public Profile">
+          </div>
+
+          <div class="form-group">
+            <label for="add-platform-icon">Icon / Emoji (Optional)</label>
+            <input type="text" id="add-platform-icon" class="form-input" placeholder="e.g. ⚡, 🎯, 🌐, 🚀" maxlength="4">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-add-platform">Cancel</button>
+          <button type="submit" class="btn-primary" id="btn-submit-add-platform">Link Platform</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: AI ASSISTANT DESCRIPTION GENERATOR ─── -->
+  <div id="modal-ai-assist" class="modal-overlay">
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display: flex; align-items: center; gap: 0.5rem;">
+          <span>✨</span> AI Description Assistant
+        </h3>
+        <button type="button" class="modal-close" id="close-ai-assist-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Generate or refine this description using your portfolio data and technical context. Factual, ATS-aligned, and strictly verified.</p>
+        
+        <div class="form-group">
+          <label>Target Tone / Style</label>
+          <div class="ai-style-selector">
+            <label class="style-chip active"><input type="radio" name="ai-style" value="professional" checked> Professional</label>
+            <label class="style-chip"><input type="radio" name="ai-style" value="ats"> ATS Friendly</label>
+            <label class="style-chip"><input type="radio" name="ai-style" value="technical"> Technical</label>
+            <label class="style-chip"><input type="radio" name="ai-style" value="shorten"> Concise / Short</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Draft / Context Notes</label>
+          <textarea id="ai-assist-input" class="form-textarea" rows="3" placeholder="Input rough bullet points or existing text..."></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 0.75rem;">
+          <button type="button" id="btn-trigger-ai-generate" class="btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span>✨</span> Generate with AI
+          </button>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label style="margin-bottom: 0;">AI Generated Proposal</label>
+            <span id="ai-assist-charcount" class="char-count">0 chars</span>
+          </div>
+          <div id="ai-assist-loading" style="display: none; padding: 1rem; text-align: center; color: var(--gold2);">
+            <span class="spinner-sm"></span> Generating factual description...
+          </div>
+          <textarea id="ai-assist-output" class="form-textarea" rows="4" placeholder="Generated description will appear here..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="cancel-ai-assist">Cancel</button>
+        <button type="button" class="btn-primary" id="btn-apply-ai-assist">Apply to Field</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: DELETE SKILL ─── -->
+  <div id="modal-delete-skill" class="modal-overlay" style="display: none; z-index: 10000;">
+    <div class="modal-container" style="max-width: 520px; width: 95%;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">🗑️</span>
+          <h3 class="modal-title" style="color: #f87171;">Delete Skill from Portfolio</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('modal-delete-skill').style.display='none'">&times;</button>
+      </div>
+      <form id="form-delete-skill-modal">
+        <div class="modal-body">
+          <p class="text-muted" style="margin-bottom: 1.2rem; font-size: 0.88rem; line-height: 1.45;">
+            Select a skill category and choose the specific skill to permanently delete from your draft profile.
+          </p>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label style="font-size: 0.82rem; font-weight: 600;">Skill Category</label>
+            <select id="skill-delete-category" class="form-select" required>
+              <option value="">-- Choose Category --</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label style="font-size: 0.82rem; font-weight: 600;">Skill to Remove</label>
+            <select id="skill-delete-name" class="form-select" required>
+              <option value="">-- Select a category first --</option>
+            </select>
+          </div>
+          <div id="skill-delete-warning-box" style="display: none; padding: 0.75rem 1rem; border-radius: 6px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #fca5a5; font-size: 0.82rem;">
+            ⚠️ This will immediately remove the skill from draft portfolio data. You can re-add it or publish changes when ready.
+          </div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem;">
+          <button type="button" class="btn-secondary" onclick="document.getElementById('modal-delete-skill').style.display='none'">Cancel</button>
+          <button type="submit" id="btn-confirm-delete-skill" class="btn-primary" style="background: #dc2626; border-color: #ef4444; color: #fff;">
+            🗑️ Confirm Delete Skill
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: ADD SKILL CATEGORY ─── -->
+  <div id="modal-add-category" class="modal-overlay" style="display: none; z-index: 10000;">
+    <div class="modal-container" style="max-width: 580px; width: 95%;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">📁</span>
+          <h3 class="modal-title" style="color: var(--gold2);">Add New Skill Category</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('modal-add-category').style.display='none'">&times;</button>
+      </div>
+      <form id="form-add-category-modal">
+        <div class="modal-body">
+          <p class="text-muted" style="margin-bottom: 1.2rem; font-size: 0.88rem; line-height: 1.45;">
+            Create a new category cluster on your portfolio (e.g. <em>DevOps &amp; Infrastructure</em>, <em>Mobile App Development</em>, <em>Artificial Intelligence</em>).
+          </p>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label style="font-size: 0.82rem; font-weight: 600;">Category Title *</label>
+            <input type="text" id="category-add-name" class="form-input" placeholder="e.g. DevOps & Infrastructure" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label style="font-size: 0.82rem; font-weight: 600;">Skill Items (Comma-separated list)</label>
+            <textarea id="category-add-skills" class="form-textarea" rows="3" placeholder="e.g. Docker, Kubernetes, GitHub Actions, Terraform, Linux"></textarea>
+            <span style="font-size: 0.76rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">Enter skills separated by commas. Individual skill pills will be created automatically.</span>
+          </div>
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <label style="font-size: 0.82rem; font-weight: 600;">Proficiency Progress Bars (Optional)</label>
+              <button type="button" class="btn-sm-sync" onclick="window.adminActions.addCategoryBarRow('add')" style="font-size: 0.75rem; padding: 0.25rem 0.6rem; cursor: pointer;">＋ Add Bar</button>
+            </div>
+            <div id="category-add-bars-container" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <!-- Dynamic bar rows -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem;">
+          <button type="button" class="btn-secondary" onclick="document.getElementById('modal-add-category').style.display='none'">Cancel</button>
+          <button type="submit" class="btn-primary">📁 Save Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: EDIT SKILL CATEGORY ─── -->
+  <div id="modal-edit-category" class="modal-overlay" style="display: none; z-index: 10000;">
+    <div class="modal-container" style="max-width: 620px; width: 95%;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">✏️</span>
+          <h3 class="modal-title" style="color: var(--gold2);">Edit Skill Category</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('modal-edit-category').style.display='none'">&times;</button>
+      </div>
+      <form id="form-edit-category-modal">
+        <input type="hidden" id="category-edit-index" value="">
+        <div class="modal-body">
+          <p class="text-muted" style="margin-bottom: 1.2rem; font-size: 0.88rem; line-height: 1.45;">
+            Update category name, edit or reorder skills, and configure visual proficiency bars.
+          </p>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label style="font-size: 0.82rem; font-weight: 600;">Category Title *</label>
+            <input type="text" id="category-edit-name" class="form-input" placeholder="e.g. Frontend Development" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label style="font-size: 0.82rem; font-weight: 600;">Skill Items (Comma-separated)</label>
+            <textarea id="category-edit-skills" class="form-textarea" rows="4" placeholder="e.g. React, Next.js, HTML5, CSS3, JavaScript"></textarea>
+            <span style="font-size: 0.76rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">You can add, edit, or delete items by editing this comma-separated list.</span>
+          </div>
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <label style="font-size: 0.82rem; font-weight: 600;">Proficiency Progress Bars</label>
+              <button type="button" class="btn-sm-sync" onclick="window.adminActions.addCategoryBarRow('edit')" style="font-size: 0.75rem; padding: 0.25rem 0.6rem; cursor: pointer;">＋ Add Bar</button>
+            </div>
+            <div id="category-edit-bars-container" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <!-- Dynamic bar rows -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem;">
+          <button type="button" class="btn-secondary" onclick="document.getElementById('modal-edit-category').style.display='none'">Cancel</button>
+          <button type="submit" class="btn-primary">💾 Save Category Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: DELETE SKILL CATEGORY ─── -->
+  <div id="modal-delete-category" class="modal-overlay" style="display: none; z-index: 10000;">
+    <div class="modal-container" style="max-width: 520px; width: 95%;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">📁🗑️</span>
+          <h3 class="modal-title" style="color: #f87171;">Delete Skill Category</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('modal-delete-category').style.display='none'">&times;</button>
+      </div>
+      <form id="form-delete-category-modal">
+        <div class="modal-body">
+          <p class="text-muted" style="margin-bottom: 1.2rem; font-size: 0.88rem; line-height: 1.45;">
+            Select a skill category cluster to completely remove from your portfolio. All skill pills and proficiency bars within this category will be removed.
+          </p>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label style="font-size: 0.82rem; font-weight: 600;">Select Category to Remove *</label>
+            <select id="category-delete-select" class="form-select" required>
+              <option value="">-- Choose Category --</option>
+            </select>
+          </div>
+          <div style="padding: 0.75rem 1rem; border-radius: 6px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #fca5a5; font-size: 0.82rem;">
+            ⚠️ <strong>Warning:</strong> Deleting a category permanently removes this section and all associated skills from your draft profile.
+          </div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem;">
+          <button type="button" class="btn-secondary" onclick="document.getElementById('modal-delete-category').style.display='none'">Cancel</button>
+          <button type="submit" id="btn-confirm-delete-category" class="btn-primary" style="background: #dc2626; border-color: #ef4444; color: #fff;">
+            📁🗑️ Confirm Delete Category
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: UPLOAD MEDIA FILE WITH TARGET SECTION FOLDER ─── -->
+  <div id="modal-upload-media" class="modal-overlay" style="display: none; z-index: 9999;">
+    <div class="modal-container" style="max-width: 560px; width: 95%;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">📤</span>
+          <h3 class="modal-title">Upload File to Section Folder</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="window.adminActions.closeMediaUploadModal()">&times;</button>
+      </div>
+      <form id="form-upload-media">
+        <div class="modal-body">
+          <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.4;">
+            Upload images, PDFs, or documents directly into their designated section folder. Our strict content hasher guarantees <strong>zero duplicate files</strong>.
+          </p>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label style="font-size: 0.82rem; font-weight: 600;">Destination Section Folder *</label>
+            <select id="upload-target-folder" class="form-select" required>
+              <option value="auto">⚡ Auto-Detect by File Content & Name</option>
+              <option value="resumes">📄 Resumes</option>
+              <option value="certificates">📜 Certificates & Internships</option>
+              <option value="experience">💼 Experience & Offer Letters</option>
+              <option value="profile">👤 Profile & Photos</option>
+              <option value="projects">💻 Projects & Media</option>
+              <option value="documents">📁 Documents & Extracts</option>
+            </select>
+            <small class="text-muted" style="display: block; margin-top: 0.25rem; font-size: 0.75rem;">
+              The file will be categorized into this section folder and displayed accordingly.
+            </small>
+          </div>
+
+          <div class="upload-dropzone" id="media-modal-dropzone" style="cursor: pointer; padding: 2rem 1.5rem; text-align: center; border: 2px dashed rgba(212, 175, 55, 0.4); border-radius: 8px; background: rgba(15, 16, 26, 0.6); transition: all 0.2s;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">📂</div>
+            <div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem;" id="modal-dropzone-label">Click or Drag & Drop File Here</div>
+            <div class="text-muted" style="font-size: 0.78rem;">Supports PDF, PNG, JPG, JPEG, WEBP, SVG, DOCX (Max 15MB)</div>
+            <div id="modal-selected-file-info" style="display: none; margin-top: 0.8rem; padding: 0.5rem 0.8rem; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; font-size: 0.82rem; color: #38bdf8;">
+              Selected: <strong id="modal-selected-filename">filename.pdf</strong> (<span id="modal-selected-filesize">0 KB</span>)
+            </div>
+            <input type="file" id="media-modal-file-input" style="display: none;" accept="image/*,.pdf,.doc,.docx,.txt">
+          </div>
+
+          <div id="media-upload-dedup-alert" style="display: none; margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.82rem;"></div>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem;">
+          <button type="button" class="btn-secondary" onclick="window.adminActions.closeMediaUploadModal()">Cancel</button>
+          <button type="submit" id="btn-submit-media-upload" class="btn-primary" disabled>
+            📤 Upload to Section Folder
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: UNIVERSAL DOCUMENT & CERTIFICATE VIEWER ─── -->
+  <div id="modal-doc-viewer" class="modal-overlay" style="display: none; z-index: 10000;">
+    <div class="modal-container modal-xl" style="max-width: 960px; width: 95%; height: 90vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="flex-shrink: 0; padding: 0.85rem 1.25rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem; overflow: hidden;">
+          <span style="font-size: 1.25rem;">📄</span>
+          <h3 class="modal-title" id="doc-viewer-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 600px;">
+            Document Preview
+          </h3>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <a id="doc-viewer-open-tab" href="#" target="_blank" class="btn-sm-sync" style="text-decoration: none; padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+            ↗ Open in New Tab
+          </a>
+          <a id="doc-viewer-download" href="#" download class="btn-sm-sync" style="text-decoration: none; padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+            ⬇️ Download
+          </a>
+          <button type="button" class="modal-close-btn" id="close-doc-viewer-modal">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body" style="flex: 1; padding: 0; overflow: hidden; background: #111; display: flex; flex-direction: column; position: relative;">
+        <div id="doc-viewer-loading" style="position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; background: rgba(17, 17, 17, 0.9); color: var(--gold2); font-weight: 500; pointer-events: none;">
+          <span style="margin-right: 0.5rem;">⏳</span> Loading document preview...
+        </div>
+        <iframe id="doc-viewer-iframe" style="flex: 1; width: 100%; height: 100%; border: none; display: block;" src="about:blank"></iframe>
+        <div id="doc-viewer-img-container" style="flex: 1; width: 100%; height: 100%; display: none; align-items: center; justify-content: center; overflow: auto; padding: 1rem;">
+          <img id="doc-viewer-img" src="" alt="Document Preview" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+        </div>
+        <div id="doc-viewer-error" style="display: none; padding: 2rem; text-align: center; color: var(--text-light); margin: auto;">
+          <p style="font-size: 1.1rem; color: #f87171; margin-bottom: 0.5rem;">⚠️ Cannot display inline preview</p>
+          <p style="margin-bottom: 1rem;">This file format may not support inline rendering directly in this browser frame.</p>
+          <a id="doc-viewer-error-download" href="#" class="btn-primary" style="display: inline-block;">Download File Instead</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: EDIT / ADD CODING PROFILE ─── -->
+  <div id="modal-edit-coding-profile" class="modal-overlay" style="display: none; z-index: 10000;">
+    <div class="modal-container modal-lg" style="max-width: 700px; width: 95%;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.3rem;" id="modal-coding-icon-badge">⚡</span>
+          <h3 class="modal-title" id="modal-coding-profile-title">Edit Coding Profile</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('modal-edit-coding-profile').style.display='none'">&times;</button>
+      </div>
+      <form id="form-coding-profile">
+        <input type="hidden" id="coding-profile-id">
+        <input type="hidden" id="coding-profile-is-edit" value="false">
+        <div class="modal-body" style="max-height: 70vh; overflow-y: auto; padding: 1.25rem;">
+
+          <!-- SECTION 1: USER FILLS THESE -->
+          <div style="background: rgba(212,168,71,0.06); border: 1px solid rgba(212,168,71,0.2); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+              <span style="font-size:1rem;">✏️</span>
+              <strong style="color:var(--gold2);font-size:0.9rem;">Fill These Details</strong>
+              <span style="font-size:0.75rem;color:var(--text-muted);margin-left:auto;">Rest are auto-fetched from your live profile</span>
+            </div>
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Platform Name</label>
+                <input type="text" id="coding-platform-name" class="form-input" placeholder="e.g. LeetCode, Codeforces, GitHub" required>
+              </div>
+              <div class="form-group" style="width: 110px;">
+                <label>Icon / Emoji</label>
+                <input type="text" id="coding-platform-icon" class="form-input" placeholder="⚡" value="⚡" style="text-align: center;">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Profile URL</label>
+                <input type="url" id="coding-platform-url" class="form-input" placeholder="https://leetcode.com/u/harsha895155" required>
+              </div>
+              <div class="form-group" style="width: 180px;">
+                <label>Username</label>
+                <input type="text" id="coding-platform-username" class="form-input" placeholder="harsha895155" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Verification Method</label>
+                <input type="text" id="coding-platform-method" class="form-input" placeholder="e.g. LeetCode Official GraphQL API" value="Verified Public Profile">
+              </div>
+              <div class="form-group" style="width: 140px;">
+                <label>Status</label>
+                <select id="coding-platform-status" class="form-select">
+                  <option value="Active">Active</option>
+                  <option value="Verified">Verified</option>
+                  <option value="Verified Issuer">Verified Issuer</option>
+                  <option value="Hidden">Hidden</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- FETCH LIVE DATA BUTTON -->
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+            <button type="button" id="btn-fetch-live-profile-data" class="btn-primary" style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.85rem;padding:0.5rem 1.1rem;">
+              <span>🔄</span> Fetch Live Data
+            </button>
+            <span id="fetch-live-status" style="font-size:0.8rem;color:var(--text-muted);">Enter username &amp; platform, then click to auto-fill metrics from the live profile.</span>
+          </div>
+
+          <!-- SECTION 2: AUTO-FETCHED METRICS (read-only style, but editable) -->
+          <div style="background: rgba(56,189,248,0.04); border: 1px solid rgba(56,189,248,0.15); border-radius: 8px; padding: 1rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+              <span style="font-size:1rem;">📊</span>
+              <strong style="color:#38bdf8;font-size:0.9rem;">Platform Metrics &amp; Achievements</strong>
+              <span style="font-size:0.72rem;color:var(--text-muted);margin-left:auto;">Auto-fetched from live profile · you can also edit manually</span>
+            </div>
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Problems Solved / Repos</label>
+                <input type="number" id="coding-platform-solved" class="form-input" placeholder="350">
+              </div>
+              <div class="form-group flex-1">
+                <label>Rating / Score</label>
+                <input type="number" id="coding-platform-rating" class="form-input" placeholder="1240">
+              </div>
+              <div class="form-group flex-1">
+                <label>Max Rating / Division</label>
+                <input type="text" id="coding-platform-max-rating" class="form-input" placeholder="1310 or Div 3">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Easy Solved</label>
+                <input type="number" id="coding-platform-easy" class="form-input" placeholder="180">
+              </div>
+              <div class="form-group flex-1">
+                <label>Medium Solved</label>
+                <input type="number" id="coding-platform-med" class="form-input" placeholder="145">
+              </div>
+              <div class="form-group flex-1">
+                <label>Hard Solved</label>
+                <input type="number" id="coding-platform-hard" class="form-input" placeholder="25">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Ranking / Acceptance Rate</label>
+                <input type="text" id="coding-platform-ranking" class="form-input" placeholder="e.g. Top 18% · 68.4% Acc">
+              </div>
+              <div class="form-group flex-1">
+                <label>Badges / Notable Highlights</label>
+                <input type="text" id="coding-platform-badges" class="form-input" placeholder="e.g. 12 Badges, 5★ Problem Solving">
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.25rem;">
+          <button type="button" class="btn-secondary" onclick="document.getElementById('modal-edit-coding-profile').style.display='none'">Cancel</button>
+          <button type="submit" class="btn-primary" id="btn-save-coding-profile">💾 Save Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: VIEW / INSPECT SNAPSHOT ─── -->
+  <div id="modal-view-snapshot" class="modal-overlay" style="display: none; z-index: 10000;">
+    <div class="modal-container modal-xl" style="max-width: 900px; width: 95%; max-height: 85vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.3rem;">📸</span>
+          <h3 class="modal-title" id="snapshot-viewer-title">Snapshot Inspector</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('modal-view-snapshot').style.display='none'">&times;</button>
+      </div>
+      <div class="modal-body" style="flex: 1; overflow-y: auto; padding: 1.25rem;">
+        <div id="snapshot-viewer-meta" class="mb-3" style="padding: 0.75rem 1rem; background: rgba(212,168,71,0.08); border-radius: 6px; font-size: 0.85rem; border: 1px solid var(--border);"></div>
+        <pre id="snapshot-viewer-content" style="max-height: 450px; overflow-y: auto; background: #06060e; padding: 1rem; border-radius: 6px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.8rem; color: #a5f3fc; white-space: pre-wrap; word-break: break-all;"></pre>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem;">
+        <button type="button" class="btn-secondary" onclick="document.getElementById('modal-view-snapshot').style.display='none'">Close</button>
+        <div style="display: flex; gap: 0.6rem;">
+          <button type="button" class="btn-danger" id="btn-delete-snapshot-from-modal" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+            🗑️ Delete Snapshot
+          </button>
+          <button type="button" class="btn-primary" id="btn-rollback-snapshot-from-modal" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+            ↺ Rollback to this Snapshot
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL: SELECT FROM MEDIA LIBRARY ─── -->
+  <div id="modal-select-media-picker" class="modal-overlay" style="display: none; z-index: 10000;">
+    <div class="modal-container modal-lg" style="max-width: 800px; width: 95%;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.3rem;">🖼️</span>
+          <h3 class="modal-title">Select Photo from Media Library</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('modal-select-media-picker').style.display='none'">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 65vh; overflow-y: auto; padding: 1.25rem;">
+        <p class="card-desc">Click on any image below to select it as your profile photo.</p>
+        <div id="media-picker-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div class="text-muted">Loading media files...</div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; padding: 1rem 1.25rem;">
+        <button type="button" class="btn-secondary" onclick="document.getElementById('modal-select-media-picker').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/admin-assets/admin.js?v=2.3"></script>
+</body>
+</html>

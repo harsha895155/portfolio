@@ -1,0 +1,8 @@
+
+Thimmareddygari Harshavardhan Reddy
+Nellore, Andhra Pradesh, India | harshavardhan10003@gmail.com
+Education: Geethanjali Institute of Science & Technology, B.Tech CSE, 2023-2027, 9.1 CGPA
+Skills: Core Java, React.js, Python, Node.js, Express, Django, TypeScript, Rust, Docker, Kubernetes
+Projects: AirGuard IoT, VideStore, GRAMMPAY, Hollow Expense Tracker
+Certifications: Natural Language Processing Elite NPTEL IIT Kharagpur 60%
+    

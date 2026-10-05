@@ -97,20 +97,20 @@ Real-time air quality monitoring with ESP32 hardware, a live React web dashboard
 </td>
 <td width="50%" valign="top">
 
-### 🍽️ Recipe Finder
-**Responsive Recipe Discovery App**
+### 💰 Hollow — Personal Expense Tracker
+**Personal Finance & Budget Management Web App**
 
-A clean, fast recipe discovery application built with reusable React components, real-time client-side search, and multi-filter browsing across a large dataset.
+A full-featured personal expense management platform that enables users to track daily expenses, monitor income streams, calculate real-time net balances, and visualize spending habits by category.
 
 **What's inside:**
-- Real-time search and filter (cuisine, ingredient, diet)
-- Reusable modular component architecture
-- Fully responsive across all devices
-- Deployed and live
+- Real-time expense & income tracking with automated net balance calculation
+- Visual category breakdown and daily spending analysis
+- Modular React component architecture with persistent local storage
+- Fully responsive across mobile, tablet, and desktop devices
 
-**Stack:** React.js · JavaScript · HTML5 · CSS3
+**Stack:** React.js · JavaScript (ES6+) · HTML5 · CSS3
 
-[![Live Demo](https://img.shields.io/badge/▶_Live_Demo-000000?style=for-the-badge&logo=vercel)](https://harsha895155.github.io/Hollow/)
+[![Live Demo](https://img.shields.io/badge/▶_Live_Demo-000000?style=for-the-badge&logo=github)](https://harsha895155.github.io/Hollow/)
 [![View Code](https://img.shields.io/badge/View_Code-181717?style=for-the-badge&logo=github)](https://github.com/harsha895155)
 
 </td>
@@ -241,6 +241,59 @@ A clean, fast recipe discovery application built with reusable React components,
 - 🎓 **Cynosure 2k24** — Technical Quiz & Symposium, Sri Venkateswara University College of Engineering
 - 🏭 **Industrial Visit Certificate** — BICS Global (2025)
 - 🏅 **Outstanding Achievement Award** — AWS Student Builder Group, Geethanjali Institute
+
+---
+
+## 🔒 Architecture & Private Management Portal
+
+This portfolio features a **Domain-Driven Architecture** paired with a **Private Content Management & Document Extraction System**:
+
+```
+portfolio-main/
+├── config/                  # Environment & site configurations
+├── data/                    # Local persistent database (db.json, snapshots)
+├── storage/                 # Private document storage (unexposed to public)
+├── src/
+│   ├── domains/
+│   │   ├── admin/           # Dashboard views, approval workflow, audit logs
+│   │   ├── authentication/  # Bcrypt password hashing, JWT sessions, route guards
+│   │   ├── documents/       # PDF/text parsers, entity extractors, diff engine
+│   │   ├── profile/         # Profile models, draft/publish lifecycle, static sync
+│   │   ├── projects/        # Project management & GitHub import
+│   │   └── social-profiles/ # Official GitHub API sync, LinkedIn/Unstop status
+│   ├── infrastructure/      # Database engines & private file storage
+│   ├── server/              # Express API & static serving application
+│   └── shared/              # Utilities, response helpers, sanitizers
+├── public/                  # Public assets, static documents, certificates
+├── index.html               # Public portfolio (Fast, SEO-optimized, pre-rendered)
+├── profile.js               # Synchronized single source of truth data
+└── render.js                # Dynamic client hydration engine
+```
+
+### 🚀 Running the Management Console Locally
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Start the server:**
+   ```bash
+   npm start
+   # or development mode with automatic restarts:
+   npm run dev
+   ```
+
+3. **Access routes:**
+   - **Public Portfolio:** `http://localhost:5000/`
+   - **Private Management Console:** `http://localhost:5000/admin` (Route is unlisted and guarded with authentication)
+   - **Initial Admin Username:** `admin`
+   - **Initial Admin Password:** Configured in `.env` (`AdminSecure2026!`)
+
+4. **Run Automated Test Suites:**
+   ```bash
+   npm test
+   ```
 
 ---
 

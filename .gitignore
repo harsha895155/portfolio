@@ -1,0 +1,25 @@
+
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment secrets
+.env
+.env.local
+.env.production
+
+# Private documents storage (keeps documents private)
+storage/private_documents/*
+!storage/private_documents/.gitkeep
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+scratch/
+scratch_edge_profile/
+*.tmp
+

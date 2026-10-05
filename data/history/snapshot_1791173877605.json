@@ -1,0 +1,879 @@
+{
+  "name": "Thimmareddygari Harshavardhan Reddy",
+  "shortName": "Harshavardhan Reddy",
+  "nickname": "Harsha",
+  "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
+  "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
+  "heroTag": "Computer Science Engineering Student · Java & React",
+  "heroDesc": "Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.",
+  "about": [
+    "I am <span class=\"hl\">Thimmareddygari Harshavardhan Reddy</span>, a final-year Bachelor of Technology (B.Tech) student in <span class=\"hl\">Computer Science and Engineering</span> at Geethanjali Institute of Science &amp; Technology (GIST, affiliated to JNTU Anantapur), Nellore, graduating in 2027.",
+    "My technical journey focuses on full-stack development, backend system design, and applied artificial intelligence. I specialize in <span class=\"hl\">Core Java (OOP, Data Structures, Algorithms)</span>, modern frontend engineering with <span class=\"hl\">React.js</span>, and robust backend APIs with <span class=\"hl\">Node.js, Express, and Django</span>.",
+    "In software development, I have designed and deployed production-grade applications including <a href=\"#projects\" class=\"hl\" style=\"text-decoration:underline\">VideStore</a> (a complete fashion e-commerce platform with payment gateway integration), built <a href=\"#projects\" class=\"hl\" style=\"text-decoration:underline\">Hollow</a> (a personal expense tracker and budget analytics web application), and audited the security architecture of <a href=\"#projects\" class=\"hl\" style=\"text-decoration:underline\">GRAMMPAY</a> (eliminating authentication and fund-transfer vulnerabilities with bcrypt and JWT).",
+    "For my final-year engineering milestone, I architected <a href=\"projects/airguard/\" class=\"hl\" style=\"text-decoration:underline\">AirGuard</a>, an IoT-based hyperlocal air quality monitoring and alert system that integrates ESP32 microcontrollers, MQ135 and DHT22 sensors, a Node.js REST backend, MongoDB time-series storage, and a real-time React dashboard.",
+    "I have earned two <span class=\"hl\">Grade-O (Outstanding, top 10%)</span> evaluations in structured virtual internships: an 8-week program in <span class=\"hl\">AWS Generative AI</span> (AICTE-EduSkills, Cert ID: 4c27968d147486a8bce1) covering SageMaker and LLM prompt engineering, and a 10-week (120-hour) <span class=\"hl\">Python Full Stack Developer</span> program (EduSkills &amp; APSCHE, Cert No: OGQTWAOCD2OR). Additionally, I hold an <span class=\"hl\">Elite NPTEL Certification in Natural Language Processing</span> from IIT Kharagpur (60%) and standardized Spoken Tutorial certifications from IIT Bombay in Java (85%) and PostgreSQL (90%).",
+    "I am seeking a Software Engineering internship or entry-level software development role. Feel free to <a href=\"#contact\" class=\"hl\" style=\"text-decoration:underline\">reach out to discuss opportunities</a>."
+  ],
+  "contact": {
+    "email": "harshavardhan10003@gmail.com",
+    "phone": "+91 8951556645",
+    "location": "Nellore, Andhra Pradesh, India",
+    "availability": "Available for Software Engineering internships, full-stack development roles, and technical collaborations."
+  },
+  "socialLinks": {
+    "github": "https://github.com/harsha895155",
+    "linkedin": "https://www.linkedin.com/in/harshavardhanreddy-280392298/",
+    "portfolio": "https://harsha895155.github.io/portfolio/",
+    "credly": "https://www.credly.com/users/harsha10003/badges/credly",
+    "email": "harshavardhan10003@gmail.com",
+    "hackerrank": "https://www.hackerrank.com/profile/harsha895155",
+    "codeforces": "https://codeforces.com/profile/harsha895155",
+    "codechef": "https://www.codechef.com/users/harsha895155"
+  },
+  "resume": {
+    "url": "/media/Harsha_Resume_1791173858866.pdf",
+    "label": "📄 View Resume",
+    "updatedAt": "2026-10-05T04:17:38.869Z"
+  },
+  "education": [
+    {
+      "institution": "Geethanjali Institute of Science & Technology (GIST)",
+      "degree": "Bachelor of Technology (B.Tech)",
+      "field": "Computer Science & Engineering",
+      "startYear": "2023",
+      "endYear": "2027",
+      "cgpa": "9.1",
+      "rollNo": "232U1A05H3",
+      "affiliation": "Affiliated to JNTU Anantapur",
+      "location": "Nellore, AP"
+    },
+    {
+      "institution": "S.R. Junior College",
+      "degree": "Intermediate MPC",
+      "field": "Mathematics, Physics, Chemistry",
+      "startYear": "2021",
+      "endYear": "2023",
+      "score": "83.63%",
+      "location": "Nellore, AP"
+    },
+    {
+      "institution": "Fathima Convent High School",
+      "degree": "Secondary School Certificate (10th Standard)",
+      "field": "",
+      "startYear": "2020",
+      "endYear": "2021",
+      "score": "100% (Perfect Score)",
+      "location": ""
+    }
+  ],
+  "heroStats": [
+    {
+      "num": "15+",
+      "label": "Certificates"
+    },
+    {
+      "num": "90%",
+      "label": "PostgreSQL"
+    },
+    {
+      "num": "O Grade",
+      "label": "Outstanding x2"
+    },
+    {
+      "num": "100%",
+      "label": "10th Score"
+    }
+  ],
+  "heroTags": [
+    "Core Java",
+    "React.js",
+    "Python",
+    "Node.js",
+    "Django",
+    "AWS Cloud",
+    "PostgreSQL",
+    "IoT Systems",
+    "Gen AI"
+  ],
+  "marqueeItems": [
+    "Thimmareddygari Harshavardhan Reddy",
+    "Full-Stack Developer",
+    "Core Java",
+    "React.js & Vite",
+    "Node.js & Express",
+    "Python & Django",
+    "AirGuard IoT System",
+    "AWS Cloud & SageMaker",
+    "PostgreSQL & MongoDB",
+    "Geethanjali Institute (GIST)",
+    "Generative AI & NLP",
+    "Thimmareddygari Harshavardhan Reddy"
+  ],
+  "skills": [
+    {
+      "category": "Programming Languages",
+      "items": [
+        "Java (Core & OOP)",
+        "Python",
+        "JavaScript (ES6+)",
+        "TypeScript",
+        "SQL",
+        "JavaScript",
+        "Express",
+        "PostgreSQL",
+        "React",
+        "MongoDB",
+        "Git",
+        "JWT",
+        "Java",
+        "AWS",
+        "Amazon Web Services",
+        "Google Cloud",
+        "GitHub",
+        "NLP",
+        "Natural Language Processing",
+        "Machine Learning",
+        "Deep Learning",
+        "Core Java",
+        "Rust",
+        "Docker",
+        "Kubernetes",
+        "IoT"
+      ],
+      "bars": [
+        {
+          "label": "Java (IIT Bombay Certified)",
+          "value": 85
+        },
+        {
+          "label": "Python (Grade-O Intern)",
+          "value": 80
+        },
+        {
+          "label": "JavaScript / TypeScript",
+          "value": 75
+        }
+      ]
+    },
+    {
+      "category": "Frontend Development",
+      "items": [
+        "React.js",
+        "Vite",
+        "HTML5",
+        "CSS3",
+        "Tailwind CSS",
+        "Bootstrap",
+        "Responsive Design"
+      ],
+      "bars": [
+        {
+          "label": "React.js",
+          "value": 80
+        },
+        {
+          "label": "HTML5 & CSS3",
+          "value": 88
+        }
+      ]
+    },
+    {
+      "category": "Backend & Databases",
+      "items": [
+        "Node.js",
+        "Express.js",
+        "Django",
+        "MongoDB Atlas",
+        "PostgreSQL (90%)",
+        "MySQL",
+        "RESTful APIs"
+      ],
+      "bars": [
+        {
+          "label": "PostgreSQL (IIT Bombay Certified)",
+          "value": 90
+        },
+        {
+          "label": "Node.js / Express",
+          "value": 78
+        }
+      ]
+    },
+    {
+      "category": "Cloud, AI/ML & IoT",
+      "items": [
+        "Amazon Web Services (AWS)",
+        "AWS SageMaker",
+        "Google Cloud (GCP)",
+        "Generative AI",
+        "Natural Language Processing (NLP)",
+        "ESP32 Hardware",
+        "IoT Sensors (MQ135, DHT22)"
+      ]
+    },
+    {
+      "category": "Core CS Competencies",
+      "items": [
+        "Data Structures & Algorithms",
+        "Object-Oriented Programming (OOP)",
+        "Database Management (RDBMS)",
+        "Web Security & JWT Auth",
+        "Git & GitHub",
+        "Agile Methodologies"
+      ]
+    },
+    {
+      "category": "Languages & Soft Skills",
+      "items": [
+        "English (Fluent)",
+        "Telugu (Native)",
+        "Kannada",
+        "Analytical Thinking",
+        "Problem Solving",
+        "Team Collaboration",
+        "Leadership"
+      ]
+    },
+    {
+      "category": "Languages",
+      "items": [],
+      "bars": []
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp-mutvhxjc",
+      "role": "Web Development Intern",
+      "company": "AWS Academy / EduSkills",
+      "companyUrl": "",
+      "employmentType": "Internship",
+      "location": "Remote",
+      "startDate": "Sep 2026",
+      "endDate": "",
+      "current": false,
+      "responsibilities": [
+        "Performance-evaluated professional deliverables and technical tasks."
+      ]
+    },
+    {
+      "id": "aws-genai",
+      "role": "AWS Gen AI Virtual Intern",
+      "company": "AICTE - EduSkills Virtual Internship Program · AWS Academy Curriculum",
+      "companyUrl": "",
+      "employmentType": "Virtual Internship",
+      "location": "Remote",
+      "startDate": "Apr 2026",
+      "endDate": "Jun 2026",
+      "current": false,
+      "responsibilities": [
+        "Selected for the competitive 8-week virtual internship in the AWS Generative AI track.",
+        "Completed structured modules covering Machine Learning foundations with Amazon SageMaker, Natural Language Processing, and Generative AI prompt engineering.",
+        "Scored in the top 10% of all participants (score band 90-100 out of 100), achieving a <span class=\"badge\">Grade-O (Outstanding)</span> evaluation across weekly assessments, practical submissions, and final testing.",
+        "<strong>Official Verification:</strong> Certificate ID: <span class=\"badge\">4c27968d147486a8bce1</span> · Student ID: <span class=\"badge\">STU67a3881a20bc81738770458</span>.",
+        "Gained practical exposure to Foundation Models, responsible AI practices, governance, and cloud security architectures."
+      ]
+    },
+    {
+      "id": "python-fullstack",
+      "role": "Python Full Stack Developer Virtual Intern",
+      "company": "EduSkills & Andhra Pradesh State Council of Higher Education (APSCHE) · AICTE Portal",
+      "companyUrl": "",
+      "employmentType": "Virtual Internship",
+      "location": "Remote",
+      "startDate": "Jan 2026",
+      "endDate": "Mar 2026",
+      "current": false,
+      "responsibilities": [
+        "Completed an intensive 10-week, 120-hour program covering the full software development life cycle (SDLC).",
+        "Developed backend business layers using Python, Django, and SQL paired with HTML5, CSS3, and JavaScript frontends.",
+        "Employed Git version control and modern database modeling patterns across all course deliverables.",
+        "Scored in the top 10% of all participants, securing a <span class=\"badge\">Grade-O (Outstanding)</span> evaluation for all project deliverables and testing modules.",
+        "<strong>Official Verification:</strong> Certificate No: <span class=\"badge\">OGQTWAOCD2OR</span> · 120 Hours Short-Term Internship (APSCHE &amp; JNTU Anantapur)."
+      ]
+    },
+    {
+      "id": "amdox-web",
+      "role": "Web Development Intern",
+      "company": "Amdox Technologies · Remote",
+      "companyUrl": "",
+      "employmentType": "Internship",
+      "location": "Remote",
+      "startDate": "Dec 2025",
+      "endDate": "Feb 2026",
+      "current": false,
+      "responsibilities": [
+        "Selected for web development internship with remote working structure and performance-based evaluation.",
+        "Worked on responsive web interface implementations, cross-browser compatibility testing, and client-side logic."
+      ]
+    },
+    {
+      "id": "java-iitb",
+      "role": "Java Training & National Certification",
+      "company": "IIT Bombay Spoken Tutorial (EduPyramids, SINE)",
+      "companyUrl": "",
+      "employmentType": "Training Program",
+      "location": "Remote",
+      "startDate": "March 2026",
+      "endDate": "",
+      "current": false,
+      "responsibilities": [
+        "Mastered OOP principles, class hierarchies, polymorphism, interfaces, exception handling, and core Java APIs.",
+        "Cleared the national standardized remote exam with an honors score of <span class=\"badge\">85.00%</span> (4 Academic Credits)."
+      ]
+    },
+    {
+      "id": "postgres-iitb",
+      "role": "RDBMS PostgreSQL Training & Certification",
+      "company": "IIT Bombay Spoken Tutorial (EduPyramids, SINE)",
+      "companyUrl": "",
+      "employmentType": "Training Program",
+      "location": "Remote",
+      "startDate": "December 2025",
+      "endDate": "",
+      "current": false,
+      "responsibilities": [
+        "Acquired deep proficiency in relational schema design, query optimization, indexing, stored constraints, and ACID transactions.",
+        "Secured an outstanding consolidated assessment score of <span class=\"badge\">90.00%</span> in the national remote exam (1 Academic Credit)."
+      ]
+    },
+    {
+      "id": "exp_1791133360595_6gu8",
+      "role": "MERN full Stack Development",
+      "company": "AICTE - EduSkills",
+      "companyUrl": "",
+      "employmentType": "Virtual Internship",
+      "location": "Remote / Virtual",
+      "startDate": "Apr 2026",
+      "endDate": "Jun 2026",
+      "current": true,
+      "responsibilities": [
+        "Engineered scalable full-stack web applications utilizing MongoDB, Express.js, React.js, and Node.js.",
+        "Architected modular RESTful API services with token-based authentication and database CRUD optimizations.",
+        "Built responsive UI components, integrated asynchronous endpoints, and followed modern agile software workflows."
+      ],
+      "candidateId": "STU67a3881a20bc81738770458",
+      "verified": true,
+      "verificationStatus": "VERIFIED",
+      "documentHashes": [
+        "308856a74c9cdb9c3524d5fbddb129651d5589443c9ee4cf9400ab3df7f6e663"
+      ],
+      "associatedDocuments": [
+        {
+          "type": "offerLetter",
+          "originalName": "Offer_Letter_996565_1557861.pdf",
+          "diskFilename": "doc_1791133360580_46mi5c.pdf",
+          "id": "doc_1791133360580_46mi5c",
+          "hash": "308856a74c9cdb9c3524d5fbddb129651d5589443c9ee4cf9400ab3df7f6e663"
+        }
+      ],
+      "verifiedAt": "2026-10-04T17:02:40.595Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "airguard",
+      "title": "AirGuard — IoT Hyperlocal Air Quality Monitoring System",
+      "tag": "IoT & Cloud Telemetry · Final Year Project · 2026",
+      "description": "Engineered an end-to-end environmental telemetry system combining ESP32 microcontrollers, MQ135 hazardous gas sensors, and DHT22 temperature/humidity modules. Designed a high-throughput Node.js/Express REST API that ingests continuous sensor packets, persists time-series logs in MongoDB Atlas, and renders real-time AQI dials, moving averages, and hazardous threshold alerts on an interactive React dashboard.",
+      "technologies": [
+        "ESP32",
+        "MQ135",
+        "DHT22",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "React.js",
+        "REST APIs"
+      ],
+      "bgClass": "bg-pattern-4",
+      "featured": true,
+      "github": "https://github.com/harsha895155",
+      "liveDemo": "",
+      "caseStudy": "projects/airguard/"
+    },
+    {
+      "id": "videstore",
+      "title": "VideStore — Full-Stack Fashion E-Commerce Platform",
+      "tag": "Full-Stack Web App · Deployed Production · 2026",
+      "description": "Built and deployed a production e-commerce store with a multi-filter product catalog across 8 categories, persistent shopping cart, wishlist, and real-time order tracking. Engineered dual payment gateway integrations (Razorpay and Stripe), Cloudinary image storage, JWT role-based authentication for customers and admins, and a full management dashboard for inventory and order fulfillment.",
+      "technologies": [
+        "React 18",
+        "Vite",
+        "Tailwind CSS",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Razorpay",
+        "Stripe",
+        "JWT"
+      ],
+      "bgClass": "bg-pattern-2",
+      "featured": true,
+      "github": "https://github.com/harsha895155",
+      "liveDemo": "https://videstore-nex5ahoyt-harsha895155s-projects.vercel.app/"
+    },
+    {
+      "id": "grammpay",
+      "title": "GRAMMPAY — Banking Dashboard Security Rebuild",
+      "tag": "Security & Backend Rebuild · 2025",
+      "description": "Audited a fintech banking dashboard prototype, identified two critical vulnerabilities (plaintext credential exposure and an unvalidated fund-transfer endpoint), and re-engineered the application's authentication layer. Implemented salted bcrypt password hashing, stateless JWT session tokens, PIN lockout thresholds, and strictly authorized API middleware across all sensitive balance transactions.",
+      "technologies": [
+        "React",
+        "JavaScript",
+        "Node.js",
+        "bcrypt",
+        "JWT Auth",
+        "Security Audit"
+      ],
+      "bgClass": "bg-pattern-5",
+      "featured": true,
+      "github": "https://github.com/harsha895155/FineTech",
+      "githubLabel": "↗ View GitHub Repository",
+      "liveDemo": ""
+    },
+    {
+      "id": "hollow",
+      "title": "Hollow",
+      "tag": "GitHub Project · Open Source",
+      "description": "Open source software project hosted on GitHub.",
+      "technologies": [
+        "JavaScript"
+      ],
+      "bgClass": "bg-pattern-2",
+      "featured": false,
+      "github": "https://github.com/harsha895155/Hollow",
+      "liveDemo": "https://harsha895155.github.io/Hollow/"
+    },
+    {
+      "id": "hackathon-vaultsphere",
+      "title": "Vibrant National Level 48-Hour Hackathon",
+      "tag": "National Hackathon · January 2026 · Geethanjali Institute & Vaultsphere AI",
+      "description": "Selected to participate in a high-intensity, continuous 48-hour collaborative engineering sprint targeted at scalable rapid problem-solving. Demonstrated agile teamwork, technical communication, and robust software architecture under strict deadline constraints.",
+      "technologies": [
+        "Rapid Prototyping",
+        "Agile Development",
+        "Collaborative Engineering",
+        "Problem Solving",
+        "Vaultsphere AI"
+      ],
+      "bgClass": "bg-hackathon",
+      "featured": false,
+      "isHackathon": true,
+      "certFile": "./hackathon-certificate-gist-vaultsphere.jpg",
+      "github": "",
+      "liveDemo": ""
+    },
+    {
+      "id": "digital-notes-management-system",
+      "title": "Digital-Notes-Management-System",
+      "tag": "GitHub Project · Open Source",
+      "description": "Open source software project hosted on GitHub.",
+      "technologies": [
+        "JavaScript"
+      ],
+      "bgClass": "bg-pattern-2",
+      "featured": false,
+      "github": "https://github.com/harsha895155/Digital-Notes-Management-System",
+      "liveDemo": "https://digital-notes-management-system.vercel.app"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "nptel-nlp",
+      "name": "Natural Language Processing — Elite",
+      "issuer": "NPTEL · IIT Kharagpur",
+      "date": "Jan–Apr 2026",
+      "icon": "🏅",
+      "credentialUrl": "./NOC26CS45S145150024704536444.pdf",
+      "credentialId": "NPTEL26CS45S1451500247",
+      "score": "60% · 4 Academic Credits",
+      "bgClass": "bg-pattern-1"
+    },
+    {
+      "id": "aws-ml-nlp-badge",
+      "name": "AWS Academy ML for NLP — Training Badge",
+      "issuer": "AWS Academy",
+      "date": "May 2026 · 20 Hours",
+      "icon": "☁️",
+      "credentialUrl": "https://www.credly.com/go/kCg7it0n",
+      "credentialId": "credly.com/go/kCg7it0n",
+      "bgClass": "bg-pattern-2"
+    },
+    {
+      "id": "google-resp-ai",
+      "name": "Introduction to Responsible AI",
+      "issuer": "Google Cloud · Coursera",
+      "date": "Sep 2025",
+      "icon": "🤖",
+      "credentialUrl": "./Coursera AS6TIAD3EVQN.pdf",
+      "credentialId": "coursera.org/verify/AS6TIAD3EVQN",
+      "bgClass": "bg-pattern-4"
+    },
+    {
+      "id": "google-gen-ai",
+      "name": "Introduction to Generative AI",
+      "issuer": "Google Cloud · Coursera",
+      "date": "Sep 2025",
+      "icon": "✨",
+      "credentialUrl": "./Coursera Q2TKBQ0LW3WE.pdf",
+      "credentialId": "coursera.org/verify/Q2TKBQ0LW3WE",
+      "bgClass": "bg-pattern-5"
+    },
+    {
+      "id": "google-llm",
+      "name": "Introduction to Large Language Models",
+      "issuer": "Google Cloud · Coursera",
+      "date": "Sep 2025",
+      "icon": "💬",
+      "credentialUrl": "./Coursera QT5BESYQBKGF.pdf",
+      "credentialId": "coursera.org/verify/QT5BESYQBKGF",
+      "bgClass": "bg-pattern-3"
+    },
+    {
+      "id": "infosys-ml-python",
+      "name": "Explore Machine Learning using Python",
+      "issuer": "Infosys Springboard",
+      "date": "Dec 25, 2025",
+      "icon": "🐍",
+      "credentialUrl": "https://verify.onwingspan.com",
+      "credentialId": "verify.onwingspan.com",
+      "bgClass": "bg-pattern-2"
+    },
+    {
+      "id": "infosys-ai",
+      "name": "Introduction to Artificial Intelligence",
+      "issuer": "Infosys Springboard",
+      "date": "Dec 25, 2025",
+      "icon": "🧠",
+      "credentialUrl": "https://verify.onwingspan.com",
+      "credentialId": "verify.onwingspan.com",
+      "bgClass": "bg-pattern-1"
+    },
+    {
+      "id": "infosys-dl",
+      "name": "Introduction to Deep Learning",
+      "issuer": "Infosys Springboard",
+      "date": "Dec 25, 2025",
+      "icon": "🔗",
+      "credentialUrl": "https://verify.onwingspan.com",
+      "credentialId": "verify.onwingspan.com",
+      "bgClass": "bg-pattern-5"
+    },
+    {
+      "id": "infosys-nlp",
+      "name": "Introduction to NLP",
+      "issuer": "Infosys Springboard",
+      "date": "Dec 25, 2025",
+      "icon": "🌿",
+      "credentialUrl": "https://verify.onwingspan.com",
+      "credentialId": "verify.onwingspan.com",
+      "bgClass": "bg-pattern-4"
+    },
+    {
+      "id": "infosys-python",
+      "name": "Basics of Python",
+      "issuer": "Infosys Springboard",
+      "date": "Dec 23, 2025",
+      "icon": "📘",
+      "credentialUrl": "https://verify.onwingspan.com",
+      "credentialId": "verify.onwingspan.com",
+      "bgClass": "bg-pattern-3"
+    },
+    {
+      "id": "udemy-conflict",
+      "name": "Conflict Resolution in Leadership",
+      "issuer": "Udemy",
+      "date": "Sep 17, 2025 · 2 Hours",
+      "icon": "🏆",
+      "credentialUrl": "./Conflict Resolution.pdf.pdf",
+      "credentialId": "UC-6611d901-33c5-4e6c-9184-2cabec503adf",
+      "bgClass": "bg-pattern-1"
+    },
+    {
+      "id": "nptel-quantum",
+      "name": "Intro to Quantum Computing & Qiskit",
+      "issuer": "NPTEL · IIT Madras",
+      "date": "Jan–Feb 2026",
+      "icon": "⚛️",
+      "credentialUrl": "./Introduction to Quantum Computing_ Quantum Algorithms and Qiskit (harsha).pdf",
+      "credentialId": "260900053",
+      "score": "47% · 1 Academic Credit",
+      "bgClass": "bg-pattern-2"
+    },
+    {
+      "id": "natural-language-processing-el",
+      "name": "Natural Language Processing Elite",
+      "issuer": "NPTEL - IIT Kharagpur / SWAYAM",
+      "date": "Apr 2026",
+      "icon": "📜",
+      "credentialUrl": "",
+      "credentialId": "NPTEL26CS45S1451500247",
+      "score": "60%",
+      "bgClass": "bg-pattern-1"
+    }
+  ],
+  "achievements": [
+    {
+      "id": "perfect-10th",
+      "icon": "🥇",
+      "title": "Perfect Score — 10th Standard",
+      "description": "Achieved a flawless 100% milestone at Fathima Convent High School — reflecting sustained dedication to academic excellence.",
+      "certFile": "",
+      "bgClass": "bg-pattern-3"
+    },
+    {
+      "id": "grade-o-python",
+      "icon": "⚡",
+      "title": "Grade-O Outstanding — Python Full Stack",
+      "description": "Top evaluation grade (top 10% benchmark, score band 90-100) in the 10-week EduSkills & APSCHE virtual internship for full software development lifecycle deliverables.",
+      "certFile": "./Python Fullstack Developer Virtual Internship.pdf",
+      "bgClass": "bg-pattern-5"
+    },
+    {
+      "id": "cynosure-2k24",
+      "icon": "🎯",
+      "title": "Cynosure 2k24 — National Technical Symposium",
+      "description": "Participated in Technical Quiz and demonstrated domain knowledge at Sri Venkateswara University College of Engineering (SVUCE), Tirupati.",
+      "certFile": "",
+      "bgClass": "bg-pattern-1"
+    },
+    {
+      "id": "bics-global",
+      "icon": "🔬",
+      "title": "Industrial Visit Certificate — BICS Global",
+      "description": "Completed Industrial Visit-2025, gaining exposure to ISO-27001 certified enterprise software development lifecycle practices.",
+      "certFile": "./BICS GLOBAL VISITING CERTIFICATE.pdf",
+      "bgClass": "bg-pattern-4"
+    },
+    {
+      "id": "icat",
+      "icon": "📋",
+      "title": "ICAT — Internship Common Aptitude Test",
+      "description": "National-level aptitude examination participation (Sep 2025), demonstrating analytical and algorithmic readiness.",
+      "certFile": "./INTERNSHIP APTITUDE TEST (PARTICIPATION CERTIFICATE).pdf",
+      "bgClass": "bg-pattern-2"
+    },
+    {
+      "id": "gdc-ai",
+      "icon": "🌐",
+      "title": "GDC AI Workforce Program — PupilFirst/AICTE",
+      "description": "Enrolled in AICTE GDC AI Workforce Scheme 2024-2029 building AI competencies for Digital Public Goods.",
+      "certFile": "",
+      "bgClass": "bg-pattern-3"
+    },
+    {
+      "id": "amdox-offer",
+      "icon": "💼",
+      "title": "Web Development Internship Offer",
+      "description": "Official selection letter acknowledging performance and appointment for web development responsibilities.",
+      "certFile": "./Gmail - Hearty congratulations on your Web Development Internship Offer!.pdf",
+      "bgClass": "bg-pattern-1"
+    },
+    {
+      "id": "achievement-cert",
+      "icon": "🏅",
+      "title": "Achievement Certificate",
+      "description": "Official recognition awarded to Thimmareddygari Harshavardhan Reddy for engineering achievement.",
+      "certFile": "./THIMMAREDDYGARI  HARSHAVARDHAN REDDY_certificate.pdf",
+      "bgClass": "bg-pattern-2"
+    }
+  ],
+  "seo": {
+    "canonicalUrl": "https://harsha895155.github.io/portfolio/",
+    "googleSiteVerification": "googlee5f9504a5480f807",
+    "ogImage": "https://harsha895155.github.io/portfolio/og-image.png",
+    "ogImageAlt": "Thimmareddygari Harshavardhan Reddy - Computer Science Student and Full-Stack Developer",
+    "twitterHandle": "",
+    "description": "Official portfolio of Thimmareddygari Harshavardhan Reddy, a final-year Computer Science Engineering student at Geethanjali Institute of Science & Technology (GIST). Full-stack developer skilled in Java, React.js, Python, Node.js, AWS, and AI/ML.",
+    "keywords": "Thimmareddygari Harshavardhan Reddy, Harshavardhan Reddy, Harshavardhan Reddy CSE, Harshavardhan Reddy Computer Science, Harshavardhan Reddy GIST, Harshavardhan Reddy developer, Harshavardhan Reddy Java developer, Harshavardhan Reddy React developer, Harshavardhan Reddy portfolio, Harshavardhan Reddy GitHub"
+  },
+  "jsonLd": {
+    "identifier": "232U1A05H3",
+    "telephone": "+918951556645",
+    "address": {
+      "locality": "Nellore",
+      "region": "Andhra Pradesh",
+      "postalCode": "524357",
+      "country": "IN"
+    },
+    "alumniOf": {
+      "name": "Geethanjali Institute of Science and Technology",
+      "alternateName": "GIST",
+      "url": "https://www.gist.edu.in/",
+      "parentOrg": {
+        "name": "Jawaharlal Nehru Technological University Anantapur",
+        "alternateName": "JNTUA"
+      }
+    },
+    "credentials": [
+      {
+        "name": "AWS Gen AI Virtual Internship Certificate (Grade-O Outstanding)",
+        "category": "Certificate of Virtual Internship",
+        "recognizedBy": "AICTE, Ministry of Education, EduSkills & AWS Academy",
+        "identifier": "4c27968d147486a8bce1"
+      },
+      {
+        "name": "APSCHE Short-Term Internship Certificate in AWS Gen AI",
+        "category": "Certificate of Completion (120 Hours)",
+        "recognizedBy": "Andhra Pradesh State Council of Higher Education (APSCHE)",
+        "identifier": "OGQTWAOCD2OR"
+      },
+      {
+        "name": "Natural Language Processing - Elite Certificate",
+        "category": "NPTEL Elite Certificate",
+        "recognizedBy": "IIT Kharagpur",
+        "identifier": "NPTEL26CS45S1451500247"
+      }
+    ],
+    "knowsAbout": [
+      "Java",
+      "Core Java",
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "Django",
+      "MongoDB",
+      "PostgreSQL",
+      "SQL",
+      "Amazon Web Services (AWS)",
+      "Google Cloud",
+      "Machine Learning",
+      "Natural Language Processing (NLP)",
+      "Generative AI",
+      "REST APIs",
+      "Data Structures and Algorithms",
+      "Object-Oriented Programming (OOP)",
+      "Internet of Things (IoT)"
+    ]
+  },
+  "customPlatforms": [],
+  "careerObjective": "Continuous learning and building impactful software products.",
+  "sectionVisibility": {
+    "hero": true,
+    "marquee": true,
+    "about": true,
+    "skills": true,
+    "experience": true,
+    "projects": true,
+    "certs": true,
+    "achievements": true,
+    "contact": true
+  },
+  "avatar": "/media/media_1791145977213_hjykb.jpg",
+  "avatarAlt": "Candidate Professional Headshot",
+  "codingProfiles": [
+    {
+      "id": "leetcode",
+      "platform": "LeetCode",
+      "icon": "⚡",
+      "url": "https://leetcode.com/u/harsha895155",
+      "username": "harsha895155",
+      "verified": true,
+      "verificationMethod": "LeetCode Official GraphQL API",
+      "totalSolved": 350,
+      "easySolved": 180,
+      "mediumSolved": 145,
+      "hardSolved": 25,
+      "ranking": "Top 18%",
+      "acceptanceRate": "68.4%",
+      "badges": "12 Badges",
+      "status": "Active"
+    },
+    {
+      "id": "github",
+      "platform": "GitHub",
+      "icon": "🐙",
+      "url": "https://github.com/harsha895155",
+      "username": "harsha895155",
+      "verified": true,
+      "verificationMethod": "Official GitHub REST API (v3)",
+      "publicRepos": 24,
+      "stars": 18,
+      "forks": 9,
+      "followers": 14,
+      "topLanguages": [
+        "Python",
+        "JavaScript",
+        "Java",
+        "HTML/CSS"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "codeforces",
+      "platform": "Codeforces",
+      "icon": "🏆",
+      "url": "https://codeforces.com/profile/harsha895155",
+      "username": "harsha895155",
+      "verified": true,
+      "verificationMethod": "Official Codeforces REST API",
+      "rank": "Pupil",
+      "rating": 1240,
+      "maxRating": 1310,
+      "status": "Active"
+    },
+    {
+      "id": "hackerrank",
+      "platform": "HackerRank",
+      "icon": "🎯",
+      "url": "https://www.hackerrank.com/profile/harsha895155",
+      "username": "harsha895155",
+      "verified": true,
+      "verificationMethod": "HackerRank Public Profile API",
+      "badges": [
+        "5★ Problem Solving",
+        "5★ Python",
+        "4★ Java",
+        "SQL Silver"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "credly",
+      "platform": "Credly",
+      "icon": "🎖️",
+      "url": "https://www.credly.com/users/harsha10003/badges/credly",
+      "username": "harsha10003",
+      "verified": true,
+      "verificationMethod": "Credly Digital Credential Verification",
+      "badgesCount": 6,
+      "status": "Verified Issuer"
+    },
+    {
+      "id": "codechef",
+      "platform": "CodeChef",
+      "icon": "🍴",
+      "url": "https://www.codechef.com/users/harsha895155",
+      "username": "harsha895155",
+      "verified": true,
+      "verificationMethod": "Verified Profile Link",
+      "division": "Div 3",
+      "status": "Active"
+    },
+    {
+      "id": "unstop",
+      "platform": "Unstop",
+      "icon": "🚀",
+      "url": "https://unstop.com/@harsha895155",
+      "username": "harsha895155",
+      "verified": true,
+      "verificationMethod": "Verified Platform Identity",
+      "achievements": "Vaultsphere AI & National Hackathon Finalist",
+      "status": "Verified"
+    },
+    {
+      "id": "linkedin",
+      "platform": "LinkedIn",
+      "icon": "💼",
+      "url": "https://www.linkedin.com/in/harshavardhanreddy-280392298/",
+      "username": "harshavardhanreddy",
+      "verified": true,
+      "verificationMethod": "Verified Professional Profile",
+      "network": "500+ Connections · Endorsements",
+      "status": "Active"
+    }
+  ]
+}

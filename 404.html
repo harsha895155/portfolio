@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found | Thimmareddygari Harshavardhan Reddy</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <style>
+    .not-found-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+    .not-found-code {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(5rem, 15vw, 10rem);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(120deg, var(--gold2), var(--gold), var(--gold3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .not-found-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      margin-bottom: 1rem;
+      color: var(--cream);
+    }
+    .not-found-desc {
+      font-size: 1.05rem;
+      color: rgba(240, 234, 220, 0.65);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .not-found-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="bg-canvas"></div>
+  <div class="bg-orb orb1" style="opacity: 1;"></div>
+  <div class="bg-orb orb2" style="opacity: 1;"></div>
+  <div class="grid-overlay"></div>
+
+  <main class="not-found-wrap">
+    <div class="hero-tag" style="margin-bottom: 1rem;">404 · Error</div>
+    <h1 class="not-found-code">404</h1>
+    <h2 class="not-found-title">Page Not Found</h2>
+    <p class="not-found-desc">
+      The requested page does not exist or has been moved. You can return to the main portfolio of Thimmareddygari Harshavardhan Reddy below.
+    </p>
+    <div class="not-found-links">
+      <a href="./" class="btn-gold">← Back to Portfolio</a>
+      <a href="./#projects" class="btn-ghost">View Projects →</a>
+      <a href="./#contact" class="btn-ghost">Contact Me →</a>
+    </div>
+  </main>
+</body>
+</html>

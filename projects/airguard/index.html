@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AirGuard — IoT Hyperlocal Air Quality Monitoring System | Thimmareddygari Harshavardhan Reddy</title>
+  <meta name="description" content="Technical case study of AirGuard: an IoT-based hyperlocal air quality monitoring and alert system engineered by Thimmareddygari Harshavardhan Reddy using ESP32, MQ135, DHT22, React, Node.js, and MongoDB.">
+  <meta name="author" content="Thimmareddygari Harshavardhan Reddy">
+  <meta name="keywords" content="AirGuard, IoT Air Quality Monitoring, ESP32, MQ135, DHT22, React, Node.js, MongoDB, Thimmareddygari Harshavardhan Reddy, Harshavardhan Reddy, Harshavardhan Reddy CSE, GIST, Full-Stack Developer">
+  <link rel="canonical" href="https://harsha895155.github.io/portfolio/projects/airguard/">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="AirGuard — IoT-Based Hyperlocal Air Quality Monitoring and Alert System">
+  <meta property="og:description" content="End-to-end IoT and Cloud architecture for hyperlocal air quality monitoring with ESP32 hardware sensors, REST API, MongoDB storage, and live React dashboard.">
+  <meta property="og:url" content="https://harsha895155.github.io/portfolio/projects/airguard/">
+  <meta property="og:image" content="https://harsha895155.github.io/portfolio/og-image.png">
+  <meta property="og:site_name" content="Thimmareddygari Harshavardhan Reddy Portfolio">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AirGuard — IoT Air Quality Monitoring System by Harshavardhan Reddy">
+  <meta name="twitter:description" content="Hardware & Full-Stack IoT project: ESP32, MQ135, DHT22, Node.js, Express, MongoDB, and React dashboard.">
+  <meta name="twitter:image" content="https://harsha895155.github.io/portfolio/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="alternate icon" href="../../favicon.ico">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="../../style.css" rel="stylesheet">
+
+  <style>
+    .case-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 7rem 2rem 4rem;
+      position: relative;
+      z-index: 2;
+    }
+    .back-nav {
+      margin-bottom: 2.5rem;
+    }
+    .back-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      transition: transform 0.2s, color 0.2s;
+    }
+    .back-nav a:hover {
+      color: var(--gold2);
+      transform: translateX(-4px);
+    }
+    .case-header {
+      margin-bottom: 3.5rem;
+      border-bottom: 1px solid var(--border2);
+      padding-bottom: 2.5rem;
+    }
+    .case-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 1.15;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+    .case-subtitle {
+      font-size: 1.15rem;
+      color: var(--cream2);
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+      max-width: 800px;
+    }
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+    .meta-pill {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.35rem 0.85rem;
+      background: rgba(212, 168, 71, 0.08);
+      border: 1px solid rgba(212, 168, 71, 0.25);
+      color: var(--gold2);
+    }
+    .case-section {
+      margin-bottom: 3.5rem;
+    }
+    .case-sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold2);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .case-sec-title::before {
+      content: '◆';
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+    .case-p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: rgba(240, 234, 220, 0.78);
+      margin-bottom: 1.2rem;
+    }
+    .arch-card {
+      background: linear-gradient(135deg, rgba(27,59,111,0.15), rgba(6,6,14,0.9));
+      border: 1px solid var(--border);
+      padding: 2rem;
+      margin: 1.8rem 0;
+      border-radius: 6px;
+    }
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+    .arch-box {
+      border: 1px solid rgba(212, 168, 71, 0.2);
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.3rem;
+    }
+    .arch-box-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.1em;
+    }
+    .arch-box-list {
+      list-style: none;
+      font-size: 0.86rem;
+      color: rgba(240, 234, 220, 0.7);
+      line-height: 1.6;
+    }
+    .arch-box-list li {
+      margin-bottom: 0.4rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+    .arch-box-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+    .status-badge {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.2rem 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .status-live {
+      background: rgba(46, 204, 113, 0.15);
+      border: 1px solid rgba(46, 204, 113, 0.4);
+      color: #2ecc71;
+    }
+    .status-future {
+      background: rgba(241, 196, 15, 0.15);
+      border: 1px solid rgba(241, 196, 15, 0.4);
+      color: #f1c40f;
+    }
+    .action-row {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": "https://harsha895155.github.io/portfolio/projects/airguard/#software",
+        "name": "AirGuard",
+        "alternateName": "IoT-Based Hyperlocal Air Quality Monitoring and Alert System with Cloud Integration",
+        "description": "An end-to-end IoT environmental monitoring system combining ESP32 microcontrollers, MQ135 and DHT22 sensors, Node.js REST API, MongoDB time-series storage, and a real-time React web dashboard.",
+        "creator": {
+          "@type": "Person",
+          "name": "Thimmareddygari Harshavardhan Reddy",
+          "url": "https://harsha895155.github.io/portfolio/",
+          "sameAs": [
+            "https://www.linkedin.com/in/harshavardhanreddy-280392298/",
+            "https://github.com/harsha895155"
+          ]
+        },
+        "programmingLanguage": ["JavaScript", "C++", "HTML", "CSS"],
+        "runtimePlatform": ["Node.js", "ESP32 Arduino Core", "Web Browser"],
+        "codeRepository": "https://github.com/harsha895155",
+        "applicationCategory": "Environmental Monitoring System"
+      },
+      {
+        "@type": "TechArticle",
+        "@id": "https://harsha895155.github.io/portfolio/projects/airguard/#article",
+        "headline": "AirGuard — IoT-Based Hyperlocal Air Quality Monitoring and Alert System",
+        "author": {
+          "@type": "Person",
+          "name": "Thimmareddygari Harshavardhan Reddy"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "Thimmareddygari Harshavardhan Reddy"
+        },
+        "datePublished": "2026-01-15",
+        "dateModified": "2026-10-04",
+        "mainEntityOfPage": "https://harsha895155.github.io/portfolio/projects/airguard/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- BACKGROUND -->
+  <div id="bg-canvas"></div>
+  <div class="bg-orb orb1" style="opacity: 0.6;"></div>
+  <div class="bg-orb orb2" style="opacity: 0.6;"></div>
+  <div class="grid-overlay"></div>
+
+  <main class="case-container">
+    <div class="back-nav">
+      <a href="../../#projects">← Back to Portfolio Projects</a>
+    </div>
+
+    <header class="case-header">
+      <div class="hero-tag">Engineering Case Study · Final Year Project</div>
+      <h1 class="case-title">AirGuard</h1>
+      <p class="case-subtitle">
+        IoT-Based Hyperlocal Air Quality Monitoring and Alert System with Cloud Integration
+      </p>
+      <div class="meta-pills">
+        <span class="meta-pill">ESP32 Hardware</span>
+        <span class="meta-pill">MQ135 Gas Sensor</span>
+        <span class="meta-pill">DHT22 Temp & Humidity</span>
+        <span class="meta-pill">Node.js / Express</span>
+        <span class="meta-pill">MongoDB Atlas</span>
+        <span class="meta-pill">React.js Dashboard</span>
+        <span class="status-badge status-live">Active Engineering Project</span>
+      </div>
+    </header>
+
+    <!-- PROBLEM STATEMENT -->
+    <section class="case-section">
+      <h2 class="case-sec-title">The Problem</h2>
+      <p class="case-p">
+        Conventional ambient air monitoring stations are centralized, sparse, and expensive, often positioned kilometers apart. They provide city-wide averages that fail to detect localized pollution spikes caused by traffic congestion, industrial exhaust, or microclimate variations. Communities, schools, and workplaces lack affordable, actionable, real-time telemetry to protect individuals from sudden spikes in hazardous air pollutants.
+      </p>
+    </section>
+
+    <!-- SOLUTION -->
+    <section class="case-section">
+      <h2 class="case-sec-title">The Solution</h2>
+      <p class="case-p">
+        AirGuard bridges this gap by deploying an autonomous, low-cost IoT sensor node built around the ESP32 microcontroller. The unit samples ambient atmospheric parameters every few seconds, computes real-time Air Quality Index (AQI) indicators, transmits telemetry over Wi-Fi to a cloud-hosted Node.js backend, and visualizes immediate pollution trends on an interactive React dashboard.
+      </p>
+    </section>
+
+    <!-- SYSTEM ARCHITECTURE -->
+    <section class="case-section">
+      <h2 class="case-sec-title">System Architecture</h2>
+      <p class="case-p">
+        The system employs a four-tier architecture designed for continuous telemetry, high availability, and decoupled data presentation:
+      </p>
+
+      <div class="arch-card">
+        <div class="arch-grid">
+          <div class="arch-box">
+            <div class="arch-box-title">1. Hardware Edge Node</div>
+            <ul class="arch-box-list">
+              <li><strong>ESP32 Microcontroller:</strong> Dual-core 240MHz Wi-Fi/Bluetooth MCU handling analog sampling and HTTP client payloads.</li>
+              <li><strong>MQ135 Sensor:</strong> Calibrated gas detection for NH3, NOx, Alcohol, Benzene, and Smoke.</li>
+              <li><strong>DHT22 Sensor:</strong> High-precision digital temperature and relative humidity sensing.</li>
+            </ul>
+          </div>
+
+          <div class="arch-box">
+            <div class="arch-box-title">2. Ingestion & API Layer</div>
+            <ul class="arch-box-list">
+              <li><strong>Node.js & Express:</strong> High-throughput REST API endpoints for telemetry intake and device authentication.</li>
+              <li><strong>Input Validation:</strong> Payload sanitization and anomaly boundary checking for aberrant sensor spikes.</li>
+              <li><strong>Alert Trigger Engine:</strong> Evaluates incoming PPM and AQI against threshold levels.</li>
+            </ul>
+          </div>
+
+          <div class="arch-box">
+            <div class="arch-box-title">3. Cloud Persistence</div>
+            <ul class="arch-box-list">
+              <li><strong>MongoDB Atlas:</strong> Time-series collections optimized for periodic sensor log indexing.</li>
+              <li><strong>Aggregation Pipelines:</strong> Pre-calculates hourly and 24-hour moving averages for rapid charting.</li>
+              <li><strong>Retention Policy:</strong> Efficient data archiving for historical longitudinal analysis.</li>
+            </ul>
+          </div>
+
+          <div class="arch-box">
+            <div class="arch-box-title">4. Real-Time Web Dashboard</div>
+            <ul class="arch-box-list">
+              <li><strong>React.js (Vite):</strong> Fast, responsive single-page monitoring interface.</li>
+              <li><strong>Recharts Telemetry:</strong> Live AQI gauge meters, historical trends, and pollutant breakdown.</li>
+              <li><strong>Visual Warnings:</strong> Color-coded severity states (Good, Moderate, Unhealthy, Hazardous).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGIES BREAKDOWN -->
+    <section class="case-section">
+      <h2 class="case-sec-title">Technologies & Implementation</h2>
+      <p class="case-p">
+        Every component was selected to balance cost-efficiency, accuracy, and developer ergonomics:
+      </p>
+      <ul class="arch-box-list case-p" style="padding-left: 1.5rem;">
+        <li><strong>ESP32 Microcontroller:</strong> Offers onboard Wi-Fi (802.11 b/g/n), multiple ADC channels, and low-power sleep capabilities for battery or solar-assisted deployments.</li>
+        <li><strong>MQ135 Gas Sensor:</strong> Analog resistance varies with hazardous gas concentrations; calibrated using standard clean-air baseline resistance (<span style="color:var(--gold);">R0</span>) curves.</li>
+        <li><strong>DHT22 (AM2302):</strong> Provides temperature readings (-40°C to +80°C ±0.5°C) and relative humidity (0–100% ±2% RH) crucial for calibrating MQ135 temperature/humidity drift.</li>
+        <li><strong>Node.js / Express REST API:</strong> Lightweight non-blocking I/O handling regular HTTP POST pings from distributed hardware nodes.</li>
+        <li><strong>MongoDB:</strong> Schema flexibility allowing dynamic sensor payloads with geographic location tagging.</li>
+        <li><strong>React Web App:</strong> Clean, component-driven UI with polling/event stream rendering for instantaneous situational awareness.</li>
+      </ul>
+    </section>
+
+    <!-- CURRENT IMPLEMENTATION VS FUTURE SCOPE -->
+    <section class="case-section">
+      <h2 class="case-sec-title">Implementation Status & Roadmap</h2>
+      
+      <div class="arch-card" style="margin-bottom: 1.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.8rem;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--cream);">Currently Implemented Features</h3>
+          <span class="status-badge status-live">Production Verified</span>
+        </div>
+        <ul class="arch-box-list">
+          <li>End-to-end hardware sensor readout and analog-to-digital calibration on ESP32.</li>
+          <li>Wi-Fi connection recovery and telemetry payload transmission via JSON over HTTP REST.</li>
+          <li>Express API server receiving and validating environmental packets.</li>
+          <li>MongoDB time-stamped persistence with spatial metadata.</li>
+          <li>React web frontend displaying real-time AQI dials and historical line graphs.</li>
+        </ul>
+      </div>
+
+      <div class="arch-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.8rem;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--cream);">Planned Future Enhancements</h3>
+          <span class="status-badge status-future">Roadmap / Planned</span>
+        </div>
+        <ul class="arch-box-list">
+          <li><strong>Companion Mobile App:</strong> Cross-platform Flutter mobile client with push notifications for instant hazardous AQI alerts.</li>
+          <li><strong>Predictive ML Model:</strong> Deploying an LSTM time-series forecast model on AWS to predict next-day AQI spikes based on historical trends and weather patterns.</li>
+          <li><strong>Mesh Networking:</strong> ESP-NOW mesh capability to interconnect multiple localized nodes across a campus without requiring dedicated Wi-Fi AP per node.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- REPOSITORY & CONTACT -->
+    <section class="case-section">
+      <h2 class="case-sec-title">Source Code & Inquiries</h2>
+      <p class="case-p">
+        Developed as a core technical project by <strong>Thimmareddygari Harshavardhan Reddy</strong> during B.Tech in Computer Science and Engineering at Geethanjali Institute of Science & Technology (GIST).
+      </p>
+      <div class="action-row">
+        <a href="https://github.com/harsha895155" target="_blank" rel="noopener noreferrer" class="btn-gold">
+          View on GitHub →
+        </a>
+        <a href="../../#contact" class="btn-ghost">
+          Contact Harshavardhan Reddy →
+        </a>
+        <a href="../../" class="btn-ghost">
+          ← Return to Main Portfolio
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="margin-top: 4rem;">
+    <div class="ft">© 2026 · THIMMAREDDYGARI HARSHAVARDHAN REDDY</div>
+    <div class="fl">Geethanjali Institute of Science and Technology · B.Tech CSE</div>
+  </footer>
+</body>
+</html>
