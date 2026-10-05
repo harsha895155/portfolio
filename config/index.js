@@ -55,7 +55,6 @@ const config = {
     githubUsername: process.env.GITHUB_USERNAME || 'harsha895155',
     githubToken: process.env.GITHUB_TOKEN || '',
     linkedinUrl: process.env.LINKEDIN_URL || 'https://www.linkedin.com/in/harshavardhanreddy-280392298/',
-    unstopUrl: process.env.UNSTOP_URL || '',
     credlyUrl: process.env.CREDLY_URL || 'https://www.credly.com/users/harsha10003/badges/credly'
   },
 
@@ -63,7 +62,7 @@ const config = {
   ai: {
     provider: process.env.AI_PROVIDER || 'gemini',
     geminiApiKey: process.env.GEMINI_API_KEY || '',
-    geminiModel: process.env.AI_MODEL || 'gemini-1.5-flash',
+    geminiModel: process.env.AI_MODEL || 'gemini-flash-latest',
     openaiApiKey: process.env.OPENAI_API_KEY || '',
     openaiModel: process.env.OPENAI_MODEL || 'gpt-4o-mini',
     maxTokens: parseInt(process.env.AI_MAX_TOKENS || '2048', 10),

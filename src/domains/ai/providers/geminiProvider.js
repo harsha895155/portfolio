@@ -8,7 +8,7 @@ const LocalSemanticProvider = require('./localSemanticProvider');
 const logger = require('../../../shared/utils/logger');
 
 class GeminiProvider extends BaseAIProvider {
-  constructor(apiKey, model = 'gemini-1.5-flash') {
+  constructor(apiKey, model = 'gemini-flash-latest') {
     super('Google Gemini');
     this.apiKey = apiKey;
     this.model = model;
