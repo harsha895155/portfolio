@@ -5452,7 +5452,44 @@
     
   }
 
+  // Responsive Mobile Admin Sidebar Drawer
+  function initMobileSidebar() {
+    const toggleBtn = document.getElementById('admin-sidebar-toggle');
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('admin-sidebar-overlay');
+    if (!toggleBtn || !sidebar) return;
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      if (overlay) overlay.classList.add('active');
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      if (overlay) overlay.classList.remove('active');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      if (sidebar.classList.contains('open')) closeSidebar();
+      else openSidebar();
+    });
+
+    if (overlay) {
+      overlay.addEventListener('click', closeSidebar);
+    }
+
+    // Auto close sidebar when a tab is selected on mobile
+    sidebar.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (window.innerWidth <= 992) {
+          closeSidebar();
+        }
+      });
+    });
+  }
+
   initSidebarSaveButtons();
+  initMobileSidebar();
 
   // Kickoff Global Search, AI Assist Modal, and Authentication
   bindAiAssistModal();
