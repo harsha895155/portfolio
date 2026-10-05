@@ -11,13 +11,18 @@ const logger = require('../../shared/utils/logger');
 
 class FileStorage {
   constructor() {
-    this.storageDir = config.paths.storageDir;
+    const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+    this.storageDir = isServerless ? '/tmp/storage/private_documents' : config.paths.storageDir;
     this.ensureDirectory();
   }
 
   ensureDirectory() {
-    if (!fs.existsSync(this.storageDir)) {
-      fs.mkdirSync(this.storageDir, { recursive: true });
+    try {
+      if (!fs.existsSync(this.storageDir)) {
+        fs.mkdirSync(this.storageDir, { recursive: true });
+      }
+    } catch (e) {
+      logger.warn('Could not create storage directory:', e.message);
     }
   }
 

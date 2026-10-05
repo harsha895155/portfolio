@@ -12,9 +12,16 @@ const logger = require('../../shared/utils/logger');
 
 class Database {
   constructor() {
-    this.dbPath = config.paths.dbFile;
-    this.dataDir = config.paths.data;
-    this.historyDir = config.paths.historyDir;
+    const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+    if (isServerless) {
+      this.dataDir = '/tmp/data';
+      this.historyDir = '/tmp/data/history';
+      this.dbPath = '/tmp/data/db.json';
+    } else {
+      this.dbPath = config.paths.dbFile;
+      this.dataDir = config.paths.data;
+      this.historyDir = config.paths.historyDir;
+    }
     this.data = null;
     this.init();
   }
@@ -32,9 +39,13 @@ class Database {
       if (fs.existsSync(this.dbPath)) {
         const raw = fs.readFileSync(this.dbPath, 'utf-8');
         this.data = JSON.parse(raw);
+      } else if (fs.existsSync(config.paths.dbFile)) {
+        const raw = fs.readFileSync(config.paths.dbFile, 'utf-8');
+        this.data = JSON.parse(raw);
+        try { this.save(); } catch (e) {}
       } else {
         this.data = this.createInitialData();
-        this.save();
+        try { this.save(); } catch (e) {}
       }
 
       // Ensure all collections exist
@@ -113,7 +124,12 @@ class Database {
       const payload = JSON.stringify(this.data, null, 2);
       fs.writeFileSync(this.dbPath, payload, 'utf-8');
     } catch (err) {
+      if (err.code === 'EROFS') {
+        logger.warn('Serverless read-only filesystem detected, maintaining state in-memory');
+        return;
+      }
       logger.error('Failed to write database file', err);
+      if (process.env.VERCEL) return;
       throw err;
     }
   }
@@ -270,10 +286,15 @@ class Database {
   }
 
   createBackupSnapshot() {
-    const snapshotName = `snapshot_${Date.now()}.json`;
-    const snapshotPath = path.join(this.historyDir, snapshotName);
-    fs.writeFileSync(snapshotPath, JSON.stringify(this.data.published, null, 2), 'utf-8');
-    return snapshotName;
+    try {
+      const snapshotName = `snapshot_${Date.now()}.json`;
+      const snapshotPath = path.join(this.historyDir, snapshotName);
+      fs.writeFileSync(snapshotPath, JSON.stringify(this.data.published, null, 2), 'utf-8');
+      return snapshotName;
+    } catch (e) {
+      logger.warn('Could not write backup snapshot to disk:', e.message);
+      return `snapshot_mem_${Date.now()}.json`;
+    }
   }
 
   // ─── AI PORTFOLIO AGENT OPERATIONS ──────────────────────────────────────────

@@ -29,6 +29,10 @@ class SyncProfileService {
         fs.writeFileSync(filePath, content, 'utf-8');
         return;
       } catch (err) {
+        if (err.code === 'EROFS') {
+          logger.warn(`Serverless read-only filesystem; skipped disk sync for ${filePath}`);
+          return;
+        }
         if ((err.code === 'EBUSY' || err.code === 'EPERM') && attempts < 4) {
           attempts++;
           const waitTill = new Date().getTime() + 100;
