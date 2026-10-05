@@ -11,7 +11,8 @@
 <br/>
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/harshavardhanreddy-280392298)
-[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-7C3AED?style=for-the-badge&logo=vercel&logoColor=white)](https://harsha895155.github.io/portfolio/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Vercel%20Live-black?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-eight-chi-61.vercel.app/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Live-22c55e?style=for-the-badge&logo=github&logoColor=white)](https://harsha895155.github.io/portfolio/)
 [![Email](https://img.shields.io/badge/Email-Hire%20Me-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:harshavardhan10003@gmail.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/harsha895155)
 [![Profile Views](https://komarev.com/ghpvc/?username=harsha895155&style=for-the-badge&color=7C3AED&label=PROFILE+VIEWS)](https://github.com/harsha895155)
@@ -284,9 +285,12 @@ portfolio-main/
    npm run dev
    ```
 
-3. **Access routes:**
-   - **Public Portfolio:** `http://localhost:5000/`
-   - **Private Management Console:** `http://localhost:5000/admin` (Route is unlisted and guarded with authentication)
+3. **Access routes & Live Deployments:**
+   - **Vercel Full-Stack Live:** [https://portfolio-eight-chi-61.vercel.app/](https://portfolio-eight-chi-61.vercel.app/)
+   - **Vercel Admin Console:** [https://portfolio-eight-chi-61.vercel.app/admin](https://portfolio-eight-chi-61.vercel.app/admin) (Guarded with authentication)
+   - **GitHub Pages Live:** [https://harsha895155.github.io/portfolio/](https://harsha895155.github.io/portfolio/)
+   - **Local Portfolio:** `http://localhost:5000/`
+   - **Local Admin Console:** `http://localhost:5000/admin`
    - **Initial Admin Username:** `admin`
    - **Initial Admin Password:** Configured in `.env` (`AdminSecure2026!`)
 
