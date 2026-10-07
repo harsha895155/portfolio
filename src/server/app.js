@@ -234,8 +234,30 @@ app.get('/preview', requireAuth, (req, res) => {
   res.send(html);
 });
 
-// Serve media storage files
-app.use('/media', express.static(path.resolve(__dirname, '../../storage/media')));
+// Serve media files from media/ and storage/media/
+app.use('/media', express.static(path.resolve(config.paths.root, 'media')));
+app.use('/media', express.static(path.resolve(config.paths.root, 'storage/media')));
+app.use('/storage/media', express.static(path.resolve(config.paths.root, 'storage/media')));
+
+// Fallback resolver for PDF requests at root
+app.use((req, res, next) => {
+  if (req.method === 'GET' && req.path.toLowerCase().endsWith('.pdf')) {
+    const rawName = decodeURIComponent(path.basename(req.path));
+    const mediaCandidate = path.join(config.paths.root, 'media', rawName);
+    if (fs.existsSync(mediaCandidate) && fs.statSync(mediaCandidate).isFile()) {
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(rawName)}"`);
+      return res.sendFile(mediaCandidate);
+    }
+    const storageMediaCand = path.join(config.paths.root, 'storage/media', rawName);
+    if (fs.existsSync(storageMediaCand) && fs.statSync(storageMediaCand).isFile()) {
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(rawName)}"`);
+      return res.sendFile(storageMediaCand);
+    }
+  }
+  next();
+});
 
 // Serve admin static assets (css, js) with no-cache so updates reflect immediately
 app.use('/admin-assets', express.static(path.resolve(__dirname, '../domains/admin/views'), {
@@ -254,7 +276,10 @@ app.use(express.static(config.paths.root, {
 app.use((req, res) => {
   if (req.accepts('html')) {
     const errorPage = path.join(config.paths.root, '404.html');
-    return res.status(404).sendFile(errorPage);
+    if (fs.existsSync(errorPage)) {
+      return res.status(404).sendFile(errorPage);
+    }
+    return res.status(404).send('<!DOCTYPE html><html><head><title>404 Not Found</title></head><body style="background:#090a10;color:#e2e8f0;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;"><div style="text-align:center;"><h1>404</h1><p>Document or resource not found</p><a href="/" style="color:#d4a843;">Return to Portfolio</a></div></body></html>');
   }
   return responseHelper.notFound(res, 'Route not found');
 });

@@ -29,72 +29,79 @@ function getMimeTypeFromExt(ext) {
 
 function resolveFile(id) {
   if (!id) return null;
-  const cleanId = String(id).trim();
+  const cleanId = decodeURIComponent(String(id).trim()).replace(/^(\.?\/)+/, '');
+  const safeBase = path.basename(cleanId);
+  const ext = path.extname(safeBase);
+
+  // Search directories priority list
+  const searchDirs = [
+    path.resolve(config.paths.root, 'media'),
+    path.resolve(config.paths.root, 'storage/media'),
+    config.paths.storageDir,
+    config.paths.root
+  ];
 
   // 1. Check Document Service / DB record
-  const doc = documentService.getDocument(cleanId);
-  if (doc && doc.diskFilename) {
-    const filePath = fileStorage.getFilePath(doc.diskFilename);
-    if (filePath && fs.existsSync(filePath)) {
+  const doc = documentService.getDocument(cleanId) || documentService.getDocument(safeBase);
+  if (doc) {
+    if (doc.diskFilename) {
+      const filePath = fileStorage.getFilePath(doc.diskFilename);
+      if (filePath && fs.existsSync(filePath)) {
+        return {
+          filePath,
+          originalName: doc.originalName || doc.diskFilename,
+          mimeType: doc.mimeType || getMimeTypeFromExt(doc.ext || path.extname(doc.diskFilename))
+        };
+      }
+    }
+    // If diskFilename wasn't found directly, try finding doc.originalName
+    if (doc.originalName) {
+      for (const dir of searchDirs) {
+        if (!fs.existsSync(dir)) continue;
+        const cand = path.join(dir, doc.originalName);
+        if (fs.existsSync(cand) && fs.statSync(cand).isFile()) {
+          return {
+            filePath: cand,
+            originalName: doc.originalName,
+            mimeType: doc.mimeType || getMimeTypeFromExt(path.extname(doc.originalName))
+          };
+        }
+      }
+    }
+  }
+
+  // 2. Direct search across searchDirs for safeBase
+  for (const dir of searchDirs) {
+    if (!fs.existsSync(dir)) continue;
+    const cand = path.join(dir, safeBase);
+    if (fs.existsSync(cand) && fs.statSync(cand).isFile()) {
       return {
-        filePath,
-        originalName: doc.originalName || doc.diskFilename,
-        mimeType: doc.mimeType || getMimeTypeFromExt(doc.ext || path.extname(doc.diskFilename))
+        filePath: cand,
+        originalName: safeBase,
+        mimeType: getMimeTypeFromExt(ext)
       };
     }
   }
 
-  // 2. Direct search in private storage directory
-  const safeBase = path.basename(cleanId);
-  const candidatePrivate = path.join(config.paths.storageDir, safeBase);
-  if (fs.existsSync(candidatePrivate) && fs.statSync(candidatePrivate).isFile()) {
-    const ext = path.extname(safeBase);
-    return {
-      filePath: candidatePrivate,
-      originalName: safeBase,
-      mimeType: getMimeTypeFromExt(ext)
-    };
-  }
-
-  // 3. Search in media storage
-  const mediaDir = path.resolve(config.paths.root, 'storage/media');
-  const candidateMedia = path.join(mediaDir, safeBase);
-  if (fs.existsSync(candidateMedia) && fs.statSync(candidateMedia).isFile()) {
-    const ext = path.extname(safeBase);
-    return {
-      filePath: candidateMedia,
-      originalName: safeBase,
-      mimeType: getMimeTypeFromExt(ext)
-    };
-  }
-
-  // 4. Search in project root (for certificates and resumes stored at root)
-  const candidateRoot = path.join(config.paths.root, safeBase);
-  if (fs.existsSync(candidateRoot) && fs.statSync(candidateRoot).isFile()) {
-    const ext = path.extname(safeBase);
-    return {
-      filePath: candidateRoot,
-      originalName: safeBase,
-      mimeType: getMimeTypeFromExt(ext)
-    };
-  }
-
-  // 5. Case-insensitive search in storageDir
-  try {
-    const files = fs.readdirSync(config.paths.storageDir);
-    const match = files.find(f => f.toLowerCase() === safeBase.toLowerCase() || (doc && f === doc.diskFilename));
-    if (match) {
-      const matchPath = path.join(config.paths.storageDir, match);
-      if (fs.statSync(matchPath).isFile()) {
-        const ext = path.extname(match);
-        return {
-          filePath: matchPath,
-          originalName: doc?.originalName || match,
-          mimeType: doc?.mimeType || getMimeTypeFromExt(ext)
-        };
+  // 3. Case-insensitive / normalized search across searchDirs
+  const lowerBase = safeBase.toLowerCase();
+  for (const dir of searchDirs) {
+    if (!fs.existsSync(dir)) continue;
+    try {
+      const files = fs.readdirSync(dir);
+      const match = files.find(f => f.toLowerCase() === lowerBase || (doc && doc.diskFilename && f.toLowerCase() === doc.diskFilename.toLowerCase()) || (doc && doc.originalName && f.toLowerCase() === doc.originalName.toLowerCase()));
+      if (match) {
+        const matchPath = path.join(dir, match);
+        if (fs.statSync(matchPath).isFile()) {
+          return {
+            filePath: matchPath,
+            originalName: doc?.originalName || match,
+            mimeType: doc?.mimeType || getMimeTypeFromExt(path.extname(match))
+          };
+        }
       }
-    }
-  } catch (e) {}
+    } catch (e) {}
+  }
 
   return null;
 }

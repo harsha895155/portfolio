@@ -21,9 +21,10 @@ class HistoryService {
         return [];
       }
 
+      const deleted = new Set(db.get('deletedSnapshots') || []);
       const files = fs.readdirSync(config.paths.historyDir);
       const snapshots = files
-        .filter(f => f.startsWith('snapshot_') && f.endsWith('.json'))
+        .filter(f => f.startsWith('snapshot_') && f.endsWith('.json') && !deleted.has(f))
         .map(f => {
           const fullPath = path.join(config.paths.historyDir, f);
           const stats = fs.statSync(fullPath);
@@ -48,6 +49,10 @@ class HistoryService {
       if (!safeName.startsWith('snapshot_') || !safeName.endsWith('.json')) {
         throw new Error('Invalid snapshot filename');
       }
+      const deleted = new Set(db.get('deletedSnapshots') || []);
+      if (deleted.has(safeName)) {
+        return null;
+      }
       const fullPath = path.join(config.paths.historyDir, safeName);
       if (!fs.existsSync(fullPath)) {
         return null;
@@ -67,10 +72,24 @@ class HistoryService {
         throw new Error('Invalid snapshot filename');
       }
       const fullPath = path.join(config.paths.historyDir, safeName);
-      if (!fs.existsSync(fullPath)) {
-        return false;
+      
+      // Always track in deletedSnapshots database collection
+      const deletedList = db.get('deletedSnapshots') || [];
+      if (!deletedList.includes(safeName)) {
+        deletedList.push(safeName);
+        db.set('deletedSnapshots', deletedList);
+        db.save();
       }
-      fs.unlinkSync(fullPath);
+
+      // Try physical unlink on disk if supported (local/container environments)
+      try {
+        if (fs.existsSync(fullPath)) {
+          fs.unlinkSync(fullPath);
+        }
+      } catch (unlinkErr) {
+        logger.warn(`Could not unlink snapshot file on disk (${unlinkErr.message}). Recorded in deletedSnapshots.`);
+      }
+
       return true;
     } catch (err) {
       logger.error('Error deleting snapshot file', err);

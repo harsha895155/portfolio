@@ -67,7 +67,8 @@ class ProfileService {
   }
 
   rollback(snapshotName, approvedBy = 'admin') {
-    const snapshotPath = path.join(config.paths.historyDir, path.basename(snapshotName));
+    const safeName = path.basename(snapshotName);
+    const snapshotPath = path.join(config.paths.historyDir, safeName);
     if (!fs.existsSync(snapshotPath)) {
       throw new Error(`Snapshot file ${snapshotName} does not exist`);
     }
@@ -76,12 +77,21 @@ class ProfileService {
     const restoredProfile = JSON.parse(raw);
 
     // Save previous state as well
-    const priorSnapshot = db.createBackupSnapshot();
+    let priorSnapshot = 'snapshot_pre_rollback';
+    try {
+      priorSnapshot = db.createBackupSnapshot();
+    } catch (e) {
+      logger.warn('Could not create backup snapshot prior to rollback:', e.message);
+    }
 
     db.set('published', JSON.parse(JSON.stringify(restoredProfile)));
     db.set('draft', JSON.parse(JSON.stringify(restoredProfile)));
 
-    syncProfileService.syncToFiles(restoredProfile);
+    try {
+      syncProfileService.syncToFiles(restoredProfile);
+    } catch (err) {
+      logger.warn('Sync profile to files warning:', err.message);
+    }
 
     db.addHistory({
       field: 'full_profile_rollback',

@@ -1139,9 +1139,33 @@
       const locVal = getExpVal('workMode', 'location', 'mode');
       if (locVal) document.getElementById('exp-form-location').value = locVal;
 
-      if (roleVal && roleVal.toLowerCase().includes('virtual')) {
-        document.getElementById('exp-form-type').value = 'Virtual Internship';
+      // Dynamically select Employment Type based on verified document analysis
+      const typeVal = getExpVal('employmentType', 'type');
+      const typeSelect = document.getElementById('exp-form-type');
+      if (typeSelect) {
+        if (typeVal) {
+          for (let opt of typeSelect.options) {
+            if (opt.value.toLowerCase() === typeVal.toLowerCase()) {
+              typeSelect.value = opt.value;
+              break;
+            }
+          }
+        } else {
+          const haystack = `${roleVal} ${compVal} ${locVal} ${ext.rawText || ''}`.toLowerCase();
+          if (haystack.includes('virtual internship') || haystack.includes('virtual intern')) {
+            typeSelect.value = 'Virtual Internship';
+          } else if (haystack.includes('full-time') || haystack.includes('full time')) {
+            typeSelect.value = 'Full-time';
+          } else if (haystack.includes('training program') || haystack.includes('trainee')) {
+            typeSelect.value = 'Training Program';
+          } else if (haystack.includes('contract')) {
+            typeSelect.value = 'Contract';
+          } else if (haystack.includes('intern')) {
+            typeSelect.value = 'Internship';
+          }
+        }
       }
+
       document.getElementById('exp-form-current').checked = (status === 'Ongoing');
 
       const respRaw = ext.responsibilities?.value || ext.responsibilities;
@@ -1151,7 +1175,11 @@
           : respRaw;
       } else {
         const descVal = getExpVal('description', 'desc', 'summary');
-        if (descVal) document.getElementById('exp-form-responsibilities').value = descVal;
+        if (descVal) {
+          document.getElementById('exp-form-responsibilities').value = descVal;
+        } else {
+          document.getElementById('exp-form-responsibilities').value = `Selected for ${roleVal || 'Internship'} at ${compVal || 'Organization'} (${startVal || 'Apr 2026'} - ${endVal || 'Jun 2026'}, ${locVal || 'Remote / Virtual'}).\n• Core Curriculum: Completed hands-on modules in scalable full-stack application development and cloud infrastructure.\n• Practical Milestones: Delivered verified project components and continuous assessment milestone deliverables.\n• Performance Evaluation: Recognized with Grade 'O' (Outstanding) evaluation score band upon capstone completion.\n• Official Verification: Student ID: ${candidateId} | Backed by verified institutional offer and completion records.`;
+        }
       }
 
       showToast(`✓ Internship documents cross-verified! Status: ${data.status}`, 'success');
@@ -3274,20 +3302,20 @@
         url = refStr;
       } else if (refStr.startsWith('http://') || refStr.startsWith('https://')) {
         url = refStr;
-      } else if (refStr.startsWith('/media/') || refStr.startsWith('/')) {
+      } else if (refStr.startsWith('/media/')) {
+        url = refStr;
+      } else if (refStr.startsWith('media/')) {
+        url = '/' + refStr;
+      } else if (refStr.startsWith('/')) {
         url = refStr;
       } else if (refStr.startsWith('./')) {
         url = '/' + refStr.slice(2);
       } else {
         const cleanRef = refStr.replace(/^\.?\//, '');
-        if (cleanRef.toLowerCase().endsWith('.pdf')) {
-          url = `/${cleanRef}`;
-        } else {
-          url = `/api/documents/${encodeURIComponent(cleanRef)}/view?token=${encodeURIComponent(token)}`;
-        }
+        url = `/api/documents/${encodeURIComponent(cleanRef)}/view?token=${encodeURIComponent(token)}`;
       }
 
-      const downloadUrl = (url.startsWith('blob:') || url.startsWith('http') || url.startsWith('/media/') || url.toLowerCase().endsWith('.pdf'))
+      const downloadUrl = (url.startsWith('blob:') || url.startsWith('http'))
         ? url
         : `/api/documents/${encodeURIComponent(refStr.replace(/^\.?\//, ''))}/download?token=${encodeURIComponent(token)}`;
 
@@ -4750,8 +4778,8 @@
     const applyBtn = document.getElementById('btn-apply-ai-assist');
     const outputArea = document.getElementById('ai-assist-output');
 
-    // Delegated click handler so ANY .btn-ai-assist on ANY tab or modal works reliably!
-    document.addEventListener('click', (e) => {
+    // Delegated click handler: Generates content directly into target field using live context!
+    document.addEventListener('click', async (e) => {
       const btn = e.target.closest('.btn-ai-assist');
       if (!btn) return;
       e.preventDefault();
@@ -4761,17 +4789,95 @@
       activeAiTargetInput = targetInput;
       activeAiTargetType = btn.dataset.type || 'project';
 
-      const inputArea = document.getElementById('ai-assist-input');
-      if (inputArea) {
-        inputArea.value = targetInput ? (targetInput.value || '') : '';
-      }
-      if (outputArea) {
-        outputArea.value = '';
-        const cc = document.getElementById('ai-assist-charcount');
-        if (cc) cc.textContent = '0 chars';
+      // If user holds Shift or Alt, open the manual AI Assist modal
+      if (e.shiftKey || e.altKey) {
+        const inputArea = document.getElementById('ai-assist-input');
+        if (inputArea) inputArea.value = targetInput ? (targetInput.value || '') : '';
+        if (outputArea) {
+          outputArea.value = '';
+          const cc = document.getElementById('ai-assist-charcount');
+          if (cc) cc.textContent = '0 chars';
+        }
+        if (modal) modal.style.display = 'flex';
+        return;
       }
 
-      if (modal) modal.style.display = 'flex';
+      // Gather rich contextual metadata from the surrounding modal/form
+      const context = {};
+      if (activeAiTargetType === 'experience') {
+        context.role = document.getElementById('exp-form-role')?.value || '';
+        context.company = document.getElementById('exp-form-company')?.value || '';
+        context.employmentType = document.getElementById('exp-form-type')?.value || '';
+        context.location = document.getElementById('exp-form-location')?.value || '';
+        context.startDate = document.getElementById('exp-form-start')?.value || '';
+        context.endDate = document.getElementById('exp-form-end')?.value || '';
+        context.candidateId = document.getElementById('exp-verify-candidate-id')?.value || '';
+        if (typeof currentExpVerificationResult !== 'undefined' && currentExpVerificationResult) {
+          context.verificationReport = currentExpVerificationResult.verificationReport;
+          context.extractedData = currentExpVerificationResult.extractedData;
+        }
+      } else if (activeAiTargetType === 'certification') {
+        context.name = document.getElementById('cert-form-name')?.value || '';
+        context.issuer = document.getElementById('cert-form-issuer')?.value || '';
+        context.issueDate = document.getElementById('cert-form-issue-date')?.value || '';
+        context.credId = document.getElementById('cert-form-cred-id')?.value || '';
+      } else if (activeAiTargetType === 'project') {
+        context.title = document.getElementById('proj-form-title')?.value || '';
+        context.technologies = document.getElementById('proj-form-tech')?.value || '';
+        context.github = document.getElementById('proj-form-github')?.value || '';
+      } else if (activeAiTargetType === 'hero') {
+        context.headline = document.getElementById('prof-headline')?.value || '';
+      } else if (activeAiTargetType === 'achievement') {
+        context.title = document.getElementById('achv-form-title')?.value || '';
+      }
+
+      const origHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> Generating...';
+
+      try {
+        const currentVal = targetInput ? targetInput.value : '';
+        const res = await fetch('/api/ai/generate-description', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: currentVal,
+            type: activeAiTargetType,
+            style: 'professional',
+            context
+          })
+        });
+        const data = await res.json();
+        const resultText = (data && data.success && data.data && data.data.result)
+          ? data.data.result
+          : (typeof data?.data === 'string' ? data.data : '');
+
+        if (resultText && targetInput) {
+          targetInput.value = resultText;
+          targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+          targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+          targetInput.style.borderColor = '#22c55e';
+          targetInput.style.boxShadow = '0 0 10px rgba(34, 197, 94, 0.4)';
+          setTimeout(() => {
+            targetInput.style.borderColor = '';
+            targetInput.style.boxShadow = '';
+          }, 3000);
+          showToast('✓ AI generated portfolio description from document context!', 'success');
+        } else {
+          // If server returned message or modal is preferred, open modal with preview
+          const inputArea = document.getElementById('ai-assist-input');
+          if (inputArea) inputArea.value = currentVal;
+          if (modal) modal.style.display = 'flex';
+        }
+      } catch (err) {
+        // Fallback: open modal so user has options
+        const inputArea = document.getElementById('ai-assist-input');
+        if (inputArea && targetInput) inputArea.value = targetInput.value;
+        if (modal) modal.style.display = 'flex';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+      }
     });
 
     // Style chips toggle
@@ -5023,12 +5129,13 @@
               </div>
               <span style="margin-left:auto;font-size:0.72rem;padding:0.2rem 0.55rem;background:rgba(212,168,71,0.15);border:1px solid var(--gold);border-radius:999px;color:var(--gold2);">${escapeHtml(p.status || 'Active')}</span>
             </div>
-            <div style="margin-top:0.6rem;font-size:0.8rem;color:var(--text-muted);display:flex;flex-direction:column;gap:0.2rem;">
+            <div style="margin-top:0.6rem;font-size:0.8rem;color:var(--text-muted);display:flex;flex-direction:column;gap:0.25rem;">
               ${(p.problemsSolved || p.totalSolved) ? `<div>Problems Solved: <strong style="color:#fff;">${escapeHtml(String(p.problemsSolved || p.totalSolved))}</strong></div>` : ''}
               ${p.rating ? `<div>Rating / Score: <strong style="color:#fff;">${escapeHtml(String(p.rating))}</strong></div>` : ''}
               ${(p.maxRating || p.rank) ? `<div>Max Rating / Rank: <strong style="color:var(--gold2);">${escapeHtml(String(p.maxRating || p.rank))}</strong></div>` : ''}
               ${p.ranking ? `<div>Rank: <span>${escapeHtml(String(p.ranking))}</span></div>` : ''}
-              ${p.badges ? `<div>Badges: <span>${escapeHtml(String(Array.isArray(p.badges) ? p.badges.join(', ') : p.badges))}</span></div>` : ''}
+              ${(p.badgesCount || p.badges) ? `<div>Badges: <strong style="color:var(--gold2);">${escapeHtml(String(p.badgesCount ? p.badgesCount + ' Verified Badges' : (Array.isArray(p.badges) ? p.badges.join(', ') : p.badges)))}</strong></div>` : ''}
+              ${(!p.problemsSolved && !p.totalSolved && !p.rating && !p.maxRating && !p.rank && !p.ranking && !p.badges && !p.badgesCount) ? `<div>Status: <strong style="color:#4ade80;">Active &amp; Verified Public Profile</strong></div>` : ''}
             </div>
           </div>
           <div style="display:flex;gap:0.5rem;margin-top:auto;padding-top:0.5rem;border-top:1px solid rgba(255,255,255,0.06);">

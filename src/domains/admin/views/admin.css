@@ -357,21 +357,29 @@ body {
 .admin-layout {
   display: flex;
   flex: 1;
+  min-height: calc(100vh - 65px);
+  width: 100%;
 }
 
 /* ─── SIDEBAR ─── */
 .admin-sidebar {
   width: 275px;
-  background: rgba(11, 12, 22, 0.75);
+  min-width: 275px;
+  background: rgba(11, 12, 22, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1.2rem 0.8rem;
   overflow-y: auto;
-  max-height: calc(100vh - 65px);
+  height: calc(100vh - 65px);
+  min-height: calc(100vh - 65px);
   position: sticky;
   top: 65px;
+  flex-shrink: 0;
+  z-index: 50;
 }
 
 .admin-sidebar {

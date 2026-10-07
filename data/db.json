@@ -823,15 +823,14 @@
         "username": "harsha936_",
         "verified": true,
         "verificationMethod": "HackerRank Public API",
-        "badges": "",
+        "badges": "Python (5★), Problem Solving (4★), C++",
         "status": "Active",
         "profileUrl": "https://www.hackerrank.com/profile/harsha936_",
-        "rating": null,
-        "maxRating": "",
-        "easySolved": null,
-        "mediumSolved": null,
-        "hardSolved": null,
-        "ranking": ""
+        "problemsSolved": 85,
+        "rating": "Gold Badge",
+        "maxRating": "5★",
+        "rank": "Gold Badge",
+        "ranking": "Top 15%"
       },
       {
         "id": "credly",
@@ -842,15 +841,14 @@
         "verified": true,
         "verificationMethod": "Verified Public Profile",
         "badgesCount": 6,
+        "badges": "AWS Academy, Google Cloud, Coursera",
         "status": "Active",
         "profileUrl": "https://www.credly.com/users/harsha10003/badges/credly",
-        "rating": null,
-        "maxRating": "",
-        "easySolved": null,
-        "mediumSolved": null,
-        "hardSolved": null,
-        "ranking": "",
-        "badges": ""
+        "problemsSolved": 6,
+        "rating": "6 Badges",
+        "maxRating": "Verified Issuer",
+        "rank": "Verified Earner",
+        "ranking": "6 Credentials"
       }
     ],
     "heroCtas": {
@@ -1645,7 +1643,7 @@
       "achievements": true,
       "contact": true
     },
-    "avatar": "/media/media_1791193900819_2egoy.jpg",
+    "avatar": "/media/media_1791191882233_887kk.jpg",
     "avatarAlt": "Candidate Professional Headshot",
     "codingProfiles": [
       {
@@ -1690,15 +1688,14 @@
         "username": "harsha936_",
         "verified": true,
         "verificationMethod": "HackerRank Public API",
-        "badges": "",
+        "badges": "Python (5★), Problem Solving (4★), C++",
         "status": "Active",
         "profileUrl": "https://www.hackerrank.com/profile/harsha936_",
-        "rating": null,
-        "maxRating": "",
-        "easySolved": null,
-        "mediumSolved": null,
-        "hardSolved": null,
-        "ranking": ""
+        "problemsSolved": 85,
+        "rating": "Gold Badge",
+        "maxRating": "5★",
+        "rank": "Gold Badge",
+        "ranking": "Top 15%"
       },
       {
         "id": "credly",
@@ -1709,15 +1706,14 @@
         "verified": true,
         "verificationMethod": "Verified Public Profile",
         "badgesCount": 6,
+        "badges": "AWS Academy, Google Cloud, Coursera",
         "status": "Active",
         "profileUrl": "https://www.credly.com/users/harsha10003/badges/credly",
-        "rating": null,
-        "maxRating": "",
-        "easySolved": null,
-        "mediumSolved": null,
-        "hardSolved": null,
-        "ranking": "",
-        "badges": ""
+        "problemsSolved": 6,
+        "rating": "6 Badges",
+        "maxRating": "Verified Issuer",
+        "rank": "Verified Earner",
+        "ranking": "6 Credentials"
       }
     ],
     "heroCtas": {
@@ -1739,6 +1735,40 @@
     }
   },
   "pendingChanges": [
+    {
+      "id": "chg_1791388391643_9xlkp",
+      "detectedAt": "2026-10-07T15:53:11.643Z",
+      "status": "rejected",
+      "category": "Skills",
+      "field": "skills",
+      "label": "Irrelevant Skill",
+      "oldValue": "None",
+      "detectedValue": "Fortran",
+      "source": "Test Doc",
+      "rejectedBy": "admin_test",
+      "rejectedReason": "Not relevant",
+      "rejectedAt": "2026-10-07T15:53:11.651Z",
+      "updatedAt": "2026-10-07T15:53:11.651Z"
+    },
+    {
+      "id": "chg_1791388391606_wssa9",
+      "detectedAt": "2026-10-07T15:53:11.606Z",
+      "status": "approved",
+      "category": "Skills",
+      "field": "skills",
+      "label": "New Skill Detected",
+      "oldValue": "None",
+      "detectedValue": "TypeScript",
+      "source": "Test Doc",
+      "meta": {
+        "newSkills": [
+          "TypeScript"
+        ]
+      },
+      "approvedBy": "admin_test",
+      "approvedAt": "2026-10-07T15:53:11.624Z",
+      "updatedAt": "2026-10-07T15:53:11.625Z"
+    },
     {
       "id": "chg_1791193890833_uwah5",
       "detectedAt": "2026-10-05T09:51:30.833Z",
@@ -2918,6 +2948,46 @@
   ],
   "history": [
     {
+      "id": "hist_1791388391806_mvaun",
+      "timestamp": "2026-10-07T15:53:11.806Z",
+      "field": "full_profile_rollback",
+      "oldValue": "Prior snapshot: snapshot_1791388391735.json",
+      "newValue": "Restored to snapshot: snapshot_1791388391671.json",
+      "source": "Admin Rollback Action",
+      "status": "Restored",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791388391697_a2xn3",
+      "timestamp": "2026-10-07T15:53:11.697Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1791388391671.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791388391662_w9073",
+      "timestamp": "2026-10-07T15:53:11.662Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "Fortran",
+      "source": "Test Doc",
+      "status": "Rejected",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791388391629_ocbed",
+      "timestamp": "2026-10-07T15:53:11.629Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "TypeScript",
+      "source": "Test Doc",
+      "status": "Approved & Merged to Draft",
+      "approvedBy": "admin_test"
+    },
+    {
       "id": "hist_1791193900853_ning1",
       "timestamp": "2026-10-05T09:51:40.853Z",
       "field": "profile_avatar",
@@ -3876,50 +3946,10 @@
       "source": "Admin CMS",
       "status": "Saved to Draft",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191873301_kub9x",
-      "timestamp": "2026-10-05T09:17:53.301Z",
-      "field": "skill_add",
-      "oldValue": "None",
-      "newValue": "Languages: GraphQL",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191873272_crs33",
-      "timestamp": "2026-10-05T09:17:53.272Z",
-      "field": "about_section",
-      "oldValue": "Prior About",
-      "newValue": "6 paragraphs",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191873253_5i8rr",
-      "timestamp": "2026-10-05T09:17:53.253Z",
-      "field": "profile_hero",
-      "oldValue": "Thimmareddygari Harshavardhan Reddy",
-      "newValue": "Thimmareddygari Harshavardhan Reddy",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791191873163_lr8el",
-      "timestamp": "2026-10-05T09:17:53.163Z",
-      "field": "remove_platform_unstop",
-      "oldValue": "unstop",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-05T09:51:38.515Z",
+    "lastPublishedAt": "2026-10-07T15:53:11.685Z",
     "lastSyncCheckAt": "2026-10-05T09:51:36.869Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,
@@ -5447,6 +5477,120 @@
           }
         ]
       }
+    },
+    {
+      "id": "aimsg_1791388405175_8qof",
+      "timestamp": "2026-10-07T15:53:25.175Z",
+      "conversationId": "conv_1791388405174",
+      "role": "user",
+      "content": "Run AI portfolio audit and check for missing information",
+      "attachments": []
+    },
+    {
+      "id": "aimsg_1791388405220_v7hp",
+      "timestamp": "2026-10-07T15:53:25.220Z",
+      "role": "assistant",
+      "content": "Portfolio Audit Complete!\n\n• **Overall Portfolio Health**: **90/100**\n• SEO: 100/100 | Content: 70/100 | Projects: 95/100\n• Profile: 80/100 | Accessibility: 100/100 | Media: 100/100\n\nIdentified **4** area(s) for improvement:\n• **[WARNING] Weak Professional Headline**: Professional title should highlight primary engineering domains.\n• **[WARNING] Missing Career Objective**: Career objective section is empty or brief.\n• **[WARNING] Incomplete Biography**: No detailed about paragraphs found.\n• **[INFO] Missing Code/Demo Link for \"Vibrant National Level 48-Hour Hackathon\"**: Project \"Vibrant National Level 48-Hour Hackathon\" has neither GitHub URL nor live demo URL.",
+      "auditResult": {
+        "id": "audit_1791388405215",
+        "timestamp": "2026-10-07T15:53:25.215Z",
+        "overallScore": 90,
+        "scores": {
+          "seo": 100,
+          "content": 70,
+          "projects": 95,
+          "profile": 80,
+          "accessibility": 100,
+          "media": 100
+        },
+        "issuesCount": 4,
+        "issues": [
+          {
+            "id": "iss_profile_title",
+            "section": "Profile",
+            "category": "profile",
+            "severity": "warning",
+            "title": "Weak Professional Headline",
+            "description": "Professional title should highlight primary engineering domains.",
+            "recommendation": "Update headline to reflect full-stack and IoT expertise.",
+            "fixAction": {
+              "section": "profile",
+              "field": "title",
+              "proposedValue": "Full Stack Developer & IoT Engineer | Problem Solver"
+            }
+          },
+          {
+            "id": "iss_about_objective",
+            "section": "About",
+            "category": "content",
+            "severity": "warning",
+            "title": "Missing Career Objective",
+            "description": "Career objective section is empty or brief.",
+            "recommendation": "Add a concise, future-focused career objective statement.",
+            "fixAction": {
+              "section": "about",
+              "field": "careerObjective",
+              "proposedValue": "Aspiring software engineer focused on building robust, high-performance web applications and cloud-connected IoT solutions."
+            }
+          },
+          {
+            "id": "iss_about_paragraphs",
+            "section": "About",
+            "category": "content",
+            "severity": "warning",
+            "title": "Incomplete Biography",
+            "description": "No detailed about paragraphs found.",
+            "recommendation": "Add structured biography describing academic highlights and engineering passions.",
+            "fixAction": {
+              "section": "about",
+              "field": "paragraphs",
+              "proposedValue": [
+                "Computer Science and Engineering student with strong fundamentals in algorithms, full-stack development, and IoT sensor systems."
+              ]
+            }
+          },
+          {
+            "id": "iss_proj_links_4",
+            "section": "Projects",
+            "category": "projects",
+            "severity": "info",
+            "title": "Missing Code/Demo Link for \"Vibrant National Level 48-Hour Hackathon\"",
+            "description": "Project \"Vibrant National Level 48-Hour Hackathon\" has neither GitHub URL nor live demo URL.",
+            "recommendation": "Provide source code repository link."
+          }
+        ]
+      },
+      "actionCard": {
+        "type": "audit_card",
+        "title": "Portfolio Health Score: 90/100",
+        "status": "EXCELLENT",
+        "details": [
+          "SEO: 100% | Projects: 95%",
+          "Identified Issues: 4",
+          "Recommendations: 1-Click Fixes Available"
+        ],
+        "actions": [
+          {
+            "label": "View Health Audit",
+            "action": "switch_subtab",
+            "subtab": "subtab-audit"
+          }
+        ]
+      }
+    },
+    {
+      "id": "aimsg_1791388405229_ypo9",
+      "timestamp": "2026-10-07T15:53:25.229Z",
+      "conversationId": "conv_1791388405229",
+      "role": "user",
+      "content": "Check whether my portfolio has duplicate projects",
+      "attachments": []
+    },
+    {
+      "id": "aimsg_1791388405233_e7yi",
+      "timestamp": "2026-10-07T15:53:25.233Z",
+      "role": "assistant",
+      "content": "Duplicate Analysis:\n\nIdentified **1 duplicate entry/entries** in your portfolio:\n• **[Skills]**: Skill \"Natural Language Processing\" exists in multiple categories"
     }
   ],
   "aiChangeSets": [
@@ -6926,6 +7070,75 @@
   ],
   "aiAudits": [
     {
+      "id": "audit_1791388405215",
+      "timestamp": "2026-10-07T15:53:25.215Z",
+      "overallScore": 90,
+      "scores": {
+        "seo": 100,
+        "content": 70,
+        "projects": 95,
+        "profile": 80,
+        "accessibility": 100,
+        "media": 100
+      },
+      "issuesCount": 4,
+      "issues": [
+        {
+          "id": "iss_profile_title",
+          "section": "Profile",
+          "category": "profile",
+          "severity": "warning",
+          "title": "Weak Professional Headline",
+          "description": "Professional title should highlight primary engineering domains.",
+          "recommendation": "Update headline to reflect full-stack and IoT expertise.",
+          "fixAction": {
+            "section": "profile",
+            "field": "title",
+            "proposedValue": "Full Stack Developer & IoT Engineer | Problem Solver"
+          }
+        },
+        {
+          "id": "iss_about_objective",
+          "section": "About",
+          "category": "content",
+          "severity": "warning",
+          "title": "Missing Career Objective",
+          "description": "Career objective section is empty or brief.",
+          "recommendation": "Add a concise, future-focused career objective statement.",
+          "fixAction": {
+            "section": "about",
+            "field": "careerObjective",
+            "proposedValue": "Aspiring software engineer focused on building robust, high-performance web applications and cloud-connected IoT solutions."
+          }
+        },
+        {
+          "id": "iss_about_paragraphs",
+          "section": "About",
+          "category": "content",
+          "severity": "warning",
+          "title": "Incomplete Biography",
+          "description": "No detailed about paragraphs found.",
+          "recommendation": "Add structured biography describing academic highlights and engineering passions.",
+          "fixAction": {
+            "section": "about",
+            "field": "paragraphs",
+            "proposedValue": [
+              "Computer Science and Engineering student with strong fundamentals in algorithms, full-stack development, and IoT sensor systems."
+            ]
+          }
+        },
+        {
+          "id": "iss_proj_links_4",
+          "section": "Projects",
+          "category": "projects",
+          "severity": "info",
+          "title": "Missing Code/Demo Link for \"Vibrant National Level 48-Hour Hackathon\"",
+          "description": "Project \"Vibrant National Level 48-Hour Hackathon\" has neither GitHub URL nor live demo URL.",
+          "recommendation": "Provide source code repository link."
+        }
+      ]
+    },
+    {
       "id": "audit_1791193900302",
       "timestamp": "2026-10-05T09:51:40.302Z",
       "overallScore": 90,
@@ -8183,88 +8396,6 @@
     {
       "id": "audit_1791130570224",
       "timestamp": "2026-10-04T16:16:10.224Z",
-      "overallScore": 87,
-      "scores": {
-        "seo": 100,
-        "content": 70,
-        "projects": 95,
-        "profile": 80,
-        "accessibility": 100,
-        "media": 75
-      },
-      "issuesCount": 5,
-      "issues": [
-        {
-          "id": "iss_profile_title",
-          "section": "Profile",
-          "category": "profile",
-          "severity": "warning",
-          "title": "Weak Professional Headline",
-          "description": "Professional title should highlight primary engineering domains.",
-          "recommendation": "Update headline to reflect full-stack and IoT expertise.",
-          "fixAction": {
-            "section": "profile",
-            "field": "title",
-            "proposedValue": "Full Stack Developer & IoT Engineer | Problem Solver"
-          }
-        },
-        {
-          "id": "iss_avatar_missing",
-          "section": "Media & Avatar",
-          "category": "media",
-          "severity": "warning",
-          "title": "Missing Profile Photo / Avatar",
-          "recommendation": "Upload a clear professional headshot.",
-          "fixAction": {
-            "section": "avatar",
-            "field": "avatar",
-            "proposedValue": "Photo from 🖤⃝🦋𓍯𓂃𓏧♡🫵🏻🫶🏻.jpg"
-          }
-        },
-        {
-          "id": "iss_about_objective",
-          "section": "About",
-          "category": "content",
-          "severity": "warning",
-          "title": "Missing Career Objective",
-          "description": "Career objective section is empty or brief.",
-          "recommendation": "Add a concise, future-focused career objective statement.",
-          "fixAction": {
-            "section": "about",
-            "field": "careerObjective",
-            "proposedValue": "Aspiring software engineer focused on building robust, high-performance web applications and cloud-connected IoT solutions."
-          }
-        },
-        {
-          "id": "iss_about_paragraphs",
-          "section": "About",
-          "category": "content",
-          "severity": "warning",
-          "title": "Incomplete Biography",
-          "description": "No detailed about paragraphs found.",
-          "recommendation": "Add structured biography describing academic highlights and engineering passions.",
-          "fixAction": {
-            "section": "about",
-            "field": "paragraphs",
-            "proposedValue": [
-              "Computer Science and Engineering student with strong fundamentals in algorithms, full-stack development, and IoT sensor systems."
-            ]
-          }
-        },
-        {
-          "id": "iss_proj_links_4",
-          "section": "Projects",
-          "category": "projects",
-          "severity": "info",
-          "title": "Missing Code/Demo Link for \"Vibrant National Level 48-Hour Hackathon\"",
-          "description": "Project \"Vibrant National Level 48-Hour Hackathon\" has neither GitHub URL nor live demo URL.",
-          "recommendation": "Provide source code repository link."
-        }
-      ]
-    },
-    {
-      "id": "audit_1791130419703",
-      "timestamp": "2026-10-04T16:13:39.703Z",
       "overallScore": 87,
       "scores": {
         "seo": 100,

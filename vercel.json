@@ -1,5 +1,10 @@
 {
   "version": 2,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "media/**,storage/**,data/**,404.html,index.html,profile.js,style.css,favicon.*,*.png,*.jpg"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
