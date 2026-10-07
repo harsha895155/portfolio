@@ -862,6 +862,16 @@
         }, i * 100 + 200);
       });
     }, 500);
+
+    // Smooth scroll to active hash section after content is fully rendered
+    if (window.location.hash && window.location.hash.length > 1) {
+      setTimeout(function () {
+        var el = document.querySelector(window.location.hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    }
   }
 
   if (document.readyState === 'loading') {

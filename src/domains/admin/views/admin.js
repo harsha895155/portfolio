@@ -45,11 +45,14 @@
         document.getElementById('admin-app').style.display = 'flex';
         document.getElementById('admin-user-display').textContent = data.data.user.username;
         const hashTab = window.location.hash ? window.location.hash.replace('#', '') : null;
-        if (hashTab && document.getElementById(hashTab)) {
-          switchTab(hashTab);
-        } else {
-          await loadDashboard();
-        }
+        const storedTab = localStorage.getItem('adminActiveTab');
+        const initialTab = (hashTab && document.getElementById(hashTab))
+          ? hashTab
+          : (storedTab && document.getElementById(storedTab))
+            ? storedTab
+            : 'tab-overview';
+
+        await switchTab(initialTab, false);
       } else {
         showLoginModal();
       }
@@ -97,7 +100,8 @@
   });
 
   /* ── Tab Navigation ── */
-  function switchTab(targetId) {
+  async function switchTab(targetId, updateHistory = true) {
+    if (!targetId) return;
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
 
@@ -107,6 +111,18 @@
     const targetPanel = document.getElementById(targetId);
     if (targetPanel) {
       targetPanel.classList.add('active');
+    }
+
+    try {
+      localStorage.setItem('adminActiveTab', targetId);
+      if (updateHistory) {
+        history.replaceState(null, '', '#' + targetId);
+      }
+    } catch (_) {}
+
+    // Ensure core profile data is loaded in background if not already loaded
+    if (targetId !== 'tab-overview' && (!currentDraftProfile || Object.keys(currentDraftProfile).length === 0)) {
+      loadDashboard().catch(() => {});
     }
 
     if (targetId === 'tab-overview') loadDashboard();
@@ -135,6 +151,13 @@
     tab.addEventListener('click', () => {
       switchTab(tab.dataset.tab);
     });
+  });
+
+  window.addEventListener('hashchange', () => {
+    const h = window.location.hash ? window.location.hash.replace('#', '') : null;
+    if (h && document.getElementById(h)) {
+      switchTab(h, false);
+    }
   });
 
   /* ── 1. Dashboard Overview & Analytics ── */

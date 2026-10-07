@@ -1288,23 +1288,45 @@ window.addEventListener('keydown', (e) => {
 </script>
 
 <script>
-  // Ensure the page always starts from the header section on reload/refresh
+  // Preserve scroll position and section upon reload/refresh
   if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
+    history.scrollRestoration = 'auto';
   }
-  window.scrollTo(0, 0);
-  document.addEventListener('DOMContentLoaded', () => {
-    window.scrollTo(0, 0);
-  });
-  window.addEventListener('load', () => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 50);
-  });
-  window.addEventListener('beforeunload', () => {
-    window.scrollTo(0, 0);
-  });
+
+  // If a hash exists on load (e.g. #skills, #experience, #projects), smoothly scroll to that section
+  function restoreSectionOnLoad() {
+    const hash = window.location.hash;
+    if (hash && hash.length > 1) {
+      setTimeout(() => {
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+    }
+  }
+
+  window.addEventListener('load', restoreSectionOnLoad);
+
+  // Update hash dynamically as the user scrolls past sections so refresh stays at current section
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const sections = document.querySelectorAll('section[id], header[id]');
+      const scrollPos = window.scrollY + 200;
+      for (const sec of sections) {
+        const top = sec.offsetTop;
+        const height = sec.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          if (window.location.hash !== '#' + sec.id) {
+            history.replaceState(null, '', '#' + sec.id);
+          }
+          break;
+        }
+      }
+    }, 120);
+  }, { passive: true });
 </script>
 
 </body>

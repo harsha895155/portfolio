@@ -357,8 +357,10 @@ body {
 .admin-layout {
   display: flex;
   flex: 1;
-  min-height: calc(100vh - 65px);
+  min-height: calc(100vh - 68px);
+  min-height: calc(100dvh - 68px);
   width: 100%;
+  align-items: stretch;
 }
 
 /* ─── SIDEBAR ─── */
@@ -374,11 +376,14 @@ body {
   justify-content: space-between;
   padding: 1.2rem 0.8rem;
   overflow-y: auto;
-  height: calc(100vh - 65px);
-  min-height: calc(100vh - 65px);
+  height: calc(100dvh - 68px);
+  max-height: calc(100dvh - 68px);
+  min-height: calc(100dvh - 68px);
   position: sticky;
-  top: 65px;
+  top: 68px;
+  bottom: 0;
   flex-shrink: 0;
+  box-sizing: border-box;
   z-index: 50;
 }
 
@@ -1204,7 +1209,8 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 1.5rem;
+  padding: 1rem;
+  overflow-y: auto;
 }
 
 .modal-container {
@@ -1213,9 +1219,18 @@ body {
   border-radius: var(--radius);
   width: 100%;
   max-width: 540px;
+  max-height: calc(100dvh - 2rem);
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 30px rgba(212, 168, 67, 0.08);
   animation: modalScaleIn 0.22s ease-out;
   overflow: hidden;
+}
+
+.modal-container.modal-lg {
+  max-width: 920px;
+  width: 95vw;
+  max-height: calc(100dvh - 2rem);
 }
 
 @keyframes modalScaleIn {
@@ -1270,8 +1285,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
-  max-height: 70vh;
+  max-height: calc(100dvh - 150px);
   overflow-y: auto;
+  flex: 1;
 }
 
 .modal-footer {

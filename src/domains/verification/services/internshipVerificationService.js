@@ -421,16 +421,28 @@ class InternshipVerificationService {
   /**
    * 6. Multi-layer Duplicate Detection for Internships
    */
-  checkDuplicates({ fileHashes = [], candidateId, organization, role, startDate }) {
+  checkDuplicates({ fileHashes = [], candidateId, organization, role, startDate, currentEntityId = null }) {
     const draft = db.get('draft') || {};
     const published = db.get('published') || {};
-    const verifiedRecords = db.get('verifiedRecords') || [];
-    const allExps = [...(draft.experience || []), ...(published.experience || [])];
+    const rawVerifiedRecords = db.get('verifiedRecords') || [];
+    const allExps = [...(draft.experience || []), ...(published.experience || [])].filter(e =>
+      !currentEntityId || e.id !== currentEntityId
+    );
 
-    // Check 1: Exact File Hash match across any uploaded document
+    // Only consider verified records that haven't been deleted from the portfolio
+    const activeVerifiedRecords = rawVerifiedRecords.filter(r => {
+      if (r.type && r.type !== 'internship') return false;
+      if (currentEntityId && r.entityId === currentEntityId) return false;
+      if (r.entityId && !allExps.some(e => e.id === r.entityId)) {
+        return false; // The underlying experience was deleted by the user
+      }
+      return true;
+    });
+
+    // Check 1: Exact File Hash match across any active uploaded document
     for (const hash of fileHashes) {
       if (!hash) continue;
-      const matchedRecord = verifiedRecords.find(r =>
+      const matchedRecord = activeVerifiedRecords.find(r =>
         Array.isArray(r.fileHashes) && r.fileHashes.includes(hash)
       );
       if (matchedRecord) {
@@ -448,7 +460,7 @@ class InternshipVerificationService {
       const normCid = this.normalize(candidateId);
       const normOrg = this.normalize(organization);
 
-      const matchedRec = verifiedRecords.find(r =>
+      const matchedRec = activeVerifiedRecords.find(r =>
         r.type === 'internship' &&
         this.normalize(r.candidateId) === normCid &&
         this.normalize(r.organization || r.issuer).includes(normOrg)

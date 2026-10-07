@@ -244,16 +244,29 @@ class CertificateVerificationService {
    * Layer 3: Verification URL Duplicate
    * Layer 4: Normalized Content & Title Duplicate
    */
-  checkDuplicates({ fileHash, credentialId, credentialUrl, issuer, title }) {
+  checkDuplicates({ fileHash, credentialId, credentialUrl, issuer, title, currentEntityId = null }) {
     const draft = db.get('draft') || {};
     const published = db.get('published') || {};
-    const documents = db.get('documents') || [];
-    const verifiedRecords = db.get('verifiedRecords') || [];
+    const rawDocuments = db.get('documents') || [];
+    const rawVerifiedRecords = db.get('verifiedRecords') || [];
+
+    const activeCerts = [
+      ...(draft.certifications || []),
+      ...(published.certifications || [])
+    ].filter(c => !currentEntityId || c.id !== currentEntityId);
+
+    const activeVerifiedRecords = rawVerifiedRecords.filter(r => {
+      if (r.type && r.type !== 'certification') return false;
+      if (currentEntityId && r.entityId === currentEntityId) return false;
+      if (r.entityId && !activeCerts.some(c => c.id === r.entityId)) {
+        return false; // The underlying certification was deleted by the user
+      }
+      return true;
+    });
 
     const allCerts = [
-      ...(draft.certifications || []),
-      ...(published.certifications || []),
-      ...verifiedRecords.filter(r => r.type === 'certification').map(r => ({
+      ...activeCerts,
+      ...activeVerifiedRecords.map(r => ({
         name: r.title,
         issuer: r.issuer,
         credentialId: r.credentialId,
@@ -263,8 +276,8 @@ class CertificateVerificationService {
 
     // Duplicate Check 1: File Cryptographic Hash (Exact identical file)
     if (fileHash) {
-      // Check verifiedRecords
-      const hashMatchVerified = verifiedRecords.find(r =>
+      // Check active verifiedRecords
+      const hashMatchVerified = activeVerifiedRecords.find(r =>
         Array.isArray(r.fileHashes) && r.fileHashes.includes(fileHash)
       );
       if (hashMatchVerified) {
@@ -276,8 +289,12 @@ class CertificateVerificationService {
         };
       }
 
-      // Check documents collection
-      const docMatch = documents.find(d => d.sha256 === fileHash);
+      // Check documents collection for active certs
+      const docMatch = rawDocuments.find(d => {
+        if (d.sha256 !== fileHash) return false;
+        if (currentEntityId && d.entityId === currentEntityId) return false;
+        return activeCerts.some(c => c.id === d.entityId);
+      });
       if (docMatch) {
         return {
           isDuplicate: true,

@@ -434,11 +434,38 @@ class CmsService {
   deleteExperience(id, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.experience = draft.experience || [];
+    const published = db.get('published') || {};
+    published.experience = published.experience || [];
 
     const index = draft.experience.findIndex(e => e.id === id);
-    if (index === -1) throw new Error(`Experience with ID "${id}" not found`);
+    let removed = null;
+    if (index !== -1) {
+      removed = draft.experience.splice(index, 1)[0];
+    }
 
-    const removed = draft.experience.splice(index, 1)[0];
+    const pubIndex = published.experience.findIndex(e => e.id === id);
+    if (pubIndex !== -1) {
+      if (!removed) removed = published.experience[pubIndex];
+      published.experience.splice(pubIndex, 1);
+      db.set('published', published);
+    }
+
+    if (!removed) throw new Error(`Experience with ID "${id}" not found`);
+
+    // Prune verifiedRecords so re-uploading documents or re-adding is never blocked
+    const verifiedRecords = db.get('verifiedRecords') || [];
+    const remainingVR = verifiedRecords.filter(r => {
+      if (r.entityId && r.entityId === id) return false;
+      if (r.type === 'internship' && r.title === removed.role && (r.organization === removed.company || !r.organization)) return false;
+      return true;
+    });
+    db.set('verifiedRecords', remainingVR);
+
+    // Prune documents collection
+    const documents = db.get('documents') || [];
+    const remainingDocs = documents.filter(d => d.entityId !== id);
+    db.set('documents', remainingDocs);
+
     db.set('draft', draft);
     this.saveDraftAndLog('experience_delete', `${removed.role} at ${removed.company}`, 'Removed', `Deleted experience: ${removed.role}`, approvedBy);
     return draft.experience;
@@ -603,11 +630,38 @@ class CmsService {
   deleteCertification(id, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.certifications = draft.certifications || [];
+    const published = db.get('published') || {};
+    published.certifications = published.certifications || [];
 
     const index = draft.certifications.findIndex(c => c.id === id);
-    if (index === -1) throw new Error(`Certification with ID "${id}" not found`);
+    let removed = null;
+    if (index !== -1) {
+      removed = draft.certifications.splice(index, 1)[0];
+    }
 
-    const removed = draft.certifications.splice(index, 1)[0];
+    const pubIndex = published.certifications.findIndex(c => c.id === id);
+    if (pubIndex !== -1) {
+      if (!removed) removed = published.certifications[pubIndex];
+      published.certifications.splice(pubIndex, 1);
+      db.set('published', published);
+    }
+
+    if (!removed) throw new Error(`Certification with ID "${id}" not found`);
+
+    // Prune verifiedRecords
+    const verifiedRecords = db.get('verifiedRecords') || [];
+    const remainingVR = verifiedRecords.filter(r => {
+      if (r.entityId && r.entityId === id) return false;
+      if (r.type === 'certification' && (r.title === removed.name || (r.credentialId && r.credentialId === removed.credentialId))) return false;
+      return true;
+    });
+    db.set('verifiedRecords', remainingVR);
+
+    // Prune documents collection
+    const documents = db.get('documents') || [];
+    const remainingDocs = documents.filter(d => d.entityId !== id);
+    db.set('documents', remainingDocs);
+
     db.set('draft', draft);
     this.saveDraftAndLog('cert_delete', removed.name, 'Removed', `Deleted certification "${removed.name}"`, approvedBy);
     return draft.certifications;

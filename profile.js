@@ -1,7 +1,7 @@
 /**
  * PORTFOLIO PROFILE -- SINGLE SOURCE OF TRUTH
  * Automatically synchronized by the Private Portfolio Management System.
- * Last Published: 2026-10-07T15:53:11.768Z
+ * Last Published: 2026-10-07T16:44:42.388Z
  */
 
 const PROFILE = {
@@ -36,7 +36,7 @@ const PROFILE = {
   "resume": {
     "url": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
     "label": "📄 View Resume",
-    "updatedAt": "2026-10-05T09:51:38.264Z"
+    "updatedAt": "2026-10-07T16:44:39.962Z"
   },
   "education": [
     {
@@ -120,41 +120,24 @@ const PROFILE = {
         "Python",
         "JavaScript (ES6+)",
         "TypeScript",
-        "SQL",
-        "JavaScript",
-        "Express",
-        "PostgreSQL",
-        "React",
-        "MongoDB",
-        "Git",
-        "JWT",
-        "Java",
-        "AWS",
-        "Amazon Web Services",
-        "Google Cloud",
-        "GitHub",
-        "NLP",
-        "Natural Language Processing",
-        "Machine Learning",
-        "Deep Learning",
-        "Core Java",
-        "Rust",
-        "Docker",
-        "Kubernetes",
-        "IoT"
+        "SQL"
       ],
       "bars": [
         {
-          "label": "Java (IIT Bombay Certified)",
+          "label": "Java (OOP & DSA)",
+          "value": 90
+        },
+        {
+          "label": "Python",
+          "value": 88
+        },
+        {
+          "label": "JavaScript (ES6+)",
+          "value": 92
+        },
+        {
+          "label": "SQL",
           "value": 85
-        },
-        {
-          "label": "Python (Grade-O Intern)",
-          "value": 80
-        },
-        {
-          "label": "JavaScript / TypeScript",
-          "value": 75
         }
       ]
     },
@@ -162,20 +145,24 @@ const PROFILE = {
       "category": "Frontend Development",
       "items": [
         "React.js",
-        "Vite",
         "HTML5",
         "CSS3",
-        "Tailwind CSS",
         "Bootstrap",
+        "Tailwind CSS",
+        "Vite",
         "Responsive Design"
       ],
       "bars": [
         {
           "label": "React.js",
-          "value": 80
+          "value": 92
         },
         {
           "label": "HTML5 & CSS3",
+          "value": 95
+        },
+        {
+          "label": "Tailwind CSS & UI",
           "value": 88
         }
       ]
@@ -186,19 +173,27 @@ const PROFILE = {
         "Node.js",
         "Express.js",
         "Django",
-        "MongoDB Atlas",
-        "PostgreSQL (90%)",
-        "MySQL",
-        "RESTful APIs"
+        "MongoDB",
+        "PostgreSQL",
+        "REST APIs",
+        "JWT Auth"
       ],
       "bars": [
         {
-          "label": "PostgreSQL (IIT Bombay Certified)",
+          "label": "Node.js & Express",
           "value": 90
         },
         {
-          "label": "Node.js / Express",
-          "value": 78
+          "label": "PostgreSQL & RDBMS",
+          "value": 90
+        },
+        {
+          "label": "MongoDB",
+          "value": 85
+        },
+        {
+          "label": "Django",
+          "value": 82
         }
       ]
     },
@@ -207,41 +202,83 @@ const PROFILE = {
       "items": [
         "Amazon Web Services (AWS)",
         "AWS SageMaker",
-        "Google Cloud (GCP)",
-        "Generative AI",
+        "Google Cloud",
+        "Machine Learning",
         "Natural Language Processing (NLP)",
-        "ESP32 Hardware",
-        "IoT Sensors (MQ135, DHT22)"
+        "Generative AI",
+        "IoT Systems (ESP32)"
+      ],
+      "bars": [
+        {
+          "label": "AWS & Cloud",
+          "value": 85
+        },
+        {
+          "label": "Generative AI & LLMs",
+          "value": 88
+        },
+        {
+          "label": "NLP (IIT Kharagpur Elite)",
+          "value": 85
+        }
       ]
     },
     {
-      "category": "Core CS Competencies",
+      "category": "Core CS & Developer Tools",
       "items": [
         "Data Structures & Algorithms",
         "Object-Oriented Programming (OOP)",
-        "Database Management (RDBMS)",
-        "Web Security & JWT Auth",
+        "REST APIs",
         "Git & GitHub",
-        "Agile Methodologies"
+        "Version Control",
+        "Postman",
+        "Linux / CLI"
+      ],
+      "bars": [
+        {
+          "label": "Data Structures & OOP",
+          "value": 90
+        },
+        {
+          "label": "Git & Developer Workflows",
+          "value": 92
+        },
+        {
+          "label": "API Design & Security",
+          "value": 88
+        }
       ]
     },
     {
-      "category": "Languages & Soft Skills",
+      "category": "Languages Spoken & Soft Skills",
       "items": [
-        "English (Fluent)",
+        "English (Professional)",
         "Telugu (Native)",
-        "Kannada",
-        "Analytical Thinking",
-        "Problem Solving",
+        "Kannada (Fluent)",
         "Team Collaboration",
-        "Leadership"
+        "Problem-Solving",
+        "Communication",
+        "Analytical Thinking",
+        "Adaptability"
+      ],
+      "bars": [
+        {
+          "label": "Problem-Solving",
+          "value": 95
+        },
+        {
+          "label": "Team Collaboration",
+          "value": 92
+        },
+        {
+          "label": "Technical Communication",
+          "value": 90
+        }
       ]
     },
     {
       "category": "Languages",
-      "items": [
-        "Natural Language Processing"
-      ],
+      "items": [],
       "bars": []
     }
   ],
@@ -340,38 +377,6 @@ const PROFILE = {
         "Acquired deep proficiency in relational schema design, query optimization, indexing, stored constraints, and ACID transactions.",
         "Secured an outstanding consolidated assessment score of <span class=\"badge\">90.00%</span> in the national remote exam (1 Academic Credit)."
       ]
-    },
-    {
-      "id": "exp_1791133360595_6gu8",
-      "role": "MERN full Stack Development",
-      "company": "AICTE - EduSkills",
-      "companyUrl": "",
-      "employmentType": "Virtual Internship",
-      "location": "Remote / Virtual",
-      "startDate": "Apr 2026",
-      "endDate": "Jun 2026",
-      "current": true,
-      "responsibilities": [
-        "Engineered scalable full-stack web applications utilizing MongoDB, Express.js, React.js, and Node.js.",
-        "Architected modular RESTful API services with token-based authentication and database CRUD optimizations.",
-        "Built responsive UI components, integrated asynchronous endpoints, and followed modern agile software workflows."
-      ],
-      "candidateId": "STU67a3881a20bc81738770458",
-      "verified": true,
-      "verificationStatus": "VERIFIED",
-      "documentHashes": [
-        "308856a74c9cdb9c3524d5fbddb129651d5589443c9ee4cf9400ab3df7f6e663"
-      ],
-      "associatedDocuments": [
-        {
-          "type": "offerLetter",
-          "originalName": "Offer_Letter_996565_1557861.pdf",
-          "diskFilename": "doc_1791133360580_46mi5c.pdf",
-          "id": "doc_1791133360580_46mi5c",
-          "hash": "308856a74c9cdb9c3524d5fbddb129651d5589443c9ee4cf9400ab3df7f6e663"
-        }
-      ],
-      "verifiedAt": "2026-10-04T17:02:40.595Z"
     }
   ],
   "projects": [
