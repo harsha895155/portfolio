@@ -1390,17 +1390,28 @@
 
         <!-- ── TAB 18: HISTORY & SNAPSHOTS ── -->
         <section id="tab-history" class="tab-panel">
-          <div class="panel-header">
+          <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
               <h1 class="panel-title">Change History &amp; Snapshots</h1>
               <p class="panel-sub">Complete audit trail of profile modifications and 1-click snapshot restoration.</p>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+              <button type="button" id="btn-create-instant-snapshot" class="btn-primary" style="font-size: 0.82rem; padding: 0.45rem 0.9rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+                📸 Take Instant Snapshot
+              </button>
+              <button type="button" id="btn-refresh-history" class="btn-secondary" style="font-size: 0.82rem; padding: 0.45rem 0.9rem;">
+                🔄 Refresh
+              </button>
             </div>
           </div>
 
           <!-- SNAPSHOTS -->
           <div class="card">
-            <h3 class="card-title">Backup Snapshots</h3>
-            <p class="card-desc">Automatic snapshots created every time you publish changes. You can restore any past version at any time.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+              <h3 class="card-title" style="margin-bottom: 0;">Backup Snapshots</h3>
+              <span id="snapshots-count-badge" class="diff-category-badge" style="font-size: 0.75rem;">0 Snapshots</span>
+            </div>
+            <p class="card-desc">Automatic snapshots created every time you publish changes or trigger a manual backup. You can inspect or restore any past version at any time.</p>
             <div id="snapshots-list" class="snapshots-grid">
               <div class="text-muted">Loading snapshots...</div>
             </div>
@@ -1408,7 +1419,18 @@
 
           <!-- AUDIT LOG TABLE -->
           <div class="card mt-4">
-            <h3 class="card-title">Audit Trail</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.75rem;">
+              <div>
+                <h3 class="card-title" style="margin-bottom: 0.2rem;">Audit Trail</h3>
+                <p class="card-desc" style="margin-bottom: 0;">Detailed timeline of changes, approvals, and portfolio synchronization events.</p>
+              </div>
+              <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                <input type="text" id="history-search-input" class="form-input" style="max-width: 280px; font-size: 0.82rem; padding: 0.35rem 0.7rem;" placeholder="🔍 Filter audit logs...">
+                <button type="button" id="btn-export-audit-csv" class="btn-secondary" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">
+                  📥 Export CSV
+                </button>
+              </div>
+            </div>
             <div class="table-responsive">
               <table class="data-table">
                 <thead>

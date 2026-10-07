@@ -90,6 +90,7 @@ app.post('/api/admin/pending/approve-all', requireAuth, adminController.approveA
 app.post('/api/admin/pending/reject-all', requireAuth, adminController.rejectAll);
 app.get('/api/admin/history', requireAuth, adminController.getAuditHistory);
 app.get('/api/admin/history/snapshots/:filename', requireAuth, adminController.getSnapshot);
+app.post('/api/admin/history/snapshots', requireAuth, adminController.createSnapshot);
 app.delete('/api/admin/history/snapshots/:filename', requireAuth, adminController.deleteSnapshot);
 app.get('/api/admin/search', requireAuth, adminController.globalSearch);
 

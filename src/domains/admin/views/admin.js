@@ -1106,23 +1106,52 @@
         dupCheckResult.textContent = '✓ Duplicate Check: Unique file fingerprints and canonical candidate identity verified.';
       }
 
-      // Pre-fill editable form with extracted data
+      // Pre-fill editable form with extracted data using versatile resolution
       const ext = data.extractedData || {};
-      if (ext.role) document.getElementById('exp-form-role').value = ext.role;
-      if (ext.company) document.getElementById('exp-form-company').value = ext.company;
-      if (ext.startDate) document.getElementById('exp-form-start').value = ext.startDate;
-      if (ext.endDate) document.getElementById('exp-form-end').value = ext.endDate;
-      if (ext.workMode) document.getElementById('exp-form-location').value = ext.workMode;
-      if (ext.role && ext.role.toLowerCase().includes('virtual')) {
+      const getExpVal = (...keys) => {
+        for (const k of keys) {
+          if (ext[k] !== undefined && ext[k] !== null) {
+            const item = ext[k];
+            if (typeof item === 'object' && item !== null && 'value' in item) {
+              if (item.value !== undefined && item.value !== null && item.value !== '') return String(item.value).trim();
+            } else if (typeof item === 'string' && item.trim() !== '') {
+              return item.trim();
+            } else if (typeof item === 'number') {
+              return String(item);
+            }
+          }
+        }
+        return '';
+      };
+
+      const roleVal = getExpVal('role', 'title', 'position', 'designation');
+      if (roleVal) document.getElementById('exp-form-role').value = roleVal;
+
+      const compVal = getExpVal('company', 'organization', 'employer');
+      if (compVal) document.getElementById('exp-form-company').value = compVal;
+
+      const startVal = getExpVal('startDate', 'start', 'from');
+      if (startVal) document.getElementById('exp-form-start').value = startVal;
+
+      const endVal = getExpVal('endDate', 'end', 'to');
+      if (endVal) document.getElementById('exp-form-end').value = endVal;
+
+      const locVal = getExpVal('workMode', 'location', 'mode');
+      if (locVal) document.getElementById('exp-form-location').value = locVal;
+
+      if (roleVal && roleVal.toLowerCase().includes('virtual')) {
         document.getElementById('exp-form-type').value = 'Virtual Internship';
       }
       document.getElementById('exp-form-current').checked = (status === 'Ongoing');
-      if (ext.responsibilities && ext.responsibilities.length) {
-        document.getElementById('exp-form-responsibilities').value = Array.isArray(ext.responsibilities)
-          ? ext.responsibilities.join('\n')
-          : ext.responsibilities;
-      } else if (ext.description) {
-        document.getElementById('exp-form-responsibilities').value = ext.description;
+
+      const respRaw = ext.responsibilities?.value || ext.responsibilities;
+      if (respRaw && (Array.isArray(respRaw) ? respRaw.length : respRaw)) {
+        document.getElementById('exp-form-responsibilities').value = Array.isArray(respRaw)
+          ? respRaw.join('\n')
+          : respRaw;
+      } else {
+        const descVal = getExpVal('description', 'desc', 'summary');
+        if (descVal) document.getElementById('exp-form-responsibilities').value = descVal;
       }
 
       showToast(`✓ Internship documents cross-verified! Status: ${data.status}`, 'success');
@@ -1573,19 +1602,48 @@
         }
       }
 
-      // Pre-fill editable form fields
+      // Pre-fill editable form fields with versatile attribute resolution
       const ext = data.extractedData || {};
-      if (ext.certificateTitle?.value) document.getElementById('cert-form-name').value = ext.certificateTitle.value;
-      if (ext.issuingOrganization?.value) document.getElementById('cert-form-issuer').value = ext.issuingOrganization.value;
-      if (ext.issueDate?.value) document.getElementById('cert-form-date').value = ext.issueDate.value;
-      if (ext.credentialId?.value) document.getElementById('cert-form-id-val').value = ext.credentialId.value;
-      if (ext.score?.value) document.getElementById('cert-form-score').value = ext.score.value;
-      if (data.effectiveUrl || ext.verificationUrl?.value) {
-        document.getElementById('cert-form-url').value = data.effectiveUrl || ext.verificationUrl.value;
-      }
-      if (ext.description?.value || (ext.skills?.value && ext.skills.value.length)) {
-        const skillsLine = (ext.skills?.value && ext.skills.value.length) ? `Skills: ${ext.skills.value.join(', ')}` : '';
-        document.getElementById('cert-form-desc').value = ext.description?.value ? `${ext.description.value}\n${skillsLine}`.trim() : skillsLine;
+      const resolveVal = (...keys) => {
+        for (const k of keys) {
+          if (ext[k] !== undefined && ext[k] !== null) {
+            const item = ext[k];
+            if (typeof item === 'object' && item !== null && 'value' in item) {
+              if (item.value !== undefined && item.value !== null && item.value !== '') return String(item.value).trim();
+            } else if (typeof item === 'string' && item.trim() !== '') {
+              return item.trim();
+            } else if (typeof item === 'number') {
+              return String(item);
+            }
+          }
+        }
+        return '';
+      };
+
+      const certName = resolveVal('certificateTitle', 'title', 'name', 'courseName', 'programName');
+      if (certName) document.getElementById('cert-form-name').value = certName;
+
+      const certIssuer = resolveVal('issuingOrganization', 'organization', 'issuer', 'institute', 'provider');
+      if (certIssuer) document.getElementById('cert-form-issuer').value = certIssuer;
+
+      const certDate = resolveVal('issueDate', 'date', 'issuedDate', 'completionDate');
+      if (certDate) document.getElementById('cert-form-date').value = certDate;
+
+      const certId = resolveVal('credentialId', 'credential_id', 'id', 'rollNo', 'certificateId');
+      if (certId) document.getElementById('cert-form-id-val').value = certId;
+
+      const certScore = resolveVal('scoreOrGrade', 'score', 'grade', 'percentage', 'marks');
+      if (certScore) document.getElementById('cert-form-score').value = certScore;
+
+      const certUrl = data.effectiveUrl || resolveVal('verificationUrl', 'url', 'credentialUrl') || (publicUrlInput ? publicUrlInput.value.trim() : '');
+      if (certUrl) document.getElementById('cert-form-url').value = certUrl;
+
+      const certDesc = resolveVal('description', 'desc', 'summary');
+      const skillsRaw = ext.skills?.value || ext.skills;
+      const skillsArr = Array.isArray(skillsRaw) ? skillsRaw : (typeof skillsRaw === 'string' && skillsRaw ? skillsRaw.split(',').map(s => s.trim()).filter(Boolean) : []);
+      const skillsLine = skillsArr.length ? `Skills: ${skillsArr.join(', ')}` : '';
+      if (certDesc || skillsLine) {
+        document.getElementById('cert-form-desc').value = certDesc ? `${certDesc}\n${skillsLine}`.trim() : skillsLine;
       }
 
       if (data.status === 'FAILED') {
@@ -2757,6 +2815,27 @@
   });
 
   /* ── 19. History & Snapshots ── */
+  let _cachedAuditHistory = [];
+
+  function renderAuditHistoryTable(items) {
+    const tbody = document.getElementById('history-table-body');
+    if (!tbody) return;
+    if (!items || items.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No audit logs match your filter.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = items.map(h => `
+      <tr>
+        <td>${new Date(h.timestamp).toLocaleString()}</td>
+        <td><strong>${escapeHtml(h.field || '—')}</strong></td>
+        <td>${escapeHtml(h.source || h.approvedBy || 'Admin')}</td>
+        <td class="text-muted">${escapeHtml(h.oldValue || '—')}</td>
+        <td>${escapeHtml(h.newValue || '—')}</td>
+        <td><span class="diff-category-badge">${escapeHtml(h.status || 'Applied')}</span></td>
+      </tr>
+    `).join('');
+  }
+
   async function loadHistory() {
     try {
       const res = await fetch('/api/admin/history');
@@ -2764,23 +2843,31 @@
       if (!res.ok || !json.success) return;
 
       const { history, snapshots } = json.data;
+      _cachedAuditHistory = history || [];
+
+      // Update snapshots count badge
+      const countBadge = document.getElementById('snapshots-count-badge');
+      if (countBadge) {
+        countBadge.textContent = `${(snapshots || []).length} Snapshots`;
+      }
 
       const snapContainer = document.getElementById('snapshots-list');
-      if (snapshots.length === 0) {
-        snapContainer.innerHTML = '<div class="text-muted">No snapshots recorded yet.</div>';
+      if (!snapshots || snapshots.length === 0) {
+        snapContainer.innerHTML = '<div class="text-muted">No snapshots recorded yet. Click "📸 Take Instant Snapshot" above to create one now.</div>';
       } else {
         snapContainer.innerHTML = snapshots.map(s => `
           <div class="snapshot-card">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;">
+              <span class="diff-category-badge" style="font-size:0.7rem;">SNAPSHOT</span>
               <button class="btn-danger" style="font-size:0.75rem;padding:0.25rem 0.6rem;flex-shrink:0;" onclick="window.adminActions.deleteSnapshot('${escapeHtml(s.filename)}')">🗑️ Delete</button>
             </div>
-            <div class="repo-title" style="margin-top:0.5rem;">📸 ${escapeHtml(s.filename)}</div>
+            <div class="repo-title" style="margin-top:0.5rem; word-break: break-all;">📸 ${escapeHtml(s.filename)}</div>
             <div class="repo-desc">Created on ${new Date(s.createdAt).toLocaleString()} (${(s.sizeBytes / 1024).toFixed(1)} KB)</div>
             <div style="display:flex;gap:0.5rem;margin-top:0.6rem;flex-wrap:wrap;">
               <button class="btn-secondary" style="font-size:0.8rem;" onclick="window.adminActions.viewSnapshot('${escapeHtml(s.filename)}')">
                 👁️ View
               </button>
-              <button class="btn-secondary" style="font-size:0.8rem;" onclick="window.adminActions.rollbackSnapshot('${escapeHtml(s.filename)}')">
+              <button class="btn-primary" style="font-size:0.8rem;" onclick="window.adminActions.rollbackSnapshot('${escapeHtml(s.filename)}')">
                 ↺ Rollback
               </button>
             </div>
@@ -2788,23 +2875,80 @@
         `).join('');
       }
 
-      const tbody = document.getElementById('history-table-body');
-      if (history.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No audit logs available.</td></tr>';
-      } else {
-        tbody.innerHTML = history.map(h => `
-          <tr>
-            <td>${new Date(h.timestamp).toLocaleString()}</td>
-            <td><strong>${escapeHtml(h.field)}</strong></td>
-            <td>${escapeHtml(h.source || 'Admin')}</td>
-            <td class="text-muted">${escapeHtml(h.oldValue || '—')}</td>
-            <td>${escapeHtml(h.newValue || '—')}</td>
-            <td><span class="diff-category-badge">${escapeHtml(h.status || 'Applied')}</span></td>
-          </tr>
-        `).join('');
-      }
-    } catch (e) { }
+      renderAuditHistoryTable(_cachedAuditHistory);
+    } catch (e) {
+      console.error('Error loading history:', e);
+    }
   }
+
+  // Filter audit logs input
+  document.getElementById('history-search-input')?.addEventListener('input', (e) => {
+    const q = (e.target.value || '').toLowerCase().trim();
+    if (!q) {
+      renderAuditHistoryTable(_cachedAuditHistory);
+      return;
+    }
+    const filtered = _cachedAuditHistory.filter(h => {
+      const txt = `${h.field || ''} ${h.source || ''} ${h.oldValue || ''} ${h.newValue || ''} ${h.status || ''}`.toLowerCase();
+      return txt.includes(q);
+    });
+    renderAuditHistoryTable(filtered);
+  });
+
+  // Take Instant Snapshot button
+  document.getElementById('btn-create-instant-snapshot')?.addEventListener('click', async () => {
+    const btn = document.getElementById('btn-create-instant-snapshot');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳</span> Creating Snapshot...';
+
+    try {
+      const res = await fetch('/api/admin/history/snapshots', { method: 'POST' });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        showToast(`✓ Instant snapshot "${json.data?.filename}" created successfully!`, 'success');
+        await loadHistory();
+      } else {
+        showToast('Failed to create snapshot: ' + (json.message || ''), 'error');
+      }
+    } catch (err) {
+      showToast('Network error creating snapshot', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '📸 Take Instant Snapshot';
+    }
+  });
+
+  // Refresh history button
+  document.getElementById('btn-refresh-history')?.addEventListener('click', async () => {
+    await loadHistory();
+    showToast('✓ History & snapshots refreshed', 'info');
+  });
+
+  // Export audit log as CSV
+  document.getElementById('btn-export-audit-csv')?.addEventListener('click', () => {
+    if (!_cachedAuditHistory.length) {
+      showToast('No audit logs available to export', 'warning');
+      return;
+    }
+    const headers = ['Timestamp', 'Field', 'Source', 'Old Value', 'New Value', 'Status'];
+    const rows = _cachedAuditHistory.map(h => [
+      `"${new Date(h.timestamp).toISOString()}"`,
+      `"${(h.field || '').replace(/"/g, '""')}"`,
+      `"${(h.source || h.approvedBy || '').replace(/"/g, '""')}"`,
+      `"${(h.oldValue || '').replace(/"/g, '""')}"`,
+      `"${(h.newValue || '').replace(/"/g, '""')}"`,
+      `"${(h.status || '').replace(/"/g, '""')}"`
+    ]);
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `portfolio_audit_log_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✓ Audit log CSV downloaded', 'success');
+  });
 
   /* ── 20. Password Change ── */
   document.getElementById('change-password-form')?.addEventListener('submit', async (e) => {
@@ -3679,21 +3823,49 @@
       } catch (e) { }
     },
 
-    // Snapshots rollback
+    // Snapshots management
+    viewSnapshot: (filename) => {
+      viewSnapshotModal(filename);
+    },
+    deleteSnapshot: async (filename) => {
+      if (!confirm(`Delete snapshot "${filename}"? This action cannot be undone.`)) return;
+      try {
+        const res = await fetch(`/api/admin/history/snapshots/${encodeURIComponent(filename)}`, { method: 'DELETE' });
+        const json = await res.json();
+        if (res.ok && json.success) {
+          showToast(`✓ Snapshot "${filename}" deleted successfully`, 'success');
+          const modal = document.getElementById('modal-view-snapshot');
+          if (modal) modal.style.display = 'none';
+          await loadHistory();
+          loadDashboard();
+        } else {
+          showToast('Failed to delete snapshot: ' + (json.message || ''), 'error');
+        }
+      } catch (e) {
+        showToast('Connection error deleting snapshot', 'error');
+      }
+    },
     rollbackSnapshot: async (snapshotName) => {
-      if (!confirm(`Are you sure you want to rollback to snapshot ${snapshotName}?`)) return;
+      if (!confirm(`Are you sure you want to rollback to snapshot "${snapshotName}"? This will restore portfolio data to this state.`)) return;
       try {
         const res = await fetch('/api/profile/rollback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ snapshotName })
         });
-        if (res.ok) {
-          showToast(`Successfully rolled back to ${snapshotName}!`, 'success');
-          loadDashboard();
-          loadHistory();
+        const json = await res.json();
+        if (res.ok && json.success) {
+          showToast(`✓ Successfully rolled back to ${snapshotName}!`, 'success');
+          const modal = document.getElementById('modal-view-snapshot');
+          if (modal) modal.style.display = 'none';
+          await loadDashboard();
+          await loadHistory();
+        } else {
+          showToast('Rollback failed: ' + (json.message || 'Error occurred'), 'error');
         }
-      } catch (e) { }
+      } catch (e) {
+        showToast('Connection error during rollback', 'error');
+      }
     },
 
     // ─── AI PORTFOLIO AGENT CLIENT ACTIONS ───
@@ -5347,8 +5519,8 @@
           }, 3000);
         }
         // Auto-fill company or role if empty
-        const compEl = document.getElementById('exp-verify-company');
-        const roleEl = document.getElementById('exp-verify-role');
+        const compEl = document.getElementById('exp-form-company') || document.getElementById('exp-verify-company');
+        const roleEl = document.getElementById('exp-form-role') || document.getElementById('exp-verify-role');
         if (compEl && !compEl.value && json.data.organization) compEl.value = json.data.organization;
         if (roleEl && !roleEl.value && json.data.role) roleEl.value = json.data.role;
 
@@ -5449,7 +5621,44 @@
       }
     };
 
-    
+    document.querySelectorAll('.sidebar-save-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const tabKey = btn.getAttribute('data-save-tab');
+        if (!tabKey) return;
+
+        const originalHtml = btn.innerHTML;
+        btn.classList.add('is-saving');
+        btn.innerHTML = '⏳ Saving...';
+
+        try {
+          if (tabSaveMap[tabKey]) {
+            await tabSaveMap[tabKey]();
+          } else {
+            showToast(`✓ Changes for ${tabKey.replace('tab-', '')} saved!`, 'success');
+          }
+
+          btn.classList.remove('is-saving');
+          btn.classList.add('is-saved');
+          btn.innerHTML = '✓ Saved';
+
+          setTimeout(() => {
+            btn.classList.remove('is-saved');
+            btn.innerHTML = originalHtml;
+          }, 2200);
+        } catch (err) {
+          console.error('Sidebar save error:', err);
+          btn.classList.remove('is-saving');
+          btn.innerHTML = '❌ Error';
+          showToast(`Error saving ${tabKey.replace('tab-', '')}: ${err.message || 'Failed'}`, 'error');
+          setTimeout(() => {
+            btn.innerHTML = originalHtml;
+          }, 2500);
+        }
+      });
+    });
   }
 
   // Responsive Mobile Admin Sidebar Drawer

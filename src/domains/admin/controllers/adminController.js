@@ -130,6 +130,24 @@ const adminController = {
     }
   },
 
+  createSnapshot: (req, res) => {
+    try {
+      const snapshotName = db.createBackupSnapshot();
+      db.addHistory({
+        field: 'manual_snapshot',
+        oldValue: '—',
+        newValue: snapshotName,
+        source: 'Admin Instant Snapshot',
+        status: 'Created',
+        approvedBy: req.user ? req.user.username : 'admin'
+      });
+      return responseHelper.success(res, { filename: snapshotName }, `Snapshot ${snapshotName} created successfully`, 201);
+    } catch (err) {
+      logger.error('Error creating manual snapshot', err);
+      return responseHelper.badRequest(res, err.message);
+    }
+  },
+
   deleteSnapshot: (req, res) => {
     try {
       const { filename } = req.params;
