@@ -519,9 +519,12 @@
       if (proj.isHackathon && proj.certFile) {
         actions += '<span class="proj-btn proj-btn-primary">↗ View Certificate</span>';
       } else {
-        if (proj.caseStudy) actions += '<a href="' + esc(proj.caseStudy) + '" class="proj-btn proj-btn-primary">↗ Read Case Study</a>';
+        actions += '<button type="button" class="proj-btn proj-btn-primary btn-open-case-study" onclick="window.openProjectCaseStudy(\'' + esc(proj.id || proj.title) + '\')">📖 Case Study</button>';
         if (proj.liveDemo) actions += '<a href="' + esc(proj.liveDemo) + '" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-primary">▶ Live Demo</a>';
         if (proj.github) actions += '<a href="' + esc(proj.github) + '" target="_blank" rel="noopener noreferrer" class="proj-btn">' + (proj.githubLabel ? esc(proj.githubLabel) : '↗ GitHub Code') + '</a>';
+        if (proj.caseStudy && (proj.caseStudy.startsWith('http') || proj.caseStudy.includes('/'))) {
+          actions += '<a href="' + esc(proj.caseStudy) + '" target="_blank" rel="noopener noreferrer" class="proj-btn">↗ External Readme</a>';
+        }
       }
 
       var isClickable = proj.isHackathon && proj.certFile;
@@ -863,21 +866,183 @@
       });
     }, 500);
 
-    // Smooth scroll to active hash section after content is fully rendered
+    // Restore scroll position after rendering DOM
+    restoreScrollPosition();
+  }
+
+  /* ── PROJECT CASE STUDY VIEWER MODAL ── */
+  window.openProjectCaseStudy = function (idOrTitle) {
+    var P = getProfile();
+    if (!P || !P.projects) return;
+    var proj = P.projects.find(function (p) {
+      return (p.id && String(p.id) === String(idOrTitle)) || (p.title && p.title.toLowerCase() === String(idOrTitle).toLowerCase());
+    });
+    if (!proj) return;
+
+    var modal = document.getElementById('project-case-study-modal');
+    if (!modal) return;
+
+    var tagEl = document.getElementById('cs-modal-tag');
+    if (tagEl) tagEl.textContent = proj.tag || 'Full-Stack Project';
+
+    var statusEl = document.getElementById('cs-modal-status');
+    if (statusEl) statusEl.textContent = '● ' + (proj.status || 'Completed');
+
+    var titleEl = document.getElementById('cs-modal-title');
+    if (titleEl) titleEl.textContent = proj.title || 'Project Case Study';
+
+    var descEl = document.getElementById('cs-modal-desc');
+    if (descEl) descEl.textContent = proj.description || '';
+
+    var demoEl = document.getElementById('cs-modal-demo');
+    if (demoEl) {
+      if (proj.liveDemo) {
+        demoEl.href = proj.liveDemo;
+        demoEl.style.display = 'inline-flex';
+      } else {
+        demoEl.style.display = 'none';
+      }
+    }
+
+    var githubEl = document.getElementById('cs-modal-github');
+    if (githubEl) {
+      if (proj.github) {
+        githubEl.href = proj.github;
+        githubEl.style.display = 'inline-flex';
+      } else {
+        githubEl.style.display = 'none';
+      }
+    }
+
+    var externalEl = document.getElementById('cs-modal-external');
+    if (externalEl) {
+      if (proj.caseStudy && (proj.caseStudy.startsWith('http') || proj.caseStudy.includes('/'))) {
+        externalEl.href = proj.caseStudy;
+        externalEl.style.display = 'inline-flex';
+      } else {
+        externalEl.style.display = 'none';
+      }
+    }
+
+    var techsEl = document.getElementById('cs-modal-techs');
+    if (techsEl) {
+      techsEl.innerHTML = (proj.technologies || []).map(function (t) {
+        return '<span class="tc" style="font-size: 0.78rem;">' + esc(t) + '</span>';
+      }).join('');
+    }
+
+    var challengesEl = document.getElementById('cs-modal-challenges');
+    if (challengesEl) {
+      challengesEl.textContent = proj.challenges || 'Architecting seamless real-time data flow, robust API error handling, and low-latency client rendering under variable network conditions.';
+    }
+
+    var solutionEl = document.getElementById('cs-modal-solution');
+    if (solutionEl) {
+      solutionEl.textContent = proj.solution || 'Engineered with clean decoupled service layers, client-side optimistic UI updates, atomic database writes, and reactive state management.';
+    }
+
+    var resultsEl = document.getElementById('cs-modal-results');
+    if (resultsEl) {
+      resultsEl.textContent = proj.results || 'Production-ready deployment with sub-100ms response latencies, cross-browser compatibility, and seamless user interaction.';
+    }
+
+    var docEl = document.getElementById('cs-modal-doc');
+    if (docEl) {
+      var fullText = proj.caseStudyContent || proj.caseStudy || '';
+      if (!fullText || fullText.startsWith('http')) {
+        fullText = '## Executive Summary\n' + (proj.description || '') + '\n\n## System Architecture & Highlights\n' + (proj.solution || 'Modular full-stack implementation engineered for performance and scalability.') + '\n\n## Results & Impact\n' + (proj.results || 'Fully verified, reliable, and responsive across all device viewports.');
+      }
+      docEl.textContent = fullText;
+    }
+
+    modal.style.display = 'flex';
+  };
+
+  function closeCaseStudyModal() {
+    var modal = document.getElementById('project-case-study-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  // Bind modal closing listeners
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', function (e) {
+      var modal = document.getElementById('project-case-study-modal');
+      if (e.target && (e.target.id === 'cs-modal-close' || e.target === modal)) {
+        closeCaseStudyModal();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeCaseStudyModal();
+    });
+  }
+
+  /* ── RELOAD POSITION RESTORATION (EXACT SECTION & PIXEL RESTORATION) ── */
+  var _scrollRestored = false;
+
+  function restoreScrollPosition() {
+    var hash = window.location.hash || sessionStorage.getItem('portfolioTargetHash');
+    if (hash && hash.length > 1) {
+      var el = document.querySelector(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'instant', block: 'start' });
+        _scrollRestored = true;
+        return;
+      }
+    }
+
+    var savedY = sessionStorage.getItem('portfolioScrollY');
+    if (savedY !== null) {
+      var parsedY = parseInt(savedY, 10);
+      if (!isNaN(parsedY) && parsedY > 0) {
+        window.scrollTo({ top: parsedY, behavior: 'instant' });
+      }
+    }
+    _scrollRestored = true;
+  }
+
+  // Save scroll position on user scrolling without zero-overwriting on initial reload
+  var _scrollDebounce;
+  window.addEventListener('scroll', function () {
+    if (!_scrollRestored) return;
+    if (window.scrollY > 0) {
+      clearTimeout(_scrollDebounce);
+      _scrollDebounce = setTimeout(function () {
+        sessionStorage.setItem('portfolioScrollY', String(window.scrollY));
+      }, 100);
+    }
+  }, { passive: true });
+
+  window.addEventListener('beforeunload', function () {
+    if (window.scrollY > 0) {
+      sessionStorage.setItem('portfolioScrollY', String(window.scrollY));
+    }
     if (window.location.hash && window.location.hash.length > 1) {
-      setTimeout(function () {
-        var el = document.querySelector(window.location.hash);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 300);
+      sessionStorage.setItem('portfolioTargetHash', window.location.hash);
+    }
+  });
+
+  // Live profile fetch to ensure admin updates display immediately on portfolio
+  function loadAndInit() {
+    init();
+    if (typeof fetch === 'function') {
+      fetch('/api/profile?t=' + Date.now())
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (json) {
+          if (json && json.success && json.data) {
+            window.PROFILE = json.data;
+            init();
+            restoreScrollPosition();
+          }
+        })
+        .catch(function () {});
     }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', loadAndInit);
   } else {
-    init();
+    loadAndInit();
   }
 
 })();

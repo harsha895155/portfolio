@@ -162,6 +162,20 @@ const adminController = {
     }
   },
 
+  batchDeleteSnapshots: (req, res) => {
+    try {
+      const { filenames } = req.body;
+      if (!Array.isArray(filenames) || filenames.length === 0) {
+        return responseHelper.badRequest(res, 'Array of filenames is required');
+      }
+      const result = historyService.deleteSnapshots(filenames);
+      return responseHelper.success(res, result, `Successfully deleted ${result.count} snapshots`);
+    } catch (err) {
+      logger.error('Error batch deleting snapshots', err);
+      return responseHelper.badRequest(res, err.message);
+    }
+  },
+
   globalSearch: (req, res) => {
     try {
       const q = req.query.q || '';

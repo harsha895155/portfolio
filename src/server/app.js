@@ -92,6 +92,7 @@ app.get('/api/admin/history', requireAuth, adminController.getAuditHistory);
 app.get('/api/admin/history/snapshots/:filename', requireAuth, adminController.getSnapshot);
 app.post('/api/admin/history/snapshots', requireAuth, adminController.createSnapshot);
 app.delete('/api/admin/history/snapshots/:filename', requireAuth, adminController.deleteSnapshot);
+app.post('/api/admin/history/snapshots/batch-delete', requireAuth, adminController.batchDeleteSnapshots);
 app.get('/api/admin/search', requireAuth, adminController.globalSearch);
 
 // ─── PRIVATE CMS CONTENT MANAGEMENT ROUTES ─────────────────────────────────
@@ -184,6 +185,7 @@ app.post('/api/ai/audit', requireAuth, aiController.runAudit);
 app.get('/api/ai/audit/latest', requireAuth, aiController.getLatestAudit);
 app.post('/api/ai/search', requireAuth, aiController.search);
 app.post('/api/ai/generate-description', requireAuth, aiController.generateDescription);
+app.post('/api/ai/project-auto-generate', requireAuth, upload.single('file'), aiController.autoGenerateProject);
 app.get('/api/ai/duplicates', requireAuth, aiController.findDuplicates);
 app.get('/api/ai/versions', requireAuth, aiController.getContentVersions);
 

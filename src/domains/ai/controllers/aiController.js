@@ -133,6 +133,24 @@ const aiController = {
     }
   },
 
+  // 6b. Auto-Generate Project & Case Study (from GitHub README, uploaded spec, or user notes)
+  autoGenerateProject: async (req, res) => {
+    try {
+      const { githubUrl, title, notes } = req.body;
+      const file = req.file || null;
+      const result = await aiDescriptionService.autoGenerateProject({
+        githubUrl: (githubUrl || '').trim(),
+        title: (title || '').trim(),
+        notes: (notes || '').trim(),
+        file
+      });
+      return responseHelper.success(res, result, 'Project and Case Study auto-generated');
+    } catch (err) {
+      logger.error('Error in aiController.autoGenerateProject', err);
+      return responseHelper.badRequest(res, err.message);
+    }
+  },
+
   // 7. Duplicate Detection
   findDuplicates: (req, res) => {
     try {

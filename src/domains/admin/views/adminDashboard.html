@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/admin-assets/admin.css?v=2.3">
+  <link rel="stylesheet" href="/admin-assets/admin.css?v=3.0">
 </head>
 <body>
 
@@ -1518,9 +1518,41 @@
       <form id="form-project-modal">
         <div class="modal-body">
           <input type="hidden" id="proj-form-id">
+
+          <!-- ─── AI PROJECT & CASE STUDY AUTO-GENERATION BANNER ─── -->
+          <div class="ai-project-gen-box" style="background: linear-gradient(135deg, rgba(212,168,67,0.12), rgba(18,20,36,0.9)); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; margin-bottom: 1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+              <div style="font-weight:700; color:var(--gold2); font-size:0.95rem; display:flex; align-items:center; gap:0.5rem;">
+                <span>✨</span> Auto-Generate from GitHub or Uploaded Code / Spec
+              </div>
+              <span class="diff-category-badge" style="background:rgba(212,168,67,0.2); color:var(--gold2); font-size:0.68rem;">AI AUTOMATION</span>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.85rem; line-height:1.4;">
+              Provide a GitHub repository link or upload your project spec/README. The system fetches the code README to auto-generate the project title, technologies, description, and an in-depth Case Study!
+            </p>
+            <div style="display:flex; flex-direction:column; gap:0.65rem;">
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                <input type="url" id="proj-ai-github-url" class="form-input" style="flex:2; min-width:240px; font-size:0.85rem;" placeholder="https://github.com/harsha895155/repository-name">
+                <button type="button" id="btn-fetch-github-readme" class="btn-secondary" style="font-size:0.82rem; padding:0.45rem 0.9rem; white-space:nowrap;">
+                  📥 Fetch README
+                </button>
+              </div>
+              <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+                <input type="file" id="proj-ai-file-input" accept=".md,.txt,.pdf,.doc,.docx" style="display:none;">
+                <button type="button" id="btn-pick-proj-file" class="btn-ghost-sm" style="font-size:0.8rem; padding:0.35rem 0.8rem; border:1px dashed var(--border);">
+                  📄 Upload Project Spec / README
+                </button>
+                <span id="proj-ai-file-name" style="font-size:0.78rem; color:var(--gold2); font-family:var(--font-mono); overflow:hidden; text-overflow:ellipsis; max-width:250px;"></span>
+                <button type="button" id="btn-auto-generate-full-project" class="btn-primary" style="margin-left:auto; font-size:0.82rem; padding:0.45rem 1rem;">
+                  ✨ Auto-Generate Description &amp; Case Study
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-group flex-2">
-              <label>Project Title</label>
+              <label>Project Title *</label>
               <input type="text" id="proj-form-title" class="form-input" placeholder="e.g. VideStore E-Commerce" required>
             </div>
             <div class="form-group flex-1">
@@ -1530,7 +1562,7 @@
           </div>
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-              <label style="margin-bottom: 0;">Description</label>
+              <label style="margin-bottom: 0;">Description (Portfolio Card Summary) *</label>
               <button type="button" class="btn-ai-assist" data-target="proj-form-desc" data-type="project">✨ AI Assist</button>
             </div>
             <textarea id="proj-form-desc" class="form-textarea" rows="3" placeholder="Describe architecture, user workflow, and technical achievements..." required></textarea>
@@ -1551,8 +1583,8 @@
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
-              <label>Case Study URL (Optional)</label>
-              <input type="text" id="proj-form-case" class="form-input" placeholder="projects/airguard/">
+              <label>Case Study Link / URL (Optional)</label>
+              <input type="text" id="proj-form-case" class="form-input" placeholder="projects/airguard/ (or leave blank to use built-in Case Study)">
             </div>
             <div class="form-group flex-1">
               <label>Status</label>
@@ -1564,6 +1596,38 @@
               </select>
             </div>
           </div>
+
+          <!-- ─── EXPANDED CASE STUDY DETAILS ─── -->
+          <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; margin-top: 1rem;">
+            <div style="font-weight: 700; color: var(--gold2); font-size: 0.95rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>📖</span> Project Case Study Content (For Portfolio Case Study Modal)
+            </div>
+
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Key Challenges</label>
+                <textarea id="proj-form-challenges" class="form-textarea" rows="2" placeholder="e.g. Real-time synchronization bottlenecks, large-scale media uploads..."></textarea>
+              </div>
+              <div class="form-group flex-1">
+                <label>Engineering Solution</label>
+                <textarea id="proj-form-solution" class="form-textarea" rows="2" placeholder="e.g. Implemented event-driven architecture, caching layer, and optimistic UI..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Measurable Results &amp; Key Highlights</label>
+              <input type="text" id="proj-form-results" class="form-input" placeholder="e.g. 99.9% uptime, 45% lower latency, 5,000+ daily requests handled">
+            </div>
+
+            <div class="form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                <label style="margin-bottom: 0;">Full Case Study Article (Markdown / Text)</label>
+                <span style="font-size: 0.72rem; color: var(--text-muted);">Displays in portfolio Case Study view</span>
+              </div>
+              <textarea id="proj-form-casestudy" class="form-textarea" rows="5" placeholder="## Executive Summary&#10;Detailed breakdown of the problem, architecture, benchmarks, and future roadmap..."></textarea>
+            </div>
+          </div>
+
           <div class="form-group">
             <label style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" id="proj-form-featured">
@@ -2644,6 +2708,6 @@
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="toast-container"></div>
 
-  <script src="/admin-assets/admin.js?v=2.3"></script>
+  <script src="/admin-assets/admin.js?v=3.0"></script>
 </body>
 </html>

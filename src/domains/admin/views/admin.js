@@ -120,9 +120,9 @@
       }
     } catch (_) {}
 
-    // Ensure core profile data is loaded in background if not already loaded
-    if (targetId !== 'tab-overview' && (!currentDraftProfile || Object.keys(currentDraftProfile).length === 0)) {
-      loadDashboard().catch(() => {});
+    // Ensure core profile data is loaded before initializing tab content
+    if (!currentDraftProfile || Object.keys(currentDraftProfile).length === 0) {
+      await loadDashboard();
     }
 
     if (targetId === 'tab-overview') loadDashboard();
@@ -145,7 +145,22 @@
     if (targetId === 'tab-seo') loadSeoManager();
     if (targetId === 'tab-history') loadHistory();
     if (targetId === 'tab-coding-profiles') loadCodingProfiles();
+
+    // Restore scroll position for this tab on page reload
+    const savedAdminY = sessionStorage.getItem('adminScrollY_' + targetId);
+    if (savedAdminY !== null && !isNaN(parseInt(savedAdminY, 10))) {
+      setTimeout(() => {
+        window.scrollTo({ top: parseInt(savedAdminY, 10), behavior: 'instant' });
+      }, 60);
+    }
   }
+
+  window.addEventListener('beforeunload', () => {
+    const activeTab = localStorage.getItem('adminActiveTab') || 'tab-overview';
+    if (window.scrollY > 0) {
+      sessionStorage.setItem('adminScrollY_' + activeTab, String(window.scrollY));
+    }
+  });
 
   document.querySelectorAll('.nav-tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -1335,12 +1350,15 @@
       return;
     }
 
-    container.innerHTML = projs.map(p => `
+    container.innerHTML = projs.map(p => {
+      const hasCaseStudy = Boolean(p.caseStudyContent || p.caseStudy || p.challenges || p.solution);
+      return `
       <div class="item-card">
         <div style="flex: 1;">
           <div class="item-card-title">
             <span>📦 ${escapeHtml(p.title)}</span>
             ${p.featured ? '<span class="diff-category-badge" style="background: rgba(212,168,67,0.15); color: var(--gold2);">⭐ Featured</span>' : ''}
+            ${hasCaseStudy ? '<span class="diff-category-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">📖 Case Study Ready</span>' : ''}
             <span class="diff-category-badge">${escapeHtml(p.status || 'Completed')}</span>
           </div>
           <div class="item-card-sub">${escapeHtml(p.tag || 'Project')}</div>
@@ -1348,10 +1366,10 @@
           <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem;">
             ${(p.technologies || []).map(t => `<span class="tc" style="font-size: 0.72rem;">${escapeHtml(t)}</span>`).join('')}
           </div>
-          <div style="display: flex; gap: 1rem; font-size: 0.8rem; margin-top: 0.5rem;">
+          <div style="display: flex; gap: 1rem; font-size: 0.8rem; margin-top: 0.5rem; flex-wrap: wrap;">
             ${p.github ? `<a href="${escapeHtml(p.github)}" target="_blank" class="public-link">GitHub ↗</a>` : ''}
             ${p.liveDemo ? `<a href="${escapeHtml(p.liveDemo)}" target="_blank" class="public-link">Live Demo ↗</a>` : ''}
-            ${p.caseStudy ? `<a href="${escapeHtml(p.caseStudy)}" target="_blank" class="public-link">Case Study ↗</a>` : ''}
+            ${p.caseStudy ? `<a href="${escapeHtml(p.caseStudy)}" target="_blank" class="public-link">Case Study Link ↗</a>` : ''}
           </div>
         </div>
         <div class="item-card-actions">
@@ -1359,7 +1377,8 @@
           <button class="btn-sm-delete" onclick="window.adminActions.deleteProject('${p.id}', '${escapeHtml(p.title)}')">🗑️</button>
         </div>
       </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   document.getElementById('form-project-modal')?.addEventListener('submit', async (e) => {
@@ -1373,6 +1392,10 @@
       github: document.getElementById('proj-form-github').value.trim(),
       liveDemo: document.getElementById('proj-form-demo').value.trim(),
       caseStudy: document.getElementById('proj-form-case').value.trim(),
+      challenges: document.getElementById('proj-form-challenges')?.value.trim() || '',
+      solution: document.getElementById('proj-form-solution')?.value.trim() || '',
+      results: document.getElementById('proj-form-results')?.value.trim() || '',
+      caseStudyContent: document.getElementById('proj-form-casestudy')?.value.trim() || '',
       status: document.getElementById('proj-form-status').value,
       featured: document.getElementById('proj-form-featured').checked
     };
@@ -1387,7 +1410,7 @@
       });
       const json = await res.json();
       if (res.ok && json.success) {
-        showToast('✓ Project saved to draft!', 'success');
+        showToast('✓ Project and Case Study saved!', 'success');
         document.getElementById('modal-project').style.display = 'none';
         await loadDashboard();
         loadProjectsManager();
@@ -1397,6 +1420,109 @@
     } catch (e) {
       showToast('Connection error saving project', 'error');
     }
+  });
+
+  // Project AI Auto-Generation & GitHub README Fetch Handlers
+  let _selectedProjDocFile = null;
+  const projFileInput = document.getElementById('proj-ai-file-input');
+  const btnPickProjFile = document.getElementById('btn-pick-proj-file');
+  const projFileNameDisplay = document.getElementById('proj-ai-file-name');
+
+  btnPickProjFile?.addEventListener('click', () => {
+    projFileInput?.click();
+  });
+
+  projFileInput?.addEventListener('change', (e) => {
+    if (e.target.files && e.target.files[0]) {
+      _selectedProjDocFile = e.target.files[0];
+      if (projFileNameDisplay) {
+        projFileNameDisplay.textContent = `📄 ${_selectedProjDocFile.name}`;
+      }
+    }
+  });
+
+  async function triggerProjectAutoGeneration(mode = 'full') {
+    const githubUrl = (document.getElementById('proj-ai-github-url')?.value || document.getElementById('proj-form-github')?.value || '').trim();
+    const currentTitle = document.getElementById('proj-form-title')?.value.trim() || '';
+    const currentNotes = document.getElementById('proj-form-desc')?.value.trim() || '';
+
+    const btnGen = document.getElementById('btn-auto-generate-full-project');
+    const btnFetch = document.getElementById('btn-fetch-github-readme');
+    const activeBtn = mode === 'readme' ? btnFetch : btnGen;
+
+    const originalText = activeBtn ? activeBtn.innerHTML : '';
+    if (activeBtn) {
+      activeBtn.disabled = true;
+      activeBtn.innerHTML = '<span class="spinner-sm"></span> Generating...';
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('githubUrl', githubUrl);
+      formData.append('title', currentTitle);
+      formData.append('notes', currentNotes);
+      if (_selectedProjDocFile) {
+        formData.append('file', _selectedProjDocFile);
+      }
+
+      const res = await fetch('/api/ai/project-auto-generate', {
+        method: 'POST',
+        body: formData
+      });
+      const json = await res.json();
+
+      if (res.ok && json.success && json.data?.project) {
+        const p = json.data.project;
+        if (p.title && (!currentTitle || mode === 'full')) {
+          document.getElementById('proj-form-title').value = p.title;
+        }
+        if (p.tag) document.getElementById('proj-form-tag').value = p.tag;
+        if (p.description) document.getElementById('proj-form-desc').value = p.description;
+        if (p.technologies) {
+          document.getElementById('proj-form-tech').value = Array.isArray(p.technologies) ? p.technologies.join(', ') : p.technologies;
+        }
+        if (p.github && !document.getElementById('proj-form-github').value) {
+          document.getElementById('proj-form-github').value = p.github;
+        }
+        if (p.challenges && document.getElementById('proj-form-challenges')) {
+          document.getElementById('proj-form-challenges').value = p.challenges;
+        }
+        if (p.solution && document.getElementById('proj-form-solution')) {
+          document.getElementById('proj-form-solution').value = p.solution;
+        }
+        if (p.results && document.getElementById('proj-form-results')) {
+          document.getElementById('proj-form-results').value = p.results;
+        }
+        if (p.caseStudy && document.getElementById('proj-form-casestudy')) {
+          document.getElementById('proj-form-casestudy').value = p.caseStudy;
+        }
+
+        const srcMsg = json.data.source === 'github_readme'
+          ? 'GitHub README extracted!'
+          : json.data.source === 'uploaded_doc'
+            ? 'Uploaded document processed!'
+            : 'AI synthesis complete!';
+
+        showToast(`✨ ${srcMsg} Project & Case Study populated!`, 'success');
+      } else {
+        showToast('Notice: ' + (json.message || 'Could not auto-generate. Please enter details manually.'), 'warning');
+      }
+    } catch (err) {
+      showToast('Error during auto-generation: ' + err.message, 'error');
+    } finally {
+      if (activeBtn) {
+        activeBtn.disabled = false;
+        activeBtn.innerHTML = originalText;
+      }
+    }
+  }
+
+  document.getElementById('btn-fetch-github-readme')?.addEventListener('click', () => {
+    triggerProjectAutoGeneration('readme');
+  });
+
+  document.getElementById('btn-auto-generate-full-project')?.addEventListener('click', () => {
+    triggerProjectAutoGeneration('full');
   });
 
   /* ── 8. Education ── */
@@ -2904,26 +3030,106 @@
 
       const snapContainer = document.getElementById('snapshots-list');
       if (!snapshots || snapshots.length === 0) {
-        snapContainer.innerHTML = '<div class="text-muted">No snapshots recorded yet. Click "📸 Take Instant Snapshot" above to create one now.</div>';
+        snapContainer.innerHTML = '<div class="text-muted" style="padding:1.5rem;text-align:center;">No snapshots recorded yet. Click "📸 Take Instant Snapshot" above to create one now.</div>';
       } else {
-        snapContainer.innerHTML = snapshots.map(s => `
-          <div class="snapshot-card">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;">
-              <span class="diff-category-badge" style="font-size:0.7rem;">SNAPSHOT</span>
-              <button class="btn-danger" style="font-size:0.75rem;padding:0.25rem 0.6rem;flex-shrink:0;" onclick="window.adminActions.deleteSnapshot('${escapeHtml(s.filename)}')">🗑️ Delete</button>
+        // Group by Month (e.g. "October 2026") and Day (e.g. "Wednesday, October 7, 2026")
+        const monthGroups = {};
+
+        snapshots.forEach(s => {
+          const d = new Date(s.createdAt);
+          const monthKey = !isNaN(d.getTime())
+            ? d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+            : 'Unknown Date';
+          const dayKey = !isNaN(d.getTime())
+            ? d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+            : 'Unknown Date';
+          const dayShort = !isNaN(d.getTime())
+            ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+            : 'Day';
+
+          if (!monthGroups[monthKey]) {
+            monthGroups[monthKey] = {
+              name: monthKey,
+              days: {}
+            };
+          }
+          if (!monthGroups[monthKey].days[dayKey]) {
+            monthGroups[monthKey].days[dayKey] = {
+              label: dayKey,
+              shortLabel: dayShort,
+              snapshots: []
+            };
+          }
+          monthGroups[monthKey].days[dayKey].snapshots.push(s);
+        });
+
+        snapContainer.innerHTML = Object.keys(monthGroups).map(mKey => {
+          const month = monthGroups[mKey];
+          const totalMonthCount = Object.values(month.days).reduce((acc, d) => acc + d.snapshots.length, 0);
+
+          const daysHtml = Object.keys(month.days).map(dKey => {
+            const day = month.days[dKey];
+            const filenamesJson = JSON.stringify(day.snapshots.map(s => s.filename)).replace(/"/g, '&quot;');
+
+            const cardsHtml = day.snapshots.map(s => {
+              const d = new Date(s.createdAt);
+              const timeStr = !isNaN(d.getTime())
+                ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                : '';
+
+              return `
+                <div class="snapshot-card" style="margin-bottom:0;">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;">
+                    <div style="display:flex;align-items:center;gap:0.4rem;">
+                      <span class="diff-category-badge" style="font-size:0.68rem;padding:0.15rem 0.45rem;">SNAPSHOT</span>
+                      ${timeStr ? `<span style="font-size:0.75rem;color:var(--text-muted);font-family:var(--font-mono);">🕒 ${escapeHtml(timeStr)}</span>` : ''}
+                    </div>
+                    <button class="btn-danger" style="font-size:0.72rem;padding:0.2rem 0.55rem;flex-shrink:0;" title="Delete this snapshot" onclick="window.adminActions.deleteSnapshot('${escapeHtml(s.filename)}')">🗑️ Delete</button>
+                  </div>
+                  <div class="repo-title" style="margin-top:0.45rem; word-break: break-all; font-size:0.85rem;">📸 ${escapeHtml(s.filename)}</div>
+                  <div class="repo-desc" style="font-size:0.75rem;">${(s.sizeBytes / 1024).toFixed(1)} KB · Recorded state</div>
+                  <div style="display:flex;gap:0.4rem;margin-top:0.5rem;flex-wrap:wrap;">
+                    <button class="btn-secondary" style="font-size:0.76rem;padding:0.25rem 0.6rem;" onclick="window.adminActions.viewSnapshot('${escapeHtml(s.filename)}')">
+                      👁️ View
+                    </button>
+                    <button class="btn-primary" style="font-size:0.76rem;padding:0.25rem 0.6rem;" onclick="window.adminActions.rollbackSnapshot('${escapeHtml(s.filename)}')">
+                      ↺ Rollback
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join('');
+
+            return `
+              <div class="snapshot-day-group" style="margin-bottom:1.2rem;background:rgba(255,255,255,0.02);border:1px solid rgba(212,168,67,0.14);border-radius:10px;padding:1rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.06);flex-wrap:wrap;gap:0.6rem;">
+                  <div style="display:flex;align-items:center;gap:0.6rem;">
+                    <span style="font-weight:600;color:var(--text-primary);font-size:0.92rem;">🗓️ ${escapeHtml(day.label)}</span>
+                    <span class="diff-category-badge" style="font-size:0.68rem;background:rgba(212,168,67,0.15);color:var(--gold2);">${day.snapshots.length} snapshot${day.snapshots.length > 1 ? 's' : ''}</span>
+                  </div>
+                  <button type="button" class="btn-danger" style="font-size:0.75rem;padding:0.25rem 0.7rem;display:inline-flex;align-items:center;gap:0.35rem;" onclick="window.adminActions.deleteSnapshotsForDay('${escapeHtml(day.label)}', ${filenamesJson})">
+                    🗑️ Delete All for ${escapeHtml(day.shortLabel)} (${day.snapshots.length})
+                  </button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:0.75rem;">
+                  ${cardsHtml}
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          return `
+            <div class="snapshot-month-block" style="margin-bottom:2rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.65rem 1rem;background:rgba(212,168,67,0.07);border-left:4px solid var(--gold);border-radius:6px;margin-bottom:1rem;">
+                <div style="font-size:1rem;font-weight:700;color:var(--gold2);display:flex;align-items:center;gap:0.5rem;">
+                  <span>📅</span> ${escapeHtml(month.name)}
+                </div>
+                <span style="font-size:0.75rem;font-family:var(--font-mono);color:var(--gold2);">${totalMonthCount} Total Snapshots</span>
+              </div>
+              ${daysHtml}
             </div>
-            <div class="repo-title" style="margin-top:0.5rem; word-break: break-all;">📸 ${escapeHtml(s.filename)}</div>
-            <div class="repo-desc">Created on ${new Date(s.createdAt).toLocaleString()} (${(s.sizeBytes / 1024).toFixed(1)} KB)</div>
-            <div style="display:flex;gap:0.5rem;margin-top:0.6rem;flex-wrap:wrap;">
-              <button class="btn-secondary" style="font-size:0.8rem;" onclick="window.adminActions.viewSnapshot('${escapeHtml(s.filename)}')">
-                👁️ View
-              </button>
-              <button class="btn-primary" style="font-size:0.8rem;" onclick="window.adminActions.rollbackSnapshot('${escapeHtml(s.filename)}')">
-                ↺ Rollback
-              </button>
-            </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
       }
 
       renderAuditHistoryTable(_cachedAuditHistory);
@@ -3638,6 +3844,13 @@
     openNewProjectModal: () => {
       document.getElementById('form-project-modal')?.reset();
       document.getElementById('proj-form-id').value = '';
+      if (document.getElementById('proj-ai-github-url')) document.getElementById('proj-ai-github-url').value = '';
+      if (document.getElementById('proj-ai-file-name')) document.getElementById('proj-ai-file-name').textContent = '';
+      if (document.getElementById('proj-form-challenges')) document.getElementById('proj-form-challenges').value = '';
+      if (document.getElementById('proj-form-solution')) document.getElementById('proj-form-solution').value = '';
+      if (document.getElementById('proj-form-results')) document.getElementById('proj-form-results').value = '';
+      if (document.getElementById('proj-form-casestudy')) document.getElementById('proj-form-casestudy').value = '';
+      _selectedProjDocFile = null;
       document.getElementById('modal-project-title').textContent = '📦 Add New Project';
       document.getElementById('modal-project').style.display = 'flex';
       document.getElementById('proj-form-title')?.focus();
@@ -3655,6 +3868,22 @@
       document.getElementById('proj-form-case').value = p.caseStudy || '';
       document.getElementById('proj-form-status').value = p.status || 'Completed';
       document.getElementById('proj-form-featured').checked = Boolean(p.featured);
+
+      if (document.getElementById('proj-form-challenges')) {
+        document.getElementById('proj-form-challenges').value = p.challenges || '';
+      }
+      if (document.getElementById('proj-form-solution')) {
+        document.getElementById('proj-form-solution').value = p.solution || '';
+      }
+      if (document.getElementById('proj-form-results')) {
+        document.getElementById('proj-form-results').value = p.results || '';
+      }
+      if (document.getElementById('proj-form-casestudy')) {
+        document.getElementById('proj-form-casestudy').value = p.caseStudyContent || p.caseStudy || '';
+      }
+      if (document.getElementById('proj-ai-github-url')) {
+        document.getElementById('proj-ai-github-url').value = p.github || '';
+      }
 
       document.getElementById('modal-project-title').textContent = `📦 Edit Project: ${p.title}`;
       document.getElementById('modal-project').style.display = 'flex';
@@ -3894,6 +4123,27 @@
         }
       } catch (e) {
         showToast('Connection error deleting snapshot', 'error');
+      }
+    },
+    deleteSnapshotsForDay: async (dayLabel, filenames) => {
+      if (!Array.isArray(filenames) || filenames.length === 0) return;
+      if (!confirm(`Are you sure you want to delete all ${filenames.length} snapshot(s) from ${dayLabel}? This action cannot be undone.`)) return;
+      try {
+        const res = await fetch('/api/admin/history/snapshots/batch-delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filenames })
+        });
+        const json = await res.json();
+        if (res.ok && json.success) {
+          showToast(`✓ Deleted ${json.data?.count || filenames.length} snapshots for ${dayLabel}`, 'success');
+          await loadHistory();
+          loadDashboard();
+        } else {
+          showToast('Failed to delete snapshots: ' + (json.message || ''), 'error');
+        }
+      } catch (e) {
+        showToast('Connection error deleting day snapshots', 'error');
       }
     },
     rollbackSnapshot: async (snapshotName) => {

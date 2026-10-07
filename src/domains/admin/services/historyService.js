@@ -96,6 +96,24 @@ class HistoryService {
       throw err;
     }
   }
+
+  deleteSnapshots(filenames) {
+    if (!Array.isArray(filenames) || filenames.length === 0) {
+      return { success: true, count: 0 };
+    }
+    let count = 0;
+    const errors = [];
+    for (const filename of filenames) {
+      try {
+        if (this.deleteSnapshot(filename)) {
+          count++;
+        }
+      } catch (err) {
+        errors.push({ filename, error: err.message });
+      }
+    }
+    return { success: true, count, errors };
+  }
 }
 
 module.exports = new HistoryService();

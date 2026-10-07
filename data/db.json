@@ -36,7 +36,7 @@
     "resume": {
       "url": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
       "label": "📄 View Resume",
-      "updatedAt": "2026-10-07T16:44:39.962Z"
+      "updatedAt": "2026-10-07T17:32:19.053Z"
     },
     "education": [
       {
@@ -906,7 +906,7 @@
     "resume": {
       "url": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
       "label": "📄 View Resume",
-      "updatedAt": "2026-10-07T16:44:39.962Z"
+      "updatedAt": "2026-10-07T17:32:19.053Z"
     },
     "education": [
       {
@@ -1745,6 +1745,65 @@
     }
   },
   "pendingChanges": [
+    {
+      "id": "chg_1791394510239_fsece",
+      "detectedAt": "2026-10-07T17:35:10.239Z",
+      "status": "rejected",
+      "category": "Skills",
+      "field": "skills",
+      "label": "Irrelevant Skill",
+      "oldValue": "None",
+      "detectedValue": "Fortran",
+      "source": "Test Doc",
+      "rejectedBy": "admin_test",
+      "rejectedReason": "Not relevant",
+      "rejectedAt": "2026-10-07T17:35:10.249Z",
+      "updatedAt": "2026-10-07T17:35:10.249Z"
+    },
+    {
+      "id": "chg_1791394510199_sj4tt",
+      "detectedAt": "2026-10-07T17:35:10.199Z",
+      "status": "approved",
+      "category": "Skills",
+      "field": "skills",
+      "label": "New Skill Detected",
+      "oldValue": "None",
+      "detectedValue": "TypeScript",
+      "source": "Test Doc",
+      "meta": {
+        "newSkills": [
+          "TypeScript"
+        ]
+      },
+      "approvedBy": "admin_test",
+      "approvedAt": "2026-10-07T17:35:10.214Z",
+      "updatedAt": "2026-10-07T17:35:10.214Z"
+    },
+    {
+      "id": "chg_1791394337746_u0q97",
+      "detectedAt": "2026-10-07T17:32:17.746Z",
+      "status": "pending",
+      "category": "Skills",
+      "field": "skills",
+      "label": "New Skills Detected",
+      "oldValue": "Not in current profile",
+      "detectedValue": "Java, Core Java, Rust, React, Express, Docker, Kubernetes, Natural Language Processing, IoT",
+      "source": "Document: Test_Harsha_Resume.txt (Resume)",
+      "documentId": "doc_1791394337736_tbuw9l",
+      "meta": {
+        "newSkills": [
+          "Java",
+          "Core Java",
+          "Rust",
+          "React",
+          "Express",
+          "Docker",
+          "Kubernetes",
+          "Natural Language Processing",
+          "IoT"
+        ]
+      }
+    },
     {
       "id": "chg_1791391478312_qozyf",
       "detectedAt": "2026-10-07T16:44:38.312Z",
@@ -2827,6 +2886,45 @@
   ],
   "documents": [
     {
+      "id": "doc_1791394337736_tbuw9l",
+      "diskFilename": "doc_1791394337736_tbuw9l.txt",
+      "originalName": "Test_Harsha_Resume.txt",
+      "ext": ".txt",
+      "mimeType": "text/plain",
+      "sizeBytes": 435,
+      "docType": "Resume",
+      "status": "Processed",
+      "snippet": "Thimmareddygari Harshavardhan Reddy Nellore, Andhra Pradesh, India | harshavardhan10003@gmail.com Education: Geethanjali Institute of Science & Technology, B.Tech CSE, 2023-2027, 9.1 CGPA Skills: Core Java, React.js, Python, Node.js, Express, Django, TypeScript, Rust, Docker, Kubernetes Projects: AirGuard IoT, VideStore, GRAMMPAY, Hollow Expense Tracker Certifications: Natural Language Processing Elite NPTEL IIT Kharagpur 60%",
+      "extractedData": {
+        "candidateName": "Thimmareddygari Harshavardhan Reddy",
+        "institution": null,
+        "issuer": "NPTEL · IIT Kharagpur",
+        "title": null,
+        "credentialId": null,
+        "date": "2023",
+        "gradeOrScore": "60%",
+        "detectedSkills": [
+          "Java",
+          "Core Java",
+          "Python",
+          "TypeScript",
+          "Rust",
+          "React.js",
+          "React",
+          "Node.js",
+          "Express",
+          "Django",
+          "Docker",
+          "Kubernetes",
+          "Natural Language Processing",
+          "IoT"
+        ],
+        "projects": [],
+        "confidence": "medium"
+      },
+      "uploadedAt": "2026-10-07T17:32:17.741Z"
+    },
+    {
       "id": "doc_1791391478248_af5dm2",
       "diskFilename": "doc_1791391478248_af5dm2.txt",
       "originalName": "Test_Harsha_Resume.txt",
@@ -3089,6 +3187,356 @@
     }
   ],
   "history": [
+    {
+      "id": "hist_1791394510384_vrat4",
+      "timestamp": "2026-10-07T17:35:10.384Z",
+      "field": "full_profile_rollback",
+      "oldValue": "Prior snapshot: snapshot_1791394510331.json",
+      "newValue": "Restored to snapshot: snapshot_1791394510270.json",
+      "source": "Admin Rollback Action",
+      "status": "Restored",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791394510299_bcxz6",
+      "timestamp": "2026-10-07T17:35:10.299Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1791394510270.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791394510259_6dl90",
+      "timestamp": "2026-10-07T17:35:10.259Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "Fortran",
+      "source": "Test Doc",
+      "status": "Rejected",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791394510227_h2brf",
+      "timestamp": "2026-10-07T17:35:10.227Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "TypeScript",
+      "source": "Test Doc",
+      "status": "Approved & Merged to Draft",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791394471748_vzzvb",
+      "timestamp": "2026-10-07T17:34:31.748Z",
+      "field": "project_delete",
+      "oldValue": "DevStream Real-Time Platform",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394471613_jrmsf",
+      "timestamp": "2026-10-07T17:34:31.613Z",
+      "field": "project_add",
+      "oldValue": "None",
+      "newValue": "DevStream Real-Time Platform",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394339464_bwrq4",
+      "timestamp": "2026-10-07T17:32:19.464Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1791394339439.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394339313_wmyko",
+      "timestamp": "2026-10-07T17:32:19.313Z",
+      "field": "seo_update",
+      "oldValue": "Prior SEO",
+      "newValue": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394339245_b2v8a",
+      "timestamp": "2026-10-07T17:32:19.245Z",
+      "field": "section_visibility",
+      "oldValue": "Prior Visibility",
+      "newValue": "{\"hero\":true,\"marquee\":true,\"about\":true,\"skills\":true,\"experience\":true,\"projects\":true,\"certs\":true,\"achievements\":true,\"contact\":true}",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394339103_ocwck",
+      "timestamp": "2026-10-07T17:32:19.103Z",
+      "field": "resume_update",
+      "oldValue": "Resume Link",
+      "newValue": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394339036_v3vl4",
+      "timestamp": "2026-10-07T17:32:19.036Z",
+      "field": "achievement_delete",
+      "oldValue": "National Level Hackathon Winner",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338955_kkx11",
+      "timestamp": "2026-10-07T17:32:18.955Z",
+      "field": "achievement_add",
+      "oldValue": "None",
+      "newValue": "National Level Hackathon Winner",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338875_o9ohb",
+      "timestamp": "2026-10-07T17:32:18.875Z",
+      "field": "cert_delete",
+      "oldValue": "Certified Kubernetes Administrator (CKA)",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338784_37ctv",
+      "timestamp": "2026-10-07T17:32:18.784Z",
+      "field": "cert_add",
+      "oldValue": "None",
+      "newValue": "Certified Kubernetes Administrator (CKA)",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338713_ma8ju",
+      "timestamp": "2026-10-07T17:32:18.713Z",
+      "field": "project_delete",
+      "oldValue": "QuantumCipher CMS Test",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338607_vcfkc",
+      "timestamp": "2026-10-07T17:32:18.607Z",
+      "field": "project_update",
+      "oldValue": "quantumcipher-cms-test",
+      "newValue": "QuantumCipher CMS Test",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338534_qifdo",
+      "timestamp": "2026-10-07T17:32:18.534Z",
+      "field": "project_add",
+      "oldValue": "None",
+      "newValue": "QuantumCipher CMS Test",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338441_1i8hf",
+      "timestamp": "2026-10-07T17:32:18.441Z",
+      "field": "experience_delete",
+      "oldValue": "Lead IoT Research Intern at Smart City Lab",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338363_hqmz8",
+      "timestamp": "2026-10-07T17:32:18.363Z",
+      "field": "experience_update",
+      "oldValue": "exp_muydxpr2_564v",
+      "newValue": "Lead IoT Research Intern at Smart City Lab",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338275_smoym",
+      "timestamp": "2026-10-07T17:32:18.275Z",
+      "field": "experience_add",
+      "oldValue": "None",
+      "newValue": "IoT Research Intern at Smart City Lab",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338197_rw19u",
+      "timestamp": "2026-10-07T17:32:18.197Z",
+      "field": "education_delete",
+      "oldValue": "Test University",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338119_ocgre",
+      "timestamp": "2026-10-07T17:32:18.119Z",
+      "field": "education_add",
+      "oldValue": "None",
+      "newValue": "Test University",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394338024_dk56j",
+      "timestamp": "2026-10-07T17:32:18.024Z",
+      "field": "skill_delete",
+      "oldValue": "GraphQL",
+      "newValue": "Removed",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394337945_k7ap0",
+      "timestamp": "2026-10-07T17:32:17.945Z",
+      "field": "skill_add",
+      "oldValue": "None",
+      "newValue": "Languages: GraphQL",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394337871_2tpzi",
+      "timestamp": "2026-10-07T17:32:17.871Z",
+      "field": "about_section",
+      "oldValue": "Prior About",
+      "newValue": "6 paragraphs",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394337796_wnfpc",
+      "timestamp": "2026-10-07T17:32:17.796Z",
+      "field": "profile_hero",
+      "oldValue": "Thimmareddygari Harshavardhan Reddy",
+      "newValue": "Thimmareddygari Harshavardhan Reddy",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394337708_fc6is",
+      "timestamp": "2026-10-07T17:32:17.708Z",
+      "field": "remove_platform_unstop",
+      "oldValue": "unstop",
+      "newValue": "Removed / Unlinked",
+      "source": "Admin Platform Manager",
+      "status": "Platform Removed",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394337668_spoec",
+      "timestamp": "2026-10-07T17:32:17.668Z",
+      "field": "sync_credly",
+      "oldValue": "Credly verified active & reachable (1983ms, HTTP 200).",
+      "newValue": "Credly verified active & reachable (347ms, HTTP 200).",
+      "source": "Platform Sync Engine",
+      "status": "Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394337289_l3f3k",
+      "timestamp": "2026-10-07T17:32:17.289Z",
+      "field": "sync_credly",
+      "oldValue": "Prior sync",
+      "newValue": "Credly verified active & reachable (1983ms, HTTP 200).",
+      "source": "Platform Sync Engine",
+      "status": "Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394336550_ne6p4",
+      "timestamp": "2026-10-07T17:32:16.550Z",
+      "field": "sync_github",
+      "oldValue": "GitHub sync complete! Found 7 public repos (0 new queued).",
+      "newValue": "GitHub sync complete! Found 7 public repos (0 new queued).",
+      "source": "Platform Sync Engine",
+      "status": "Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394336525_apm0c",
+      "timestamp": "2026-10-07T17:32:16.525Z",
+      "field": "sync_linkedin",
+      "oldValue": "LinkedIn profile URL verified active (1836ms). Note: Automated sync is not available for this platform without authenticated API access.",
+      "newValue": "LinkedIn profile URL verified active (1219ms). Note: Automated sync is not available for this platform without authenticated API access.",
+      "source": "Platform Sync Engine",
+      "status": "Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394335291_k3upc",
+      "timestamp": "2026-10-07T17:32:15.291Z",
+      "field": "remove_platform_leetcode",
+      "oldValue": "leetcode",
+      "newValue": "Removed / Unlinked",
+      "source": "Admin Platform Manager",
+      "status": "Platform Removed",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394335209_niqxl",
+      "timestamp": "2026-10-07T17:32:15.209Z",
+      "field": "social_platform_leetcode",
+      "oldValue": "Unconfigured",
+      "newValue": "https://leetcode.com/u/harsha10003/",
+      "source": "Admin Platform Manager",
+      "status": "Verified & Synchronized",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394332667_h7v4t",
+      "timestamp": "2026-10-07T17:32:12.667Z",
+      "field": "remove_platform_leetcode",
+      "oldValue": "leetcode",
+      "newValue": "Removed / Unlinked",
+      "source": "Admin Platform Manager",
+      "status": "Platform Removed",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1791394328105_ovhyn",
+      "timestamp": "2026-10-07T17:32:08.106Z",
+      "field": "social_platform_credly",
+      "oldValue": "https://www.credly.com/users/harsha10003/badges/credly",
+      "newValue": "https://www.credly.com/users/harsha10003/badges/credly",
+      "source": "Admin Platform Manager",
+      "status": "Verified & Synchronized",
+      "approvedBy": "admin"
+    },
     {
       "id": "hist_1791391482420_yl5xx",
       "timestamp": "2026-10-07T16:44:42.420Z",
@@ -3738,361 +4186,11 @@
       "source": "Admin Platform Manager",
       "status": "Platform Removed",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193897596_an1gg",
-      "timestamp": "2026-10-05T09:51:37.596Z",
-      "field": "sync_credly",
-      "oldValue": "Credly verified active & reachable (367ms, HTTP 200).",
-      "newValue": "Credly verified active & reachable (715ms, HTTP 200).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193896864_pib4c",
-      "timestamp": "2026-10-05T09:51:36.864Z",
-      "field": "sync_github",
-      "oldValue": "GitHub sync complete! Found 8 public repos (0 new queued).",
-      "newValue": "GitHub sync complete! Found 8 public repos (0 new queued).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193896693_8u65t",
-      "timestamp": "2026-10-05T09:51:36.693Z",
-      "field": "sync_linkedin",
-      "oldValue": "LinkedIn profile URL verified active (434ms). Note: Automated sync is not available for this platform without authenticated API access.",
-      "newValue": "LinkedIn profile URL verified active (412ms). Note: Automated sync is not available for this platform without authenticated API access.",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193896650_q9y0z",
-      "timestamp": "2026-10-05T09:51:36.650Z",
-      "field": "sync_credly",
-      "oldValue": "Prior sync",
-      "newValue": "Credly verified active & reachable (367ms, HTTP 200).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193896254_9wbo3",
-      "timestamp": "2026-10-05T09:51:36.254Z",
-      "field": "remove_platform_leetcode",
-      "oldValue": "leetcode",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193896193_lgm21",
-      "timestamp": "2026-10-05T09:51:36.193Z",
-      "field": "social_platform_leetcode",
-      "oldValue": "Unconfigured",
-      "newValue": "https://leetcode.com/u/harsha10003/",
-      "source": "Admin Platform Manager",
-      "status": "Verified & Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193895038_xnsnv",
-      "timestamp": "2026-10-05T09:51:35.038Z",
-      "field": "remove_platform_leetcode",
-      "oldValue": "leetcode",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193893845_0ozkp",
-      "timestamp": "2026-10-05T09:51:33.845Z",
-      "field": "social_platform_credly",
-      "oldValue": "https://www.credly.com/users/harsha10003/badges/credly",
-      "newValue": "https://www.credly.com/users/harsha10003/badges/credly",
-      "source": "Admin Platform Manager",
-      "status": "Verified & Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791193890971_f57hw",
-      "timestamp": "2026-10-05T09:51:30.971Z",
-      "field": "full_profile_rollback",
-      "oldValue": "Prior snapshot: snapshot_1791193890924.json",
-      "newValue": "Restored to snapshot: snapshot_1791193890863.json",
-      "source": "Admin Rollback Action",
-      "status": "Restored",
-      "approvedBy": "admin_test"
-    },
-    {
-      "id": "hist_1791193890886_fbezb",
-      "timestamp": "2026-10-05T09:51:30.886Z",
-      "field": "full_profile",
-      "oldValue": "Snapshot: snapshot_1791193890863.json",
-      "newValue": "Published Draft to Live Portfolio",
-      "source": "Admin Publish Action",
-      "status": "Published",
-      "approvedBy": "admin_test"
-    },
-    {
-      "id": "hist_1791193890854_r07xu",
-      "timestamp": "2026-10-05T09:51:30.854Z",
-      "field": "skills",
-      "oldValue": "None",
-      "newValue": "Fortran",
-      "source": "Test Doc",
-      "status": "Rejected",
-      "approvedBy": "admin_test"
-    },
-    {
-      "id": "hist_1791193890822_jxiep",
-      "timestamp": "2026-10-05T09:51:30.822Z",
-      "field": "skills",
-      "oldValue": "None",
-      "newValue": "TypeScript",
-      "source": "Test Doc",
-      "status": "Approved & Merged to Draft",
-      "approvedBy": "admin_test"
-    },
-    {
-      "id": "hist_1791192894976_6dxmq",
-      "timestamp": "2026-10-05T09:34:54.976Z",
-      "field": "profile_avatar",
-      "oldValue": "/media/media_1791191882233_887kk.jpg",
-      "newValue": "/media/media_1791192894933_vk6lm.jpg",
-      "source": "AI Agent Avatar Update",
-      "status": "Draft Updated",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192894870_fu3qv",
-      "timestamp": "2026-10-05T09:34:54.870Z",
-      "field": "skill_add",
-      "oldValue": "None",
-      "newValue": "Languages: Natural Language Processing",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192894843_rjizc",
-      "timestamp": "2026-10-05T09:34:54.843Z",
-      "field": "cert_add",
-      "oldValue": "None",
-      "newValue": "Natural Language Processing Elite",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192892532_6vwav",
-      "timestamp": "2026-10-05T09:34:52.532Z",
-      "field": "full_profile",
-      "oldValue": "Snapshot: snapshot_1791192892502.json",
-      "newValue": "Published Draft to Live Portfolio",
-      "source": "Admin Publish Action",
-      "status": "Published",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192892195_3sfmk",
-      "timestamp": "2026-10-05T09:34:52.195Z",
-      "field": "seo_update",
-      "oldValue": "Prior SEO",
-      "newValue": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192892176_plmw3",
-      "timestamp": "2026-10-05T09:34:52.176Z",
-      "field": "section_visibility",
-      "oldValue": "Prior Visibility",
-      "newValue": "{\"hero\":true,\"marquee\":true,\"about\":true,\"skills\":true,\"experience\":true,\"projects\":true,\"certs\":true,\"achievements\":true,\"contact\":true}",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192892107_264uj",
-      "timestamp": "2026-10-05T09:34:52.107Z",
-      "field": "resume_update",
-      "oldValue": "Resume Link",
-      "newValue": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192892071_5n4do",
-      "timestamp": "2026-10-05T09:34:52.071Z",
-      "field": "achievement_delete",
-      "oldValue": "National Level Hackathon Winner",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192892039_kt2dt",
-      "timestamp": "2026-10-05T09:34:52.039Z",
-      "field": "achievement_add",
-      "oldValue": "None",
-      "newValue": "National Level Hackathon Winner",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192892024_ea5th",
-      "timestamp": "2026-10-05T09:34:52.024Z",
-      "field": "cert_delete",
-      "oldValue": "Certified Kubernetes Administrator (CKA)",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891987_gnbsg",
-      "timestamp": "2026-10-05T09:34:51.987Z",
-      "field": "cert_add",
-      "oldValue": "None",
-      "newValue": "Certified Kubernetes Administrator (CKA)",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891957_ia2bi",
-      "timestamp": "2026-10-05T09:34:51.957Z",
-      "field": "project_delete",
-      "oldValue": "QuantumCipher CMS Test",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891935_zdbed",
-      "timestamp": "2026-10-05T09:34:51.935Z",
-      "field": "project_update",
-      "oldValue": "quantumcipher-cms-test",
-      "newValue": "QuantumCipher CMS Test",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891894_immc9",
-      "timestamp": "2026-10-05T09:34:51.894Z",
-      "field": "project_add",
-      "oldValue": "None",
-      "newValue": "QuantumCipher CMS Test",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891878_tyd38",
-      "timestamp": "2026-10-05T09:34:51.878Z",
-      "field": "experience_delete",
-      "oldValue": "Lead IoT Research Intern at Smart City Lab",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891866_obr0v",
-      "timestamp": "2026-10-05T09:34:51.866Z",
-      "field": "experience_update",
-      "oldValue": "exp_muv200pa_tbkt",
-      "newValue": "Lead IoT Research Intern at Smart City Lab",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891803_p5oen",
-      "timestamp": "2026-10-05T09:34:51.803Z",
-      "field": "experience_add",
-      "oldValue": "None",
-      "newValue": "IoT Research Intern at Smart City Lab",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891727_l3tbu",
-      "timestamp": "2026-10-05T09:34:51.727Z",
-      "field": "education_delete",
-      "oldValue": "Test University",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891711_hafbb",
-      "timestamp": "2026-10-05T09:34:51.711Z",
-      "field": "education_add",
-      "oldValue": "None",
-      "newValue": "Test University",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891665_za14v",
-      "timestamp": "2026-10-05T09:34:51.665Z",
-      "field": "skill_delete",
-      "oldValue": "GraphQL",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891610_0glid",
-      "timestamp": "2026-10-05T09:34:51.610Z",
-      "field": "skill_add",
-      "oldValue": "None",
-      "newValue": "Languages: GraphQL",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891592_uemkl",
-      "timestamp": "2026-10-05T09:34:51.592Z",
-      "field": "about_section",
-      "oldValue": "Prior About",
-      "newValue": "6 paragraphs",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791192891571_cveoz",
-      "timestamp": "2026-10-05T09:34:51.571Z",
-      "field": "profile_hero",
-      "oldValue": "Thimmareddygari Harshavardhan Reddy",
-      "newValue": "Thimmareddygari Harshavardhan Reddy",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-07T16:44:42.357Z",
-    "lastSyncCheckAt": "2026-10-07T16:44:37.257Z",
+    "lastPublishedAt": "2026-10-07T17:35:10.280Z",
+    "lastSyncCheckAt": "2026-10-07T17:32:17.302Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,
     "sourcePriority": [
@@ -4106,11 +4204,11 @@
         "syncMethod": "Public Badge Verification URLs",
         "status": "Active",
         "verified": true,
-        "lastVerifiedAt": "2026-10-07T16:44:27.563Z",
-        "lastSyncedAt": "2026-10-07T16:44:37.799Z",
+        "lastVerifiedAt": "2026-10-07T17:32:08.051Z",
+        "lastSyncedAt": "2026-10-07T17:32:17.665Z",
         "lastSyncStatus": "Active",
-        "lastSyncMessage": "Credly verified active & reachable (473ms, HTTP 200).",
-        "latencyMs": 473,
+        "lastSyncMessage": "Credly verified active & reachable (347ms, HTTP 200).",
+        "latencyMs": 347,
         "profileData": null,
         "lastDiff": {
           "added": [],
@@ -4120,10 +4218,10 @@
         }
       },
       "github": {
-        "lastSyncedAt": "2026-10-07T16:44:36.153Z",
+        "lastSyncedAt": "2026-10-07T17:32:16.539Z",
         "lastSyncStatus": "Active",
         "lastSyncMessage": "GitHub sync complete! Found 7 public repos (0 new queued).",
-        "latencyMs": 853,
+        "latencyMs": 1240,
         "profileData": {
           "publicRepos": 7,
           "newRepositoriesCount": 0,
@@ -4160,53 +4258,25 @@
         },
         "lastDiff": {
           "platformId": "github",
-          "hasChanges": true,
+          "hasChanges": false,
           "added": [],
-          "changed": [
+          "changed": [],
+          "removed": [],
+          "unchanged": [
             {
               "field": "publicRepos",
               "label": "Public Repositories",
-              "oldValue": 8,
-              "newValue": 7
+              "value": 7
+            },
+            {
+              "field": "newRepositoriesCount",
+              "label": "New Repositories Count",
+              "value": 0
             },
             {
               "field": "repositories",
               "label": "Repositories",
-              "oldValue": [
-                {
-                  "name": "portfolio",
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "harsha895155",
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "IOT-Based-Hyperlocal-Air-Quality-Monitoring-and-alert-System",
-                  "language": null
-                },
-                {
-                  "name": "Hollow",
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "Digital-Notes-Management-System",
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "blog_folut-main",
-                  "language": "Python"
-                },
-                {
-                  "name": "FineTech",
-                  "language": "HTML"
-                },
-                {
-                  "name": "VIDESTORE",
-                  "language": "JavaScript"
-                }
-              ],
-              "newValue": [
+              "value": [
                 {
                   "name": "Digital-Notes-Management-System",
                   "language": "JavaScript"
@@ -4237,22 +4307,14 @@
                 }
               ]
             }
-          ],
-          "removed": [],
-          "unchanged": [
-            {
-              "field": "newRepositoriesCount",
-              "label": "New Repositories Count",
-              "value": 0
-            }
           ]
         }
       },
       "linkedin": {
-        "lastSyncedAt": "2026-10-07T16:44:37.225Z",
+        "lastSyncedAt": "2026-10-07T17:32:16.521Z",
         "lastSyncStatus": "Active",
-        "lastSyncMessage": "LinkedIn profile URL verified active (1836ms). Note: Automated sync is not available for this platform without authenticated API access.",
-        "latencyMs": 1836,
+        "lastSyncMessage": "LinkedIn profile URL verified active (1219ms). Note: Automated sync is not available for this platform without authenticated API access.",
+        "latencyMs": 1219,
         "profileData": null,
         "lastDiff": {
           "added": [],
@@ -4265,7 +4327,7 @@
         "syncMethod": "Competitive Coding Profile",
         "status": "Active",
         "verified": true,
-        "lastVerifiedAt": "2026-10-07T16:44:33.396Z"
+        "lastVerifiedAt": "2026-10-07T17:32:15.177Z"
       },
       "unstop": {
         "lastSyncedAt": "2026-10-04T19:14:29.876Z",

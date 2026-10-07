@@ -1027,9 +1027,84 @@
   </div>
 </div>
 
+<!-- ─── PROJECT CASE STUDY VIEWER MODAL ─────────────────────────── -->
+<div id="project-case-study-modal" role="dialog" aria-modal="true" aria-label="Project Case Study" style="display:none; position:fixed; inset:0; background:rgba(6,6,14,0.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); z-index:99999; align-items:center; justify-content:center; padding:1.5rem; box-sizing:border-box;">
+  <div class="case-study-card" style="background:rgba(15,17,32,0.98); border:1px solid rgba(212,168,71,0.3); border-radius:16px; max-width:960px; width:100%; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 25px 60px rgba(0,0,0,0.8), 0 0 35px rgba(212,168,71,0.18); overflow:hidden; position:relative;">
+    
+    <!-- Header -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:1.4rem 1.8rem; border-bottom:1px solid rgba(212,168,71,0.18); background:rgba(212,168,71,0.04); flex-shrink:0;">
+      <div style="flex:1; padding-right:1rem;">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.4rem; flex-wrap:wrap;">
+          <span id="cs-modal-tag" style="font-size:0.75rem; font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:0.08em; color:var(--gold2); background:rgba(212,168,71,0.15); padding:0.2rem 0.6rem; border-radius:9999px; border:1px solid rgba(212,168,71,0.3);">Full-Stack</span>
+          <span id="cs-modal-status" style="font-size:0.75rem; color:#34d399; font-family:'Space Mono', monospace;">● Completed</span>
+        </div>
+        <h2 id="cs-modal-title" style="font-size:1.6rem; font-weight:700; color:var(--cream); font-family:'Playfair Display', serif; margin:0; line-height:1.2;">Project Title</h2>
+      </div>
+      <button type="button" id="cs-modal-close" style="background:rgba(255,255,255,0.08); border:none; color:var(--cream); width:36px; height:36px; border-radius:50%; font-size:1.4rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s;" aria-label="Close Case Study">&times;</button>
+    </div>
+
+    <!-- Body (Scrollable) -->
+    <div style="padding:1.8rem; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:1.6rem;">
+      <!-- Quick Action Buttons & Links -->
+      <div style="display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center;">
+        <a id="cs-modal-demo" href="#" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-primary" style="display:none; padding:0.45rem 1rem; font-size:0.85rem; text-decoration:none;">▶ Live Demo</a>
+        <a id="cs-modal-github" href="#" target="_blank" rel="noopener noreferrer" class="proj-btn" style="display:none; padding:0.45rem 1rem; font-size:0.85rem; text-decoration:none;">↗ GitHub Code</a>
+        <a id="cs-modal-external" href="#" target="_blank" rel="noopener noreferrer" class="proj-btn" style="display:none; padding:0.45rem 1rem; font-size:0.85rem; border-color:var(--gold2); color:var(--gold2); text-decoration:none;">↗ External Case Study Link</a>
+      </div>
+
+      <!-- Tech Stack Badges -->
+      <div>
+        <div style="font-size:0.8rem; font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:0.08em; color:var(--gold2); margin-bottom:0.5rem;">Technologies &amp; Architecture</div>
+        <div id="cs-modal-techs" style="display:flex; flex-wrap:wrap; gap:0.45rem;"></div>
+      </div>
+
+      <!-- Executive Overview -->
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(212,168,71,0.12); border-radius:10px; padding:1.2rem;">
+        <div style="font-size:0.85rem; font-weight:700; color:var(--gold2); margin-bottom:0.4rem; display:flex; align-items:center; gap:0.4rem;">
+          <span>🎯</span> Executive Summary
+        </div>
+        <p id="cs-modal-desc" style="color:var(--cream2); font-size:0.95rem; line-height:1.6; margin:0;"></p>
+      </div>
+
+      <!-- Problem / Challenges & Solution Grid -->
+      <div id="cs-modal-pillars-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem;">
+        <div style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.25); border-radius:10px; padding:1.2rem;">
+          <div style="font-size:0.85rem; font-weight:700; color:#f87171; margin-bottom:0.4rem; display:flex; align-items:center; gap:0.4rem;">
+            <span>⚡</span> Architectural Challenges
+          </div>
+          <p id="cs-modal-challenges" style="color:var(--cream2); font-size:0.9rem; line-height:1.5; margin:0;"></p>
+        </div>
+
+        <div style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.25); border-radius:10px; padding:1.2rem;">
+          <div style="font-size:0.85rem; font-weight:700; color:#34d399; margin-bottom:0.4rem; display:flex; align-items:center; gap:0.4rem;">
+            <span>💡</span> Engineering Solution
+          </div>
+          <p id="cs-modal-solution" style="color:var(--cream2); font-size:0.9rem; line-height:1.5; margin:0;"></p>
+        </div>
+      </div>
+
+      <!-- Measurable Results -->
+      <div id="cs-modal-results-wrap" style="background:rgba(212,168,71,0.06); border:1px solid rgba(212,168,71,0.25); border-radius:10px; padding:1.2rem;">
+        <div style="font-size:0.85rem; font-weight:700; color:var(--gold2); margin-bottom:0.4rem; display:flex; align-items:center; gap:0.4rem;">
+          <span>📈</span> Measurable Outcomes &amp; Impact
+        </div>
+        <p id="cs-modal-results" style="color:var(--cream2); font-size:0.9rem; line-height:1.5; margin:0;"></p>
+      </div>
+
+      <!-- Detailed Case Study Document / Markdown -->
+      <div id="cs-modal-doc-wrap" style="border-top:1px solid rgba(255,255,255,0.08); padding-top:1.2rem;">
+        <div style="font-size:0.85rem; font-weight:700; color:var(--gold2); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.4rem;">
+          <span>📜</span> Full Case Study Documentation
+        </div>
+        <div id="cs-modal-doc" style="color:var(--cream2); font-size:0.92rem; line-height:1.65; white-space:pre-wrap; font-family:'DM Sans', sans-serif;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ─── PROFILE DATA (Single Source of Truth) & DYNAMIC RENDERER ─── -->
-<script src="profile.js"></script>
-<script src="render.js"></script>
+<script src="profile.js?v=3.0"></script>
+<script src="render.js?v=3.0"></script>
 
 <script>
 /* ── ORBS VISIBLE ── */

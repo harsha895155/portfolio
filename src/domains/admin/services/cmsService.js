@@ -21,17 +21,30 @@ class CmsService {
     }
   }
 
-  /* ── Helper: Save Draft & Log History ── */
+  /* ── Helper: Save Draft & Log History & Sync Live ── */
   saveDraftAndLog(field, oldValue, newValue, actionDescription, approvedBy = 'admin') {
+    // 1. Keep draft and published in sync so all admin edits display immediately on portfolio
+    const draft = db.get('draft') || {};
+    db.set('draft', draft);
+    db.set('published', JSON.parse(JSON.stringify(draft)));
+    db.save();
+
+    // 2. Synchronize to profile.js and index.html
+    try {
+      syncProfileService.syncToFiles(draft);
+    } catch (e) {
+      logger.warn(`Could not sync to profile.js/index.html: ${e.message}`);
+    }
+
     db.addHistory({
       field,
       oldValue: typeof oldValue === 'object' ? JSON.stringify(oldValue).slice(0, 100) : String(oldValue || 'None'),
       newValue: typeof newValue === 'object' ? JSON.stringify(newValue).slice(0, 100) : String(newValue || 'Updated'),
       source: 'Admin CMS',
-      status: 'Saved to Draft',
+      status: 'Published Live',
       approvedBy
     });
-    logger.info(`[CMS] ${actionDescription} by ${approvedBy}`);
+    logger.info(`[CMS] ${actionDescription} by ${approvedBy} and synchronized live`);
   }
 
   /* ── 1. Profile & Hero ── */
@@ -505,7 +518,8 @@ class CmsService {
       certFile: (data.certFile || '').trim(),
       challenges: (data.challenges || '').trim(),
       solution: (data.solution || '').trim(),
-      results: (data.results || '').trim()
+      results: (data.results || '').trim(),
+      caseStudyContent: (data.caseStudyContent || '').trim()
     };
 
     // Filter out if existing id
@@ -546,9 +560,10 @@ class CmsService {
       caseStudy: data.caseStudy !== undefined ? data.caseStudy.trim() : draft.projects[index].caseStudy,
       isHackathon: data.isHackathon !== undefined ? Boolean(data.isHackathon) : draft.projects[index].isHackathon,
       certFile: data.certFile !== undefined ? data.certFile.trim() : draft.projects[index].certFile,
-      challenges: data.challenges !== undefined ? data.challenges.trim() : draft.projects[index].challenges,
-      solution: data.solution !== undefined ? data.solution.trim() : draft.projects[index].solution,
-      results: data.results !== undefined ? data.results.trim() : draft.projects[index].results
+      challenges: data.challenges !== undefined ? data.challenges.trim() : (draft.projects[index].challenges || ''),
+      solution: data.solution !== undefined ? data.solution.trim() : (draft.projects[index].solution || ''),
+      results: data.results !== undefined ? data.results.trim() : (draft.projects[index].results || ''),
+      caseStudyContent: data.caseStudyContent !== undefined ? data.caseStudyContent.trim() : (draft.projects[index].caseStudyContent || '')
     };
 
     db.set('draft', draft);
