@@ -1750,6 +1750,40 @@
   },
   "pendingChanges": [
     {
+      "id": "chg_1791480890156_sp7xp",
+      "detectedAt": "2026-10-08T17:34:50.156Z",
+      "status": "rejected",
+      "category": "Skills",
+      "field": "skills",
+      "label": "Irrelevant Skill",
+      "oldValue": "None",
+      "detectedValue": "Fortran",
+      "source": "Test Doc",
+      "rejectedBy": "admin_test",
+      "rejectedReason": "Not relevant",
+      "rejectedAt": "2026-10-08T17:34:50.168Z",
+      "updatedAt": "2026-10-08T17:34:50.168Z"
+    },
+    {
+      "id": "chg_1791480890109_cagn7",
+      "detectedAt": "2026-10-08T17:34:50.109Z",
+      "status": "approved",
+      "category": "Skills",
+      "field": "skills",
+      "label": "New Skill Detected",
+      "oldValue": "None",
+      "detectedValue": "TypeScript",
+      "source": "Test Doc",
+      "meta": {
+        "newSkills": [
+          "TypeScript"
+        ]
+      },
+      "approvedBy": "admin_test",
+      "approvedAt": "2026-10-08T17:34:50.133Z",
+      "updatedAt": "2026-10-08T17:34:50.134Z"
+    },
+    {
       "id": "chg_1791479897894_p58rq",
       "detectedAt": "2026-10-08T17:18:17.894Z",
       "status": "rejected",
@@ -3324,6 +3358,46 @@
   ],
   "history": [
     {
+      "id": "hist_1791480890353_qahme",
+      "timestamp": "2026-10-08T17:34:50.353Z",
+      "field": "full_profile_rollback",
+      "oldValue": "Prior snapshot: snapshot_1791480890291.json",
+      "newValue": "Restored to snapshot: snapshot_1791480890191.json",
+      "source": "Admin Rollback Action",
+      "status": "Restored",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791480890230_1on3g",
+      "timestamp": "2026-10-08T17:34:50.230Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1791480890191.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791480890179_ttici",
+      "timestamp": "2026-10-08T17:34:50.179Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "Fortran",
+      "source": "Test Doc",
+      "status": "Rejected",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791480890144_q5kv2",
+      "timestamp": "2026-10-08T17:34:50.144Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "TypeScript",
+      "source": "Test Doc",
+      "status": "Approved & Merged to Draft",
+      "approvedBy": "admin_test"
+    },
+    {
       "id": "hist_1791479898100_uz02j",
       "timestamp": "2026-10-08T17:18:18.100Z",
       "field": "full_profile_rollback",
@@ -4282,50 +4356,10 @@
       "source": "Admin Platform Manager",
       "status": "Platform Removed",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391477827_2s8gn",
-      "timestamp": "2026-10-07T16:44:37.827Z",
-      "field": "sync_credly",
-      "oldValue": "Credly verified active & reachable (1602ms, HTTP 200).",
-      "newValue": "Credly verified active & reachable (473ms, HTTP 200).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391477239_nxet0",
-      "timestamp": "2026-10-07T16:44:37.239Z",
-      "field": "sync_linkedin",
-      "oldValue": "LinkedIn profile URL verified active (412ms). Note: Automated sync is not available for this platform without authenticated API access.",
-      "newValue": "LinkedIn profile URL verified active (1836ms). Note: Automated sync is not available for this platform without authenticated API access.",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391477005_52qby",
-      "timestamp": "2026-10-07T16:44:37.005Z",
-      "field": "sync_credly",
-      "oldValue": "Prior sync",
-      "newValue": "Credly verified active & reachable (1602ms, HTTP 200).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391476169_utplr",
-      "timestamp": "2026-10-07T16:44:36.170Z",
-      "field": "sync_github",
-      "oldValue": "GitHub sync complete! Found 8 public repos (0 new queued).",
-      "newValue": "GitHub sync complete! Found 7 public repos (0 new queued).",
-      "source": "Platform Sync Engine",
-      "status": "Synchronized",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-08T17:18:17.941Z",
+    "lastPublishedAt": "2026-10-08T17:34:50.204Z",
     "lastSyncCheckAt": "2026-10-08T16:25:56.697Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,
