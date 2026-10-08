@@ -283,7 +283,7 @@ async function main() {
   // ── SECTION 6: INTERNSHIP DUPLICATE DETECTION ────────────────────────────
   console.log('\n6. Internship Duplicate Prevention:');
 
-  await runTest('Detects duplicate internship by Candidate ID + Organization', async () => {
+  await runTest('Detects duplicate internship by Candidate ID + Organization + Same Role', async () => {
     // Save verified internship record into verifiedRecords
     const testExpRecord = {
       id: 'vr_test_exp_1',
@@ -297,14 +297,24 @@ async function main() {
     };
     db.addVerifiedRecord(testExpRecord);
 
-    const dupCheck = internshipVerificationService.checkDuplicates({
+    // Same CID + Same Org + SAME Role => must be blocked as duplicate
+    const dupCheckSameRole = internshipVerificationService.checkDuplicates({
       fileHashes: ['new_hash_456'],
       candidateId: 'STU67a3881a20bc81738770458',
       organization: 'AICTE - EduSkills',
-      role: 'Different Role'
+      role: 'AWS Gen AI Virtual Intern'
     });
-    assert.strictEqual(dupCheck.isDuplicate, true);
-    assert.strictEqual(dupCheck.type, 'CANDIDATE_ORG_COMBO');
+    assert.strictEqual(dupCheckSameRole.isDuplicate, true);
+    assert.strictEqual(dupCheckSameRole.type, 'EXACT_INTERNSHIP_DUPLICATE');
+
+    // Same CID + Same Org + DIFFERENT Role (e.g. Google AI-ML) => must NOT be blocked
+    const dupCheckDiffRole = internshipVerificationService.checkDuplicates({
+      fileHashes: ['new_hash_789'],
+      candidateId: 'STU67a3881a20bc81738770458',
+      organization: 'AICTE - EduSkills',
+      role: 'Google AI-ML Virtual Intern'
+    });
+    assert.strictEqual(dupCheckDiffRole.isDuplicate, false);
   });
 
   await runTest('Detects duplicate internship by document file hash', async () => {

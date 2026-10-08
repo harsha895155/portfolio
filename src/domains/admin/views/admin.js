@@ -402,13 +402,13 @@
 
     // Hero Resume Button and Current Active Resume
     const resume = p.resume || {};
-    const resumeUrl = resume.url || './Thimmareddygari_Harshavardhan_Reddy_Resume.pdf';
+    const resumeUrl = resume.url || '';
     setValue('prof-resume-label', resume.label || '📄 View Resume');
     setValue('prof-resume-url', resumeUrl);
 
     const filenameEl = document.getElementById('hero-resume-current-filename');
     if (filenameEl) {
-      const displayFilename = resumeUrl.split('/').pop() || 'Thimmareddygari_Harshavardhan_Reddy_Resume.pdf';
+      const displayFilename = resumeUrl ? resumeUrl.split('/').pop() : 'No resume uploaded yet';
       filenameEl.textContent = displayFilename;
     }
     const updatedAtEl = document.getElementById('hero-resume-updated-at');
@@ -2581,8 +2581,8 @@
     const copyright = document.getElementById('footer-copyright-text');
     const location = document.getElementById('footer-location-text');
 
-    if (copyright) copyright.value = p.footer?.copyrightText || `&copy; 2026 · ${p.name?.toUpperCase()} · All Rights Reserved`;
-    if (location) location.value = p.footer?.locationText || `📍 Geethanjali Institute of Science & Technology · Nellore, AP`;
+    if (copyright) copyright.value = p.footer?.copyrightText || (p.name ? `&copy; 2026 · ${p.name.toUpperCase()} · All Rights Reserved` : '');
+    if (location) location.value = p.footer?.locationText || (p.contact?.location ? `📍 ${p.contact.location}` : '');
   }
 
   document.getElementById('save-contact-btn')?.addEventListener('click', async () => {
@@ -5457,10 +5457,10 @@
     const titleEl = modal.querySelector('.modal-title');
     if (titleEl) titleEl.textContent = profile ? `Edit: ${profile.platform}` : 'Add New Coding Profile';
     document.getElementById('coding-platform-name').value = profile?.platform || '';
-    document.getElementById('coding-platform-icon').value = profile?.icon || '⚡';
+    document.getElementById('coding-platform-icon').value = profile?.icon || '';
     document.getElementById('coding-platform-url').value = profile?.profileUrl || profile?.url || '';
     document.getElementById('coding-platform-username').value = profile?.username || '';
-    document.getElementById('coding-platform-method').value = profile?.verificationMethod || 'Verified Public Profile';
+    document.getElementById('coding-platform-method').value = profile?.verificationMethod || '';
     document.getElementById('coding-platform-status').value = profile?.status || 'Active';
     document.getElementById('coding-platform-solved').value = profile?.problemsSolved || profile?.totalSolved || '';
     document.getElementById('coding-platform-rating').value = profile?.rating || '';

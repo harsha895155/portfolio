@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Private Portfolio Management Console | Thimmareddygari Harshavardhan Reddy</title>
+  <title>Private Portfolio Management Console | Admin</title>
   <!-- Disallow search engines from indexing the private management console -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -231,32 +231,32 @@
             <div class="metric-card">
               <div class="mc-label">Active Projects</div>
               <div class="mc-value" id="stat-projects">-</div>
-              <div class="mc-sub">AirGuard, VideStore, GRAMMPAY, Hollow</div>
+              <div class="mc-sub">Featured, production &amp; open source</div>
             </div>
             <div class="metric-card">
               <div class="mc-label">Skills Configured</div>
               <div class="mc-value" id="stat-skills">-</div>
-              <div class="mc-sub">Java, React, Python, AWS, Node, SQL</div>
+              <div class="mc-sub">Languages, frameworks &amp; tools</div>
             </div>
             <div class="metric-card">
               <div class="mc-label">Certifications</div>
               <div class="mc-value" id="stat-certs">-</div>
-              <div class="mc-sub">NPTEL, AWS, Google Cloud, Infosys, IIT</div>
+              <div class="mc-sub">Verified issuers &amp; platforms</div>
             </div>
             <div class="metric-card">
               <div class="mc-label">Experience &amp; Internships</div>
               <div class="mc-value" id="stat-exp">-</div>
-              <div class="mc-sub">AICTE-EduSkills, APSCHE, Amdox</div>
+              <div class="mc-sub">Verified tracks &amp; organizations</div>
             </div>
             <div class="metric-card">
               <div class="mc-label">Education Milestones</div>
               <div class="mc-value" id="stat-education">-</div>
-              <div class="mc-sub">B.Tech (GIST), Intermediate, 10th</div>
+              <div class="mc-sub">Degrees, diplomas &amp; schooling</div>
             </div>
             <div class="metric-card">
               <div class="mc-label">Achievements &amp; Awards</div>
               <div class="mc-value" id="stat-achievements">-</div>
-              <div class="mc-sub">Perfect Score, Grade-O, Hackathons</div>
+              <div class="mc-sub">Badges, awards &amp; honors</div>
             </div>
             <div class="metric-card">
               <div class="mc-label">Pending Review</div>
@@ -512,25 +512,25 @@
               <div class="form-row">
                 <div class="form-group flex-1">
                   <label>Full Name</label>
-                  <input type="text" id="prof-name" class="form-input" required>
+                  <input type="text" id="prof-name" class="form-input" placeholder="Enter your full name (e.g. Jane Doe)" required>
                 </div>
                 <div class="form-group flex-1">
                   <label>Short Name</label>
-                  <input type="text" id="prof-shortname" class="form-input">
+                  <input type="text" id="prof-shortname" class="form-input" placeholder="Enter short display name (e.g. Jane)">
                 </div>
                 <div class="form-group flex-1">
                   <label>Nickname / Brand</label>
-                  <input type="text" id="prof-nickname" class="form-input">
+                  <input type="text" id="prof-nickname" class="form-input" placeholder="Enter preferred handle or nickname (optional)">
                 </div>
               </div>
               <div class="form-group">
                 <label>Professional Headline</label>
-                <input type="text" id="prof-headline" class="form-input" required>
+                <input type="text" id="prof-headline" class="form-input" placeholder="Enter professional headline (e.g. Full-Stack Developer &amp; Cloud Architect)" required>
               </div>
               <div class="form-row">
                 <div class="form-group flex-1">
                   <label>Hero Tagline</label>
-                  <input type="text" id="prof-herotag" class="form-input">
+                  <input type="text" id="prof-herotag" class="form-input" placeholder="Enter hero badge tagline (e.g. Software Engineer · AI Specialist)">
                 </div>
                 <div class="form-group flex-1">
                   <label>Profile Image / Avatar URL (or select from Media Library)</label>
@@ -540,7 +540,7 @@
                       <span id="prof-image-fallback-icon" style="display: none; font-size: 1.5rem;">👤</span>
                     </div>
                     <div style="flex-grow: 1;">
-                      <input type="text" id="prof-image" class="form-input" placeholder="/og-image.png or /media/avatar.png" style="margin-bottom: 0.4rem;">
+                      <input type="text" id="prof-image" class="form-input" placeholder="Enter image URL or select from Media Library (e.g. /media/avatar.png)" style="margin-bottom: 0.4rem;">
                       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                         <input type="file" id="prof-image-file-input" accept="image/*" style="display: none;">
                         <button type="button" id="btn-upload-profile-image" class="btn-primary" style="font-size: 0.78rem; padding: 0.35rem 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem;">
@@ -562,7 +562,7 @@
                   <label style="margin-bottom: 0;">Hero Description</label>
                   <button type="button" class="btn-ai-assist" data-target="prof-herodesc" data-type="hero">✨ AI Assist</button>
                 </div>
-                <textarea id="prof-herodesc" class="form-textarea" rows="3"></textarea>
+                <textarea id="prof-herodesc" class="form-textarea" rows="3" placeholder="Enter introductory bio summarizing your core strengths, focus areas, and goals..."></textarea>
               </div>
             </div>
 
@@ -590,11 +590,11 @@
                     <div class="form-row" style="margin-bottom: 0;">
                       <div class="form-group flex-1" style="margin-bottom: 0;">
                         <label style="font-size: 0.78rem;">Button Label</label>
-                        <input type="text" id="prof-cta1-label" class="form-input" value="↗ Get In Touch" placeholder="↗ Get In Touch">
+                        <input type="text" id="prof-cta1-label" class="form-input" placeholder="Enter button label (e.g. ↗ Get In Touch)">
                       </div>
                       <div class="form-group flex-1" style="margin-bottom: 0;">
                         <label style="font-size: 0.78rem;">Target Link / Anchor</label>
-                        <input type="text" id="prof-cta1-url" class="form-input" value="#contact" placeholder="#contact">
+                        <input type="text" id="prof-cta1-url" class="form-input" placeholder="Enter target anchor or link (e.g. #contact)">
                       </div>
                     </div>
                   </div>
@@ -607,11 +607,11 @@
                     <div class="form-row" style="margin-bottom: 0;">
                       <div class="form-group flex-1" style="margin-bottom: 0;">
                         <label style="font-size: 0.78rem;">Button Label</label>
-                        <input type="text" id="prof-cta2-label" class="form-input" value="View Projects →" placeholder="View Projects →">
+                        <input type="text" id="prof-cta2-label" class="form-input" placeholder="Enter button label (e.g. View Projects →)">
                       </div>
                       <div class="form-group flex-1" style="margin-bottom: 0;">
                         <label style="font-size: 0.78rem;">Target Link / Anchor</label>
-                        <input type="text" id="prof-cta2-url" class="form-input" value="#projects" placeholder="#projects">
+                        <input type="text" id="prof-cta2-url" class="form-input" placeholder="Enter target anchor or link (e.g. #projects)">
                       </div>
                     </div>
                   </div>
@@ -624,11 +624,11 @@
                     <div class="form-row" style="margin-bottom: 0.5rem;">
                       <div class="form-group flex-1" style="margin-bottom: 0;">
                         <label style="font-size: 0.78rem;">Button Label</label>
-                        <input type="text" id="prof-resume-label" class="form-input" value="📄 View Resume" placeholder="📄 View Resume">
+                        <input type="text" id="prof-resume-label" class="form-input" placeholder="Enter button label (e.g. 📄 View Resume)">
                       </div>
                       <div class="form-group flex-1" style="margin-bottom: 0;">
                         <label style="font-size: 0.78rem;">Linked Resume File Path / URL</label>
-                        <input type="text" id="prof-resume-url" class="form-input" placeholder="./Thimmareddygari_Harshavardhan_Reddy_Resume.pdf" readonly style="background: rgba(0,0,0,0.3); color: #94a3b8; font-family: monospace; font-size: 0.8rem;">
+                        <input type="text" id="prof-resume-url" class="form-input" placeholder="Path to uploaded resume PDF (upload below to link)" readonly style="background: rgba(0,0,0,0.3); color: #94a3b8; font-family: monospace; font-size: 0.8rem;">
                       </div>
                     </div>
                     <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
@@ -696,11 +696,11 @@
               <div class="form-row">
                 <div class="form-group flex-1">
                   <label>Hero Keyword Tags (Comma separated)</label>
-                  <input type="text" id="prof-herotags" class="form-input" placeholder="Core Java, React.js, Python, Node.js, AWS Cloud">
+                  <input type="text" id="prof-herotags" class="form-input" placeholder="Enter comma-separated primary technologies (e.g. React.js, Python, Node.js, AWS)">
                 </div>
                 <div class="form-group flex-1">
                   <label>Marquee Banner Ticker Items (Comma separated)</label>
-                  <input type="text" id="prof-marquee" class="form-input" placeholder="Full-Stack Developer, Core Java, AirGuard IoT, React.js &amp; Vite">
+                  <input type="text" id="prof-marquee" class="form-input" placeholder="Enter comma-separated banner ticker items (e.g. Full-Stack Engineer, Cloud Solutions, Web Development)">
                 </div>
               </div>
             </div>
@@ -710,20 +710,20 @@
               <div class="form-row">
                 <div class="form-group flex-1">
                   <label>Email Address</label>
-                  <input type="email" id="prof-email" class="form-input" required>
+                  <input type="email" id="prof-email" class="form-input" placeholder="Enter primary contact email (e.g. user@example.com)" required>
                 </div>
                 <div class="form-group flex-1">
                   <label>Phone Number</label>
-                  <input type="text" id="prof-phone" class="form-input">
+                  <input type="text" id="prof-phone" class="form-input" placeholder="Enter phone number (e.g. +1 555-0199)">
                 </div>
                 <div class="form-group flex-1">
                   <label>Location</label>
-                  <input type="text" id="prof-location" class="form-input">
+                  <input type="text" id="prof-location" class="form-input" placeholder="Enter location (e.g. San Francisco, CA or Remote)">
                 </div>
               </div>
               <div class="form-group">
                 <label>Availability Statement</label>
-                <input type="text" id="prof-availability" class="form-input" placeholder="Available for Software Engineering internships and technical collaborations.">
+                <input type="text" id="prof-availability" class="form-input" placeholder="Enter availability status (e.g. Open to full-time roles &amp; internships)">
               </div>
             </div>
             
@@ -878,19 +878,19 @@
             <div class="form-row mt-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
               <div class="form-group">
                 <label>Problems Solved</label>
-                <input type="text" id="telemetry-edit-problems" class="form-input" placeholder="350+" value="350+">
+                <input type="text" id="telemetry-edit-problems" class="form-input" placeholder="Enter problems solved count (e.g. 500+)">
               </div>
               <div class="form-group">
                 <label>Active Profiles</label>
-                <input type="text" id="telemetry-edit-profiles" class="form-input" placeholder="9+" value="9+">
+                <input type="text" id="telemetry-edit-profiles" class="form-input" placeholder="Enter verified platforms count (e.g. 8+)">
               </div>
               <div class="form-group">
                 <label>Cryptographically Verified</label>
-                <input type="text" id="telemetry-edit-verified" class="form-input" placeholder="100%" value="100%">
+                <input type="text" id="telemetry-edit-verified" class="form-input" placeholder="Enter verification rate (e.g. 100%)">
               </div>
               <div class="form-group">
                 <label>Open Source Repos</label>
-                <input type="text" id="telemetry-edit-repos" class="form-input" placeholder="24+" value="24+">
+                <input type="text" id="telemetry-edit-repos" class="form-input" placeholder="Enter repositories count (e.g. 25+)">
               </div>
             </div>
           </div>
@@ -1327,11 +1327,11 @@
               <h3 class="card-title">Footer Configuration</h3>
               <div class="form-group">
                 <label>Footer Copyright Text</label>
-                <input type="text" id="footer-copyright-text" class="form-input" placeholder="&copy; 2026 · THIMMAREDDYGARI HARSHAVARDHAN REDDY · All Rights Reserved">
+                <input type="text" id="footer-copyright-text" class="form-input" placeholder="Enter copyright notice (e.g. &copy; 2026 · Your Name · All Rights Reserved)">
               </div>
               <div class="form-group">
                 <label>Footer Location Line</label>
-                <input type="text" id="footer-location-text" class="form-input" placeholder="📍 Geethanjali Institute of Science &amp; Technology · Nellore, AP">
+                <input type="text" id="footer-location-text" class="form-input" placeholder="Enter footer institution / location line (e.g. 📍 University Name · City, State)">
               </div>
             </div>
           </form>
@@ -1352,23 +1352,23 @@
               <h3 class="card-title">Primary Search Engine Metadata</h3>
               <div class="form-group">
                 <label>Page Title Tag (&lt;title&gt;)</label>
-                <input type="text" id="seo-page-title" class="form-input" required>
+                <input type="text" id="seo-page-title" class="form-input" placeholder="Enter browser page title (e.g. Jane Doe — Software Engineer Portfolio)" required>
               </div>
               <div class="form-group">
                 <label>Meta Description</label>
-                <textarea id="seo-meta-desc" class="form-textarea" rows="3"></textarea>
+                <textarea id="seo-meta-desc" class="form-textarea" rows="3" placeholder="Enter concise search engine description summarizing your skills, projects, and portfolio..."></textarea>
               </div>
               <div class="form-group">
                 <label>Meta Keywords (Comma separated)</label>
-                <input type="text" id="seo-meta-keywords" class="form-input">
+                <input type="text" id="seo-meta-keywords" class="form-input" placeholder="Enter comma-separated SEO keywords (e.g. software engineer, web developer, react)">
               </div>
               <div class="form-group">
                 <label>Canonical Production URL</label>
-                <input type="url" id="seo-canonical-url" class="form-input">
+                <input type="url" id="seo-canonical-url" class="form-input" placeholder="Enter canonical portfolio domain URL (e.g. https://yourportfolio.com)">
               </div>
               <div class="form-group">
                 <label>Google Search Console Verification Token</label>
-                <input type="text" id="seo-google-token" class="form-input">
+                <input type="text" id="seo-google-token" class="form-input" placeholder="Enter Google Search Console verification token">
               </div>
             </div>
 
@@ -1376,7 +1376,7 @@
               <h3 class="card-title">Social Sharing (OpenGraph &amp; Twitter Cards)</h3>
               <div class="form-group">
                 <label>OpenGraph / Twitter Social Share Image URL</label>
-                <input type="text" id="seo-og-image" class="form-input" placeholder="https://harsha895155.github.io/portfolio/og-image.png">
+                <input type="text" id="seo-og-image" class="form-input" placeholder="Enter social share preview image URL (e.g. https://yourportfolio.com/og-image.png)">
               </div>
             </div>
 
@@ -1532,7 +1532,7 @@
             </p>
             <div style="display:flex; flex-direction:column; gap:0.65rem;">
               <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                <input type="url" id="proj-ai-github-url" class="form-input" style="flex:2; min-width:240px; font-size:0.85rem;" placeholder="https://github.com/harsha895155/repository-name">
+                <input type="url" id="proj-ai-github-url" class="form-input" style="flex:2; min-width:240px; font-size:0.85rem;" placeholder="Enter GitHub repository URL (e.g. https://github.com/username/project-repo)">
                 <button type="button" id="btn-fetch-github-readme" class="btn-secondary" style="font-size:0.82rem; padding:0.45rem 0.9rem; white-space:nowrap;">
                   📥 Fetch README
                 </button>
@@ -1553,11 +1553,11 @@
           <div class="form-row">
             <div class="form-group flex-2">
               <label>Project Title *</label>
-              <input type="text" id="proj-form-title" class="form-input" placeholder="e.g. VideStore E-Commerce" required>
+              <input type="text" id="proj-form-title" class="form-input" placeholder="Enter project title (e.g. Modern E-Commerce Platform)" required>
             </div>
             <div class="form-group flex-1">
               <label>Tag / Category</label>
-              <input type="text" id="proj-form-tag" class="form-input" placeholder="e.g. Full-Stack Web App">
+              <input type="text" id="proj-form-tag" class="form-input" placeholder="Enter category tag (e.g. Full-Stack Web Application)">
             </div>
           </div>
           <div class="form-group">
@@ -1565,26 +1565,26 @@
               <label style="margin-bottom: 0;">Description (Portfolio Card Summary) *</label>
               <button type="button" class="btn-ai-assist" data-target="proj-form-desc" data-type="project">✨ AI Assist</button>
             </div>
-            <textarea id="proj-form-desc" class="form-textarea" rows="3" placeholder="Describe architecture, user workflow, and technical achievements..." required></textarea>
+            <textarea id="proj-form-desc" class="form-textarea" rows="3" placeholder="Enter project summary, core purpose, and key functionality..." required></textarea>
           </div>
           <div class="form-group">
             <label>Technologies Used (Comma separated)</label>
-            <input type="text" id="proj-form-tech" class="form-input" placeholder="React 18, Node.js, Express, MongoDB, Tailwind CSS">
+            <input type="text" id="proj-form-tech" class="form-input" placeholder="Enter technologies used (e.g. React, Node.js, Express, PostgreSQL)">
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>GitHub Repository URL</label>
-              <input type="url" id="proj-form-github" class="form-input" placeholder="https://github.com/harsha895155/...">
+              <input type="url" id="proj-form-github" class="form-input" placeholder="Enter repository URL (e.g. https://github.com/username/repository)">
             </div>
             <div class="form-group flex-1">
               <label>Live Demo URL</label>
-              <input type="url" id="proj-form-demo" class="form-input" placeholder="https://...">
+              <input type="url" id="proj-form-demo" class="form-input" placeholder="Enter live deployment URL (e.g. https://demo.yourdomain.com)">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>Case Study Link / URL (Optional)</label>
-              <input type="text" id="proj-form-case" class="form-input" placeholder="projects/airguard/ (or leave blank to use built-in Case Study)">
+              <input type="text" id="proj-form-case" class="form-input" placeholder="Enter custom case study link (or leave blank to use built-in generator)">
             </div>
             <div class="form-group flex-1">
               <label>Status</label>
@@ -1606,17 +1606,17 @@
             <div class="form-row">
               <div class="form-group flex-1">
                 <label>Key Challenges</label>
-                <textarea id="proj-form-challenges" class="form-textarea" rows="2" placeholder="e.g. Real-time synchronization bottlenecks, large-scale media uploads..."></textarea>
+                <textarea id="proj-form-challenges" class="form-textarea" rows="2" placeholder="Describe technical challenges encountered during development..."></textarea>
               </div>
               <div class="form-group flex-1">
                 <label>Engineering Solution</label>
-                <textarea id="proj-form-solution" class="form-textarea" rows="2" placeholder="e.g. Implemented event-driven architecture, caching layer, and optimistic UI..."></textarea>
+                <textarea id="proj-form-solution" class="form-textarea" rows="2" placeholder="Describe the engineering and architectural solutions implemented..."></textarea>
               </div>
             </div>
 
             <div class="form-group">
               <label>Measurable Results &amp; Key Highlights</label>
-              <input type="text" id="proj-form-results" class="form-input" placeholder="e.g. 99.9% uptime, 45% lower latency, 5,000+ daily requests handled">
+              <input type="text" id="proj-form-results" class="form-input" placeholder="Enter measurable impact or benchmark metrics (e.g. 40% latency reduction, 10k users)">
             </div>
 
             <div class="form-group">
@@ -1663,11 +1663,11 @@
           </div>
           <div class="form-group">
             <label>Skill Name</label>
-            <input type="text" id="skill-form-name" class="form-input" placeholder="e.g. Docker, TypeScript, Core Java" required>
+            <input type="text" id="skill-form-name" class="form-input" placeholder="Enter skill or tool name (e.g. TypeScript, Docker, Python)" required>
           </div>
           <div class="form-group">
             <label>Proficiency Level % (Optional, 1-100 for visual progress bar)</label>
-            <input type="number" id="skill-form-proficiency" class="form-input" min="1" max="100" placeholder="e.g. 85">
+            <input type="number" id="skill-form-proficiency" class="form-input" min="1" max="100" placeholder="Enter proficiency percentage 1-100 (e.g. 85)">
           </div>
         </div>
         <div class="modal-footer">
@@ -1690,46 +1690,46 @@
           <input type="hidden" id="edu-form-index" value="-1">
           <div class="form-group">
             <label>Institution / College Name</label>
-            <input type="text" id="edu-form-inst" class="form-input" placeholder="e.g. Geethanjali Institute of Science &amp; Technology" required>
+            <input type="text" id="edu-form-inst" class="form-input" placeholder="Enter institution or university name (e.g. Stanford University)" required>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>Degree</label>
-              <input type="text" id="edu-form-deg" class="form-input" placeholder="e.g. Bachelor of Technology (B.Tech)" required>
+              <input type="text" id="edu-form-deg" class="form-input" placeholder="Enter degree name (e.g. Bachelor of Technology / B.S.)" required>
             </div>
             <div class="form-group flex-1">
               <label>Field / Branch</label>
-              <input type="text" id="edu-form-field" class="form-input" placeholder="e.g. Computer Science &amp; Engineering">
+              <input type="text" id="edu-form-field" class="form-input" placeholder="Enter branch or major (e.g. Computer Science &amp; Engineering)">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>Start Year</label>
-              <input type="text" id="edu-form-start" class="form-input" placeholder="2023" required>
+              <input type="text" id="edu-form-start" class="form-input" placeholder="Enter start year (e.g. 2022)" required>
             </div>
             <div class="form-group flex-1">
               <label>End Year</label>
-              <input type="text" id="edu-form-end" class="form-input" placeholder="2027" required>
+              <input type="text" id="edu-form-end" class="form-input" placeholder="Enter completion year (e.g. 2026)" required>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>CGPA / Score</label>
-              <input type="text" id="edu-form-cgpa" class="form-input" placeholder="e.g. 9.1 or 83.63%">
+              <input type="text" id="edu-form-cgpa" class="form-input" placeholder="Enter GPA, percentage, or grade (e.g. 3.8/4.0 or 85%)">
             </div>
             <div class="form-group flex-1">
               <label>Roll Number (Optional)</label>
-              <input type="text" id="edu-form-roll" class="form-input" placeholder="e.g. 232U1A05H3">
+              <input type="text" id="edu-form-roll" class="form-input" placeholder="Enter student ID or roll number (e.g. STU123456 or leave blank)">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>Affiliation</label>
-              <input type="text" id="edu-form-affil" class="form-input" placeholder="e.g. Affiliated to JNTU Anantapur">
+              <input type="text" id="edu-form-affil" class="form-input" placeholder="Enter board or university affiliation (e.g. State University System)">
             </div>
             <div class="form-group flex-1">
               <label>Location</label>
-              <input type="text" id="edu-form-loc" class="form-input" placeholder="e.g. Nellore, AP">
+              <input type="text" id="edu-form-loc" class="form-input" placeholder="Enter campus location (e.g. City, State / Country)">
             </div>
           </div>
         </div>
@@ -1763,7 +1763,7 @@
             <div class="form-group flex-1">
               <label for="exp-verify-candidate-id"><strong>Candidate ID (Required)</strong> <span style="color: #ef4444;">*</span></label>
               <div style="display:flex;gap:0.5rem;align-items:center;">
-                <input type="text" id="exp-verify-candidate-id" class="form-input" placeholder="e.g. STU67a3881a20bc81738770458 or INT-2026-123" required style="flex:1;">
+                <input type="text" id="exp-verify-candidate-id" class="form-input" placeholder="Enter candidate / student ID from offer letter (e.g. STU123456 or INT-2026)" required style="flex:1;">
                 <button type="button" id="btn-auto-gen-candidate-id" class="btn-secondary" style="font-size:0.78rem;padding:0.4rem 0.75rem;white-space:nowrap;flex-shrink:0;" title="Auto-extract Candidate ID from uploaded offer letter">
                   🔍 Auto-Extract
                 </button>
@@ -1857,11 +1857,11 @@
           <div class="form-row">
             <div class="form-group flex-1">
               <label>Role / Position Title</label>
-              <input type="text" id="exp-form-role" class="form-input" placeholder="e.g. AWS Gen AI Virtual Intern" required>
+              <input type="text" id="exp-form-role" class="form-input" placeholder="Enter internship title / role (e.g. Software Engineer Intern)" required>
             </div>
             <div class="form-group flex-1">
               <label>Company / Organization</label>
-              <input type="text" id="exp-form-company" class="form-input" placeholder="e.g. AICTE - EduSkills Virtual Internship" required>
+              <input type="text" id="exp-form-company" class="form-input" placeholder="Enter organization / company name (e.g. Tech Solutions Inc)" required>
             </div>
           </div>
           <div class="form-row">
@@ -1877,17 +1877,17 @@
             </div>
             <div class="form-group flex-1">
               <label>Location / Mode</label>
-              <input type="text" id="exp-form-location" class="form-input" placeholder="e.g. Remote (Online)">
+              <input type="text" id="exp-form-location" class="form-input" placeholder="Enter workplace location (e.g. Remote, Hybrid, or City)">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>Start Date</label>
-              <input type="text" id="exp-form-start" class="form-input" placeholder="e.g. Apr 2026" required>
+              <input type="text" id="exp-form-start" class="form-input" placeholder="Enter start date (e.g. Jun 2025 or Month Year)" required>
             </div>
             <div class="form-group flex-1">
               <label>End Date</label>
-              <input type="text" id="exp-form-end" class="form-input" placeholder="e.g. Jun 2026">
+              <input type="text" id="exp-form-end" class="form-input" placeholder="Enter end date (e.g. Aug 2025 or Present)">
             </div>
             <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 0.6rem;">
               <label style="display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer;">
@@ -1901,7 +1901,7 @@
               <label style="margin-bottom: 0;">Key Responsibilities &amp; Deliverables</label>
               <button type="button" class="btn-ai-assist" data-target="exp-form-responsibilities" data-type="experience">✨ AI Assist</button>
             </div>
-            <textarea id="exp-form-responsibilities" class="form-textarea" rows="4" placeholder="Enter deliverables, technologies applied, and milestones..."></textarea>
+            <textarea id="exp-form-responsibilities" class="form-textarea" rows="4" placeholder="Enter key responsibilities, deliverables, technologies applied, and milestones..."></textarea>
           </div>
 
           <div class="modal-footer" style="padding: 1rem 0 0 0; margin-top: 1rem; border-top: 1px solid var(--border);">
@@ -1940,7 +1940,7 @@
 
           <div class="form-group">
             <label for="cert-verify-public-url">Public Certificate Verification URL (Recommended)</label>
-            <input type="url" id="cert-verify-public-url" class="form-input" placeholder="https://www.credly.com/badges/... or https://coursera.org/verify/...">
+            <input type="url" id="cert-verify-public-url" class="form-input" placeholder="Enter public verification URL (e.g. https://www.credly.com/badges/... or https://coursera.org/verify/...)">
             <small class="form-help">System connects to the official portal to independently corroborate recipient identity and credential validity.</small>
           </div>
 
@@ -2007,42 +2007,42 @@
 
           <div class="form-group">
             <label>Certification Name</label>
-            <input type="text" id="cert-form-name" class="form-input" placeholder="e.g. Natural Language Processing — Elite" required>
+            <input type="text" id="cert-form-name" class="form-input" placeholder="Enter certification title (e.g. AWS Certified Solutions Architect)" required>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>Issuing Organization</label>
-              <input type="text" id="cert-form-issuer" class="form-input" placeholder="e.g. NPTEL · IIT Kharagpur" required>
+              <input type="text" id="cert-form-issuer" class="form-input" placeholder="Enter issuing organization (e.g. Amazon Web Services, Coursera)" required>
             </div>
             <div class="form-group flex-1">
               <label>Issue Date</label>
-              <input type="text" id="cert-form-date" class="form-input" placeholder="e.g. Jan–Apr 2026">
+              <input type="text" id="cert-form-date" class="form-input" placeholder="Enter issue date or duration (e.g. Sep 2025)">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
               <label>Credential ID</label>
-              <input type="text" id="cert-form-id-val" class="form-input" placeholder="e.g. NPTEL26CS45S1451500247">
+              <input type="text" id="cert-form-id-val" class="form-input" placeholder="Enter credential ID / license number (e.g. CERT-98234)">
             </div>
             <div class="form-group flex-1">
               <label>Score / Honors</label>
-              <input type="text" id="cert-form-score" class="form-input" placeholder="e.g. 60% · 4 Academic Credits">
+              <input type="text" id="cert-form-score" class="form-input" placeholder="Enter score, grade, or credits (e.g. 95% or Grade A)">
             </div>
           </div>
           <div class="form-group">
             <label>Official Verification URL</label>
-            <input type="url" id="cert-form-url" class="form-input" placeholder="https://www.credly.com/... or https://coursera.org/verify/...">
+            <input type="url" id="cert-form-url" class="form-input" placeholder="Enter official verification URL (e.g. https://credly.com/badges/...)">
           </div>
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
               <label style="margin-bottom: 0;">Description &amp; Key Competencies</label>
               <button type="button" class="btn-ai-assist" data-target="cert-form-desc" data-type="certification">✨ AI Assist</button>
             </div>
-            <textarea id="cert-form-desc" class="form-textarea" rows="3" placeholder="Verified skills and course competencies..."></textarea>
+            <textarea id="cert-form-desc" class="form-textarea" rows="3" placeholder="Enter verified skills, course competencies, and syllabus topics..."></textarea>
           </div>
           <div class="form-group">
             <label>Icon / Emoji</label>
-            <input type="text" id="cert-form-icon" class="form-input" placeholder="🏅, ☁️, 📜" maxlength="4" value="🏅">
+            <input type="text" id="cert-form-icon" class="form-input" placeholder="Enter emoji icon (e.g. 🏅, ☁️, 📜)" maxlength="4">
           </div>
 
           <div class="modal-footer" style="padding: 1rem 0 0 0; margin-top: 1rem; border-top: 1px solid var(--border);">
@@ -2083,14 +2083,14 @@
 
           <div class="form-group">
             <label>Achievement Title</label>
-            <input type="text" id="achv-form-title" class="form-input" placeholder="e.g. Perfect Score — 10th Standard" required>
+            <input type="text" id="achv-form-title" class="form-input" placeholder="Enter achievement title (e.g. 1st Place — National Hackathon 2025)" required>
           </div>
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
               <label style="margin-bottom: 0;">Description</label>
               <button type="button" class="btn-ai-assist" data-target="achv-form-desc" data-type="achievement">✨ AI Assist</button>
             </div>
-            <textarea id="achv-form-desc" class="form-textarea" rows="3" placeholder="Describe the accomplishment, rank, or evaluation benchmark..." required></textarea>
+            <textarea id="achv-form-desc" class="form-textarea" rows="3" placeholder="Describe the accomplishment, rank, benchmark, or competitive distinction..." required></textarea>
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
@@ -2098,11 +2098,11 @@
                 <label style="margin-bottom: 0;">Proof Document / Certificate URL</label>
                 <button type="button" id="btn-preview-achv-url" class="btn-sm-sync" style="padding: 0.15rem 0.45rem; font-size: 0.7rem;" onclick="window.adminActions.viewDocument(document.getElementById('achv-form-cert').value, document.getElementById('achv-form-title').value)">👁️ View File</button>
               </div>
-              <input type="text" id="achv-form-cert" class="form-input" placeholder="./hackathon-certificate.jpg or /api/documents/doc_.../view">
+              <input type="text" id="achv-form-cert" class="form-input" placeholder="Enter certificate link or document path (e.g. /media/award.jpg)">
             </div>
             <div class="form-group flex-1">
               <label>Icon / Emoji</label>
-              <input type="text" id="achv-form-icon" class="form-input" placeholder="🏆, 🥇, ⚡" maxlength="4">
+              <input type="text" id="achv-form-icon" class="form-input" placeholder="Enter emoji badge (e.g. 🏆, 🥇, ⚡, 🎯)" maxlength="4">
             </div>
           </div>
         </div>
@@ -2137,14 +2137,14 @@
                 🔍 Verify Link
               </button>
             </div>
-            <input type="url" id="edit-platform-url" class="form-input" placeholder="https://..." required>
+            <input type="url" id="edit-platform-url" class="form-input" placeholder="Enter profile URL (e.g. https://leetcode.com/username)" required>
             <div id="edit-verify-feedback" class="verify-feedback-box" style="display: none;"></div>
             <small class="form-help">Enter your public profile or badge verification URL. Link will be verified before saving.</small>
           </div>
 
           <div class="form-group">
             <label for="edit-platform-method">Integration Method</label>
-            <input type="text" id="edit-platform-method" class="form-input" placeholder="e.g. Public Badge Verification URLs, Verified URL">
+            <input type="text" id="edit-platform-method" class="form-input" placeholder="Enter verification method (e.g. Verified Public Link, Official API)">
           </div>
 
           <div class="form-group">
@@ -2196,7 +2196,7 @@
 
           <div class="form-group mt-3">
             <label for="add-platform-name">Platform / Website Name</label>
-            <input type="text" id="add-platform-name" class="form-input" placeholder="e.g. LeetCode, Codeforces, Personal Blog" required>
+            <input type="text" id="add-platform-name" class="form-input" placeholder="Enter platform name (e.g. LeetCode, GitHub, HackerRank)" required>
           </div>
 
           <div class="form-group">
@@ -2206,19 +2206,19 @@
                 🔍 Verify Link
               </button>
             </div>
-            <input type="url" id="add-platform-url" class="form-input" placeholder="https://..." required>
+            <input type="url" id="add-platform-url" class="form-input" placeholder="Enter public profile URL (e.g. https://leetcode.com/username)" required>
             <div id="add-verify-feedback" class="verify-feedback-box" style="display: none;"></div>
             <small class="form-help">Link will be verified for matching platform domain &amp; live reachability before adding.</small>
           </div>
 
           <div class="form-group">
             <label for="add-platform-method">Integration / Verification Method</label>
-            <input type="text" id="add-platform-method" class="form-input" placeholder="e.g. Competitive Coding Profile, Verified Public Link" value="Verified Public Profile">
+            <input type="text" id="add-platform-method" class="form-input" placeholder="Enter verification description (e.g. Verified Public Profile)">
           </div>
 
           <div class="form-group">
             <label for="add-platform-icon">Icon / Emoji (Optional)</label>
-            <input type="text" id="add-platform-icon" class="form-input" placeholder="e.g. ⚡, 🎯, 🌐, 🚀" maxlength="4">
+            <input type="text" id="add-platform-icon" class="form-input" placeholder="Enter platform emoji (e.g. ⚡, 🎯, 🌐, 🚀)" maxlength="4">
           </div>
         </div>
         <div class="modal-footer">
@@ -2338,11 +2338,11 @@
           </p>
           <div class="form-group" style="margin-bottom: 1rem;">
             <label style="font-size: 0.82rem; font-weight: 600;">Category Title *</label>
-            <input type="text" id="category-add-name" class="form-input" placeholder="e.g. DevOps & Infrastructure" required>
+            <input type="text" id="category-add-name" class="form-input" placeholder="Enter category title (e.g. DevOps &amp; Infrastructure)" required>
           </div>
           <div class="form-group" style="margin-bottom: 1rem;">
             <label style="font-size: 0.82rem; font-weight: 600;">Skill Items (Comma-separated list)</label>
-            <textarea id="category-add-skills" class="form-textarea" rows="3" placeholder="e.g. Docker, Kubernetes, GitHub Actions, Terraform, Linux"></textarea>
+            <textarea id="category-add-skills" class="form-textarea" rows="3" placeholder="Enter comma-separated skills (e.g. Docker, Kubernetes, GitHub Actions, Linux)"></textarea>
             <span style="font-size: 0.76rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">Enter skills separated by commas. Individual skill pills will be created automatically.</span>
           </div>
           <div class="form-group" style="margin-bottom: 0.5rem;">
@@ -2381,11 +2381,11 @@
           </p>
           <div class="form-group" style="margin-bottom: 1rem;">
             <label style="font-size: 0.82rem; font-weight: 600;">Category Title *</label>
-            <input type="text" id="category-edit-name" class="form-input" placeholder="e.g. Frontend Development" required>
+            <input type="text" id="category-edit-name" class="form-input" placeholder="Enter category title (e.g. Frontend Development)" required>
           </div>
           <div class="form-group" style="margin-bottom: 1rem;">
             <label style="font-size: 0.82rem; font-weight: 600;">Skill Items (Comma-separated)</label>
-            <textarea id="category-edit-skills" class="form-textarea" rows="4" placeholder="e.g. React, Next.js, HTML5, CSS3, JavaScript"></textarea>
+            <textarea id="category-edit-skills" class="form-textarea" rows="4" placeholder="Enter comma-separated skills (e.g. React, TypeScript, HTML5, CSS3)"></textarea>
             <span style="font-size: 0.76rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">You can add, edit, or delete items by editing this comma-separated list.</span>
           </div>
           <div class="form-group" style="margin-bottom: 0.5rem;">
@@ -2557,27 +2557,27 @@
             <div class="form-row">
               <div class="form-group flex-1">
                 <label>Platform Name</label>
-                <input type="text" id="coding-platform-name" class="form-input" placeholder="e.g. LeetCode, Codeforces, GitHub" required>
+                <input type="text" id="coding-platform-name" class="form-input" placeholder="Enter platform name (e.g. LeetCode, Codeforces, GitHub)" required>
               </div>
               <div class="form-group" style="width: 110px;">
                 <label>Icon / Emoji</label>
-                <input type="text" id="coding-platform-icon" class="form-input" placeholder="⚡" value="⚡" style="text-align: center;">
+                <input type="text" id="coding-platform-icon" class="form-input" placeholder="e.g. ⚡" style="text-align: center;">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group flex-1">
                 <label>Profile URL</label>
-                <input type="url" id="coding-platform-url" class="form-input" placeholder="https://leetcode.com/u/harsha895155" required>
+                <input type="url" id="coding-platform-url" class="form-input" placeholder="Enter profile URL (e.g. https://leetcode.com/u/yourhandle)" required>
               </div>
               <div class="form-group" style="width: 180px;">
                 <label>Username</label>
-                <input type="text" id="coding-platform-username" class="form-input" placeholder="harsha895155" required>
+                <input type="text" id="coding-platform-username" class="form-input" placeholder="Enter platform username" required>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group flex-1">
                 <label>Verification Method</label>
-                <input type="text" id="coding-platform-method" class="form-input" placeholder="e.g. LeetCode Official GraphQL API" value="Verified Public Profile">
+                <input type="text" id="coding-platform-method" class="form-input" placeholder="Enter verification method (e.g. Official API or Verified Public Profile)">
               </div>
               <div class="form-group" style="width: 140px;">
                 <label>Status</label>
@@ -2609,39 +2609,39 @@
             <div class="form-row">
               <div class="form-group flex-1">
                 <label>Problems Solved / Repos</label>
-                <input type="number" id="coding-platform-solved" class="form-input" placeholder="350">
+                <input type="number" id="coding-platform-solved" class="form-input" placeholder="Enter solved count (e.g. 350)">
               </div>
               <div class="form-group flex-1">
                 <label>Rating / Score</label>
-                <input type="number" id="coding-platform-rating" class="form-input" placeholder="1240">
+                <input type="number" id="coding-platform-rating" class="form-input" placeholder="Enter contest rating (e.g. 1500)">
               </div>
               <div class="form-group flex-1">
                 <label>Max Rating / Division</label>
-                <input type="text" id="coding-platform-max-rating" class="form-input" placeholder="1310 or Div 3">
+                <input type="text" id="coding-platform-max-rating" class="form-input" placeholder="Enter max rating / division (e.g. 1650 or Knight)">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group flex-1">
                 <label>Easy Solved</label>
-                <input type="number" id="coding-platform-easy" class="form-input" placeholder="180">
+                <input type="number" id="coding-platform-easy" class="form-input" placeholder="Enter easy count (e.g. 150)">
               </div>
               <div class="form-group flex-1">
                 <label>Medium Solved</label>
-                <input type="number" id="coding-platform-med" class="form-input" placeholder="145">
+                <input type="number" id="coding-platform-med" class="form-input" placeholder="Enter medium count (e.g. 150)">
               </div>
               <div class="form-group flex-1">
                 <label>Hard Solved</label>
-                <input type="number" id="coding-platform-hard" class="form-input" placeholder="25">
+                <input type="number" id="coding-platform-hard" class="form-input" placeholder="Enter hard count (e.g. 50)">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group flex-1">
                 <label>Ranking / Acceptance Rate</label>
-                <input type="text" id="coding-platform-ranking" class="form-input" placeholder="e.g. Top 18% · 68.4% Acc">
+                <input type="text" id="coding-platform-ranking" class="form-input" placeholder="Enter ranking or percentile (e.g. Top 15% · 68% Acc)">
               </div>
               <div class="form-group flex-1">
                 <label>Badges / Notable Highlights</label>
-                <input type="text" id="coding-platform-badges" class="form-input" placeholder="e.g. 12 Badges, 5★ Problem Solving">
+                <input type="text" id="coding-platform-badges" class="form-input" placeholder="Enter badges or highlights (e.g. 12 Badges, 5★ Python)">
               </div>
             </div>
           </div>

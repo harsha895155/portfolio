@@ -308,9 +308,9 @@ class CertificateVerificationService {
     // Duplicate Check 2: Credential ID Duplicate
     if (credentialId && credentialId.trim().length > 3) {
       const cleanId = credentialId.trim().toLowerCase();
-      const existingCert = allCerts.find(c =>
-        c.credentialId && c.credentialId.trim().toLowerCase() === cleanId
-      );
+      const existingCert = allCerts.find(c => {
+        return c.credentialId && c.credentialId.trim().toLowerCase() === cleanId;
+      });
       if (existingCert) {
         return {
           isDuplicate: true,

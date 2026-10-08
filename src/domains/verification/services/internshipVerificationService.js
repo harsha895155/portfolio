@@ -75,12 +75,11 @@ class InternshipVerificationService {
 
     // 2. Candidate Name
     let candidateName = null;
-    const nameMatch = rawText.match(/(?:Student\s*Name|Candidate\s*Name|Dear|Mr\.|Ms\.)[:\s]+([A-Z][A-Za-z\s.]{3,40})/i) ||
-                      rawText.match(/(?:THIMMAREDDYGARI\s+HARSHAVARDHAN\s+REDDY|Harshavardhan\s+Reddy)/i);
+    const nameMatch = rawText.match(/(?:Student\s*Name|Candidate\s*Name|Dear|Mr\.|Ms\.)[:\s]+([A-Z][A-Za-z\s.]{3,40})/i);
     if (nameMatch) {
       candidateName = (nameMatch[1] || nameMatch[0]).trim();
     } else {
-      candidateName = ext.candidateName || 'Thimmareddygari Harshavardhan Reddy';
+      candidateName = ext.candidateName || 'Candidate';
     }
 
     // 3. Organization
@@ -197,10 +196,9 @@ class InternshipVerificationService {
     if (cidMatch) candidateId = cidMatch[1] || cidMatch[0];
 
     let candidateName = null;
-    const nameMatch = rawText.match(/(?:This is to certify that|awarded to|Name:?)\s+([A-Z][A-Za-z\s.]{3,40})/i) ||
-                      rawText.match(/(?:THIMMAREDDYGARI\s+HARSHAVARDHAN\s+REDDY|Harshavardhan\s+Reddy)/i);
+    const nameMatch = rawText.match(/(?:This is to certify that|awarded to|Name:?)\s+([A-Z][A-Za-z\s.]{3,40})/i);
     if (nameMatch) candidateName = (nameMatch[1] || nameMatch[0]).trim();
-    else candidateName = ext.candidateName || 'Thimmareddygari Harshavardhan Reddy';
+    else candidateName = ext.candidateName || 'Candidate';
 
     let organization = null;
     if (/aicte|eduskills/i.test(textLower)) organization = 'AICTE - EduSkills';
@@ -250,10 +248,9 @@ class InternshipVerificationService {
     if (cidMatch) candidateId = cidMatch[1] || cidMatch[0];
 
     let candidateName = null;
-    const nameMatch = rawText.match(/(?:Submitted by|Student Name|Author)[:\s]+([A-Z][A-Za-z\s.]{3,40})/i) ||
-                      rawText.match(/(?:THIMMAREDDYGARI\s+HARSHAVARDHAN\s+REDDY|Harshavardhan\s+Reddy)/i);
+    const nameMatch = rawText.match(/(?:Submitted by|Student Name|Author)[:\s]+([A-Z][A-Za-z\s.]{3,40})/i);
     if (nameMatch) candidateName = (nameMatch[1] || nameMatch[0]).trim();
-    else candidateName = 'Thimmareddygari Harshavardhan Reddy';
+    else candidateName = 'Candidate';
 
     let organization = null;
     if (/aicte|eduskills/i.test(textLower)) organization = 'AICTE - EduSkills';
@@ -308,13 +305,67 @@ class InternshipVerificationService {
     if (!name1 || !name2) return false;
     const n1 = this.normalize(name1);
     const n2 = this.normalize(name2);
-    if (n1 === n2) return true;
+    if (n1 === n2 || n1.includes(n2) || n2.includes(n1)) return true;
 
-    // Check key surname/first name parts (e.g. "Harshavardhan Reddy")
     const words1 = name1.toLowerCase().split(/\s+/).filter(w => w.length > 2);
     const words2 = name2.toLowerCase().split(/\s+/).filter(w => w.length > 2);
     const common = words1.filter(w => words2.includes(w));
-    return common.length >= 2;
+    return common.length >= Math.min(words1.length, words2.length, 1);
+  }
+
+  /**
+   * Determine if two roles refer to substantially the same track
+   */
+  rolesMatch(role1, role2) {
+    if (!role1 || !role2) return false;
+    const n1 = this.normalize(role1);
+    const n2 = this.normalize(role2);
+    if (!n1 || !n2) return false;
+    if (n1 === n2) return true;
+
+    // Strip generic filler words
+    const clean = s => s.toLowerCase()
+      .replace(/\b(virtual|intern|internship|trainee|traineeship|program|engineer|associate|developer|track|cohort)\b/g, '')
+      .replace(/[^a-z0-9]/g, ' ')
+      .trim();
+
+    const c1 = clean(role1);
+    const c2 = clean(role2);
+
+    if (c1 && c2) {
+      if (c1 === c2) return true;
+      const w1 = c1.split(/\s+/).filter(w => w.length > 1);
+      const w2 = c2.split(/\s+/).filter(w => w.length > 1);
+      if (w1.length > 0 && w2.length > 0) {
+        const set2 = new Set(w2);
+        const overlap = w1.filter(w => set2.has(w));
+        const union = new Set([...w1, ...w2]);
+        const jaccard = overlap.length / union.size;
+        if (jaccard >= 0.65) return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Determine if two organization names refer to the same organization
+   */
+  organizationsMatch(org1, org2) {
+    if (!org1 || !org2) return true;
+    const n1 = this.normalize(org1);
+    const n2 = this.normalize(org2);
+    if (n1 === n2 || n1.includes(n2) || n2.includes(n1)) return true;
+
+    const clean = s => s.toLowerCase()
+      .replace(/\b(foundation|academy|technologies|solutions|pvt|ltd|inc|services|corporation|virtual)\b/g, '')
+      .replace(/[^a-z0-9]/g, ' ')
+      .trim();
+
+    const c1 = clean(org1);
+    const c2 = clean(org2);
+    if (c1 && c2 && (c1 === c2 || c1.includes(c2) || c2.includes(c1))) return true;
+    return false;
   }
 
   /**
@@ -374,6 +425,30 @@ class InternshipVerificationService {
           mismatchReason = `Name mismatch: Offer Letter says "${offerVal}", Completion Certificate says "${compVal}"`;
           conflicts.push({ field: 'Candidate Name', message: mismatchReason, severity: 'CRITICAL' });
         }
+      } else if (field.key === 'role') {
+        const vals = [offerVal, compVal, repVal].filter(Boolean);
+        if (vals.length > 1) {
+          const baseRole = offerVal || vals[0];
+          const allRolesMatch = vals.every(v => this.rolesMatch(baseRole, v) || this.normalize(baseRole).includes(this.normalize(v)) || this.normalize(v).includes(this.normalize(baseRole)));
+          if (!allRolesMatch) {
+            status = 'CONFLICT';
+            isConflict = true;
+            mismatchReason = `Role titles vary across documents: Offer="${offerVal || 'N/A'}", Completion="${compVal || 'N/A'}", Report="${repVal || 'N/A'}"`;
+            conflicts.push({ field: field.label, message: mismatchReason, severity: 'WARNING' });
+          }
+        }
+      } else if (field.key === 'organization') {
+        const vals = [offerVal, compVal, repVal].filter(Boolean);
+        if (vals.length > 1) {
+          const baseOrg = offerVal || vals[0];
+          const allOrgsMatch = vals.every(v => this.organizationsMatch(baseOrg, v));
+          if (!allOrgsMatch) {
+            status = 'CONFLICT';
+            isConflict = true;
+            mismatchReason = `Organization names vary across documents: Offer="${offerVal || 'N/A'}", Completion="${compVal || 'N/A'}"`;
+            conflicts.push({ field: field.label, message: mismatchReason, severity: 'WARNING' });
+          }
+        }
       } else {
         const vals = [offerVal, compVal, repVal].filter(Boolean);
         const normVals = vals.map(v => this.normalize(v));
@@ -420,6 +495,13 @@ class InternshipVerificationService {
 
   /**
    * 6. Multi-layer Duplicate Detection for Internships
+   * 
+   * Candidate ID Rules:
+   * - A student/candidate may legitimately have the SAME candidate ID for multiple distinct internships
+   *   at the SAME organization (e.g. at AICTE - EduSkills, student ID STU... applies to AWS Gen AI, Google AI-ML, etc.).
+   * - Therefore, duplicate detection MUST NOT block if only Candidate ID and Organization match.
+   * - An internship is ONLY a duplicate if Candidate ID, Organization, AND the Role/Track match an existing record.
+   * - Candidate ID collisions across different organizations are also not blocked.
    */
   checkDuplicates({ fileHashes = [], candidateId, organization, role, startDate, currentEntityId = null }) {
     const draft = db.get('draft') || {};
@@ -432,7 +514,7 @@ class InternshipVerificationService {
     // Only consider verified records that haven't been deleted from the portfolio
     const activeVerifiedRecords = rawVerifiedRecords.filter(r => {
       if (r.type && r.type !== 'internship') return false;
-      if (currentEntityId && r.entityId === currentEntityId) return false;
+      if (currentEntityId && (r.id === currentEntityId || r.entityId === currentEntityId)) return false;
       if (r.entityId && !allExps.some(e => e.id === r.entityId)) {
         return false; // The underlying experience was deleted by the user
       }
@@ -455,40 +537,60 @@ class InternshipVerificationService {
       }
     }
 
-    // Check 2: Same Candidate ID + Same Organization
-    if (candidateId && organization) {
+    // Check 2: Same Candidate ID + Same Organization + Same Role
+    // Candidate ID can be the same for the same company/organization across different internship roles/tracks.
+    // Duplicate is only flagged if Candidate ID, Organization, AND Role are the same.
+    if (candidateId && organization && role) {
       const normCid = this.normalize(candidateId);
       const normOrg = this.normalize(organization);
+      const normRole = this.normalize(role);
 
-      const matchedRec = activeVerifiedRecords.find(r =>
-        r.type === 'internship' &&
-        this.normalize(r.candidateId) === normCid &&
-        this.normalize(r.organization || r.issuer).includes(normOrg)
-      );
+      // Check verified records
+      const matchedRec = activeVerifiedRecords.find(r => {
+        const rCid = this.normalize(r.candidateId || '');
+        const rOrg = this.normalize(r.organization || r.issuer || '');
+        const rTitle = this.normalize(r.title || r.role || '');
+
+        const cidMatches = rCid === normCid;
+        const orgMatches = rOrg.includes(normOrg) || normOrg.includes(rOrg) || this.organizationsMatch(rOrg, normOrg);
+        const roleMatches = this.rolesMatch(rTitle, normRole);
+
+        return cidMatches && orgMatches && roleMatches;
+      });
+
       if (matchedRec) {
         return {
           isDuplicate: true,
-          type: 'CANDIDATE_ORG_COMBO',
-          message: `An internship for Candidate ID "${candidateId}" at ${organization} already exists: "${matchedRec.title}".`,
+          type: 'EXACT_INTERNSHIP_DUPLICATE',
+          message: `An internship for "${matchedRec.title}" at ${organization} (Candidate ID "${candidateId}") already exists in verified records.`,
           existingRecord: matchedRec
         };
       }
 
-      // Check draft & published experience for same candidate ID
-      const matchedExp = allExps.find(e =>
-        e.candidateId && this.normalize(e.candidateId) === normCid
-      );
+      // Check draft & published experience for identical candidateId + organization + role
+      const matchedExp = allExps.find(e => {
+        const eCid = this.normalize(e.candidateId || '');
+        const eOrg = this.normalize(e.company || '');
+        const eRole = this.normalize(e.role || '');
+
+        const cidMatches = eCid === normCid;
+        const orgMatches = eOrg.includes(normOrg) || normOrg.includes(eOrg) || this.organizationsMatch(eOrg, normOrg);
+        const roleMatches = this.rolesMatch(eRole, normRole);
+
+        return cidMatches && orgMatches && roleMatches;
+      });
+
       if (matchedExp) {
         return {
           isDuplicate: true,
-          type: 'CANDIDATE_ID',
-          message: `An internship with Candidate ID "${candidateId}" is already recorded in your portfolio: "${matchedExp.role} at ${matchedExp.company}".`,
+          type: 'EXACT_INTERNSHIP_DUPLICATE',
+          message: `An internship for "${matchedExp.role}" at ${matchedExp.company} (Candidate ID "${candidateId}") is already recorded in your portfolio.`,
           existingRecord: matchedExp
         };
       }
     }
 
-    // Check 3: Organization + Role + Date similarity
+    // Check 3: Content Similarity (Same Organization + Same Role, regardless of Candidate ID)
     if (organization && role) {
       const normOrg = this.normalize(organization);
       const normRole = this.normalize(role);
@@ -496,15 +598,16 @@ class InternshipVerificationService {
       const matchedExp = allExps.find(e => {
         const eOrg = this.normalize(e.company || '');
         const eRole = this.normalize(e.role || '');
-        return (eOrg.includes(normOrg) || normOrg.includes(eOrg)) &&
-               (eRole.includes(normRole) || normRole.includes(eRole));
+        const orgMatches = (eOrg === normOrg) || (eOrg.length > 4 && normOrg.length > 4 && (eOrg.includes(normOrg) || normOrg.includes(eOrg))) || this.organizationsMatch(eOrg, normOrg);
+        const roleMatches = this.rolesMatch(eRole, normRole);
+        return orgMatches && roleMatches;
       });
 
       if (matchedExp) {
         return {
           isDuplicate: true,
           type: 'CONTENT_SIMILARITY',
-          message: `A likely duplicate internship already exists: "${matchedExp.role}" at ${matchedExp.company}.`,
+          message: `An internship for "${matchedExp.role}" at ${matchedExp.company} already exists in your portfolio.`,
           existingRecord: matchedExp
         };
       }
@@ -516,7 +619,7 @@ class InternshipVerificationService {
   /**
    * 7. Master Internship Verification Pipeline
    */
-  async runFullVerification({ candidateId, status = 'Completed', offerFile, completionFile = null, reportFile = null, adminUser = 'admin' }) {
+  async runFullVerification({ candidateId, status = 'Completed', offerFile, completionFile = null, reportFile = null, adminUser = 'admin', currentEntityId = null }) {
     if (!candidateId || !candidateId.trim()) {
       throw new Error('Candidate ID is required for internship verification');
     }
@@ -564,7 +667,8 @@ class InternshipVerificationService {
       candidateId: trimmedCid,
       organization: offerData.organization.value,
       role: offerData.role.value,
-      startDate: offerData.startDate.value
+      startDate: offerData.startDate.value,
+      currentEntityId
     });
 
     if (dupCheck.isDuplicate) {
@@ -783,7 +887,8 @@ class InternshipVerificationService {
       fileHashes,
       candidateId,
       organization: formFields.company,
-      role: formFields.role
+      role: formFields.role,
+      currentEntityId: formFields.id
     });
 
     if (dupCheck.isDuplicate) {

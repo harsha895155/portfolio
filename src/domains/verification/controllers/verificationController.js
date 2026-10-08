@@ -103,6 +103,7 @@ const verificationController = {
       }
 
       const adminUser = req.user ? req.user.username : 'admin';
+      const currentEntityId = req.body.currentEntityId || req.body.id || null;
 
       const result = await internshipVerificationService.runFullVerification({
         candidateId,
@@ -110,7 +111,8 @@ const verificationController = {
         offerFile,
         completionFile,
         reportFile,
-        adminUser
+        adminUser,
+        currentEntityId
       });
 
       if (!result.success) {
