@@ -345,6 +345,7 @@ const cmsController = {
         return responseHelper.badRequest(res, 'No resume file uploaded');
       }
 
+      cmsService.ensureMediaDir();
       const mediaDir = cmsService.mediaDir;
       const newHash = cmsService.getFileHash(req.file.buffer);
 
@@ -363,7 +364,7 @@ const cmsController = {
       }
 
       if (!filename) {
-        filename = `Harsha_Resume_${Date.now()}${path.extname(req.file.originalname)}`;
+        filename = `Resume_${Date.now()}${path.extname(req.file.originalname)}`;
         const destPath = path.join(mediaDir, filename);
         fs.writeFileSync(destPath, req.file.buffer);
       }
@@ -373,10 +374,16 @@ const cmsController = {
       const label = (req.body && req.body.label) ? req.body.label.trim() : '📄 View Resume';
       const resume = cmsService.updateResume({ url: resumeUrl, label }, user);
 
-      // Also copy to root standard resume file so public standard links continue working seamlessly
-      const rootResumePath = path.join(config.paths.root, 'Thimmareddygari_Harshavardhan_Reddy_Resume.pdf');
-      if (path.extname(filename).toLowerCase() === '.pdf') {
-        fs.writeFileSync(rootResumePath, req.file.buffer);
+      // Also copy to root standard resume file so public standard links continue working seamlessly (skip on serverless EROFS)
+      try {
+        const rootResumePath = path.join(config.paths.root, 'Thimmareddygari_Harshavardhan_Reddy_Resume.pdf');
+        if (path.extname(filename).toLowerCase() === '.pdf') {
+          fs.writeFileSync(rootResumePath, req.file.buffer);
+        }
+      } catch (err) {
+        if (err.code !== 'EROFS') {
+          logger.warn('Could not copy to root resume path:', err.message);
+        }
       }
 
       return responseHelper.created(res, { resume, filename, url: resumeUrl }, 'Resume uploaded and set as active');

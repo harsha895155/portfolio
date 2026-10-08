@@ -237,6 +237,11 @@ app.get('/preview', requireAuth, (req, res) => {
 });
 
 // Serve media files from media/ and storage/media/
+const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+if (isServerless) {
+  app.use('/media', express.static('/tmp/storage/media'));
+  app.use('/storage/media', express.static('/tmp/storage/media'));
+}
 app.use('/media', express.static(path.resolve(config.paths.root, 'media')));
 app.use('/media', express.static(path.resolve(config.paths.root, 'storage/media')));
 app.use('/storage/media', express.static(path.resolve(config.paths.root, 'storage/media')));
@@ -245,6 +250,14 @@ app.use('/storage/media', express.static(path.resolve(config.paths.root, 'storag
 app.use((req, res, next) => {
   if (req.method === 'GET' && req.path.toLowerCase().endsWith('.pdf')) {
     const rawName = decodeURIComponent(path.basename(req.path));
+    if (isServerless) {
+      const tmpCand = path.join('/tmp/storage/media', rawName);
+      if (fs.existsSync(tmpCand) && fs.statSync(tmpCand).isFile()) {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(rawName)}"`);
+        return res.sendFile(tmpCand);
+      }
+    }
     const mediaCandidate = path.join(config.paths.root, 'media', rawName);
     if (fs.existsSync(mediaCandidate) && fs.statSync(mediaCandidate).isFile()) {
       res.setHeader('Content-Type', 'application/pdf');

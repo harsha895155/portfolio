@@ -1657,7 +1657,7 @@
       "achievements": true,
       "contact": true
     },
-    "avatar": "/media/media_1791476992597_in8qp.jpg",
+    "avatar": "/media/media_1791191882233_887kk.jpg",
     "avatarAlt": "Candidate Professional Headshot",
     "codingProfiles": [
       {
@@ -1749,6 +1749,40 @@
     }
   },
   "pendingChanges": [
+    {
+      "id": "chg_1791479897894_p58rq",
+      "detectedAt": "2026-10-08T17:18:17.894Z",
+      "status": "rejected",
+      "category": "Skills",
+      "field": "skills",
+      "label": "Irrelevant Skill",
+      "oldValue": "None",
+      "detectedValue": "Fortran",
+      "source": "Test Doc",
+      "rejectedBy": "admin_test",
+      "rejectedReason": "Not relevant",
+      "rejectedAt": "2026-10-08T17:18:17.909Z",
+      "updatedAt": "2026-10-08T17:18:17.909Z"
+    },
+    {
+      "id": "chg_1791479897850_v8vvk",
+      "detectedAt": "2026-10-08T17:18:17.850Z",
+      "status": "approved",
+      "category": "Skills",
+      "field": "skills",
+      "label": "New Skill Detected",
+      "oldValue": "None",
+      "detectedValue": "TypeScript",
+      "source": "Test Doc",
+      "meta": {
+        "newSkills": [
+          "TypeScript"
+        ]
+      },
+      "approvedBy": "admin_test",
+      "approvedAt": "2026-10-08T17:18:17.876Z",
+      "updatedAt": "2026-10-08T17:18:17.877Z"
+    },
     {
       "id": "chg_1791476757291_u6x18",
       "detectedAt": "2026-10-08T16:25:57.291Z",
@@ -3290,6 +3324,46 @@
   ],
   "history": [
     {
+      "id": "hist_1791479898100_uz02j",
+      "timestamp": "2026-10-08T17:18:18.100Z",
+      "field": "full_profile_rollback",
+      "oldValue": "Prior snapshot: snapshot_1791479897997.json",
+      "newValue": "Restored to snapshot: snapshot_1791479897930.json",
+      "source": "Admin Rollback Action",
+      "status": "Restored",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791479897963_5hbyt",
+      "timestamp": "2026-10-08T17:18:17.963Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1791479897930.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791479897919_gvq5r",
+      "timestamp": "2026-10-08T17:18:17.919Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "Fortran",
+      "source": "Test Doc",
+      "status": "Rejected",
+      "approvedBy": "admin_test"
+    },
+    {
+      "id": "hist_1791479897889_z24ze",
+      "timestamp": "2026-10-08T17:18:17.889Z",
+      "field": "skills",
+      "oldValue": "None",
+      "newValue": "TypeScript",
+      "source": "Test Doc",
+      "status": "Approved & Merged to Draft",
+      "approvedBy": "admin_test"
+    },
+    {
       "id": "hist_1791476992642_p5hwq",
       "timestamp": "2026-10-08T16:29:52.642Z",
       "field": "profile_avatar",
@@ -4248,50 +4322,10 @@
       "source": "Platform Sync Engine",
       "status": "Synchronized",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391475209_r0wxd",
-      "timestamp": "2026-10-07T16:44:35.209Z",
-      "field": "remove_platform_leetcode",
-      "oldValue": "leetcode",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391474049_h00sf",
-      "timestamp": "2026-10-07T16:44:34.049Z",
-      "field": "social_platform_leetcode",
-      "oldValue": "Unconfigured",
-      "newValue": "https://leetcode.com/u/harsha10003/",
-      "source": "Admin Platform Manager",
-      "status": "Verified & Synchronized",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391469965_l7g0m",
-      "timestamp": "2026-10-07T16:44:29.965Z",
-      "field": "remove_platform_leetcode",
-      "oldValue": "leetcode",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391467745_rve4n",
-      "timestamp": "2026-10-07T16:44:27.745Z",
-      "field": "social_platform_credly",
-      "oldValue": "https://www.credly.com/users/harsha10003/badges/credly",
-      "newValue": "https://www.credly.com/users/harsha10003/badges/credly",
-      "source": "Admin Platform Manager",
-      "status": "Verified & Synchronized",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-08T16:26:00.359Z",
+    "lastPublishedAt": "2026-10-08T17:18:17.941Z",
     "lastSyncCheckAt": "2026-10-08T16:25:56.697Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,

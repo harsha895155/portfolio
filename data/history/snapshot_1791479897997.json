@@ -1,10 +1,4 @@
-/**
- * PORTFOLIO PROFILE -- SINGLE SOURCE OF TRUTH
- * Automatically synchronized by the Private Portfolio Management System.
- * Last Published: 2026-10-08T17:18:18.036Z
- */
-
-const PROFILE = {
+{
   "name": "Thimmareddygari Harshavardhan Reddy",
   "shortName": "Harshavardhan Reddy",
   "nickname": "Harsha",
@@ -785,7 +779,7 @@ const PROFILE = {
     "achievements": true,
     "contact": true
   },
-  "avatar": "/media/media_1791191882233_887kk.jpg",
+  "avatar": "/media/media_1791476992597_in8qp.jpg",
   "avatarAlt": "Candidate Professional Headshot",
   "codingProfiles": [
     {
@@ -875,11 +869,4 @@ const PROFILE = {
     "verified": "100%",
     "openSourceRepos": "24+"
   }
-};
-
-if (typeof window !== 'undefined') {
-  window.PROFILE = PROFILE;
-}
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = PROFILE;
 }

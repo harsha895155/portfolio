@@ -102,9 +102,8 @@ class AIToolService {
       throw new Error('Valid source media file path is required');
     }
     const ext = path.extname(sourcePath) || (originalName ? path.extname(originalName) : '.jpg');
-    const safeName = `media_${Date.now()}_${Math.random().toString(36).substr(2, 5)}${ext}`;
-    const targetDir = path.resolve(config.paths.root, 'storage/media');
-    if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
+    cmsService.ensureMediaDir();
+    const targetDir = cmsService.mediaDir;
 
     const targetPath = path.join(targetDir, safeName);
     fs.copyFileSync(sourcePath, targetPath);

@@ -34,7 +34,9 @@ function resolveFile(id) {
   const ext = path.extname(safeBase);
 
   // Search directories priority list
+  const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
   const searchDirs = [
+    ...(isServerless ? ['/tmp/storage/media', '/tmp/storage/private_documents'] : []),
     path.resolve(config.paths.root, 'media'),
     path.resolve(config.paths.root, 'storage/media'),
     config.paths.storageDir,

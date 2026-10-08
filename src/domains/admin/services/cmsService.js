@@ -15,9 +15,20 @@ const logger = require('../../../shared/utils/logger');
 
 class CmsService {
   constructor() {
-    this.mediaDir = path.resolve(__dirname, '../../../../storage/media');
-    if (!fs.existsSync(this.mediaDir)) {
-      fs.mkdirSync(this.mediaDir, { recursive: true });
+    const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+    this.isServerless = isServerless;
+    this.bundledMediaDir = path.resolve(__dirname, '../../../../storage/media');
+    this.mediaDir = isServerless ? '/tmp/storage/media' : this.bundledMediaDir;
+    this.ensureMediaDir();
+  }
+
+  ensureMediaDir() {
+    try {
+      if (!fs.existsSync(this.mediaDir)) {
+        fs.mkdirSync(this.mediaDir, { recursive: true });
+      }
+    } catch (e) {
+      logger.warn('Could not ensure mediaDir:', e.message);
     }
   }
 
@@ -941,59 +952,71 @@ class CmsService {
   }
 
   listMedia(filterFolder = null) {
-    if (!fs.existsSync(this.mediaDir)) {
-      fs.mkdirSync(this.mediaDir, { recursive: true });
+    this.ensureMediaDir();
+
+    const scanDirs = [this.mediaDir];
+    if (this.isServerless && fs.existsSync(this.bundledMediaDir)) {
+      scanDirs.push(this.bundledMediaDir);
     }
 
-    const files = fs.readdirSync(this.mediaDir);
     const seenHashes = new Map();
     const uniqueList = [];
     let duplicatesPrevented = 0;
 
-    for (const file of files) {
-      if (file.startsWith('.')) continue;
-      const fullPath = path.join(this.mediaDir, file);
+    for (const dir of scanDirs) {
+      if (!fs.existsSync(dir)) continue;
+      let files = [];
       try {
-        const stat = fs.statSync(fullPath);
-        if (!stat.isFile()) continue;
+        files = fs.readdirSync(dir);
+      } catch (e) {
+        continue;
+      }
 
-        const hash = this.getFileHash(fullPath);
-        if (!hash) continue;
+      for (const file of files) {
+        if (file.startsWith('.')) continue;
+        const fullPath = path.join(dir, file);
+        try {
+          const stat = fs.statSync(fullPath);
+          if (!stat.isFile()) continue;
 
-        // Deduplication: prevent identical files from showing twice
-        if (seenHashes.has(hash)) {
-          duplicatesPrevented++;
-          continue;
+          const hash = this.getFileHash(fullPath);
+          if (!hash) continue;
+
+          // Deduplication: prevent identical files from showing twice
+          if (seenHashes.has(hash)) {
+            duplicatesPrevented++;
+            continue;
+          }
+
+          seenHashes.set(hash, file);
+
+          const ext = path.extname(file).toLowerCase();
+          let category = 'Document';
+          if (['.png', '.jpg', '.jpeg', '.webp', '.svg', '.gif'].includes(ext)) {
+            category = 'Image';
+          } else if (ext === '.pdf') {
+            category = 'PDF';
+          }
+
+          const sec = this.classifyMediaSection(file, ext);
+          const displayName = this.formatMediaDisplayName(file);
+
+          uniqueList.push({
+            filename: file,
+            displayName,
+            folder: sec.folder,
+            folderLabel: sec.folderLabel,
+            folderIcon: sec.icon,
+            folderColor: sec.color,
+            url: `/media/${encodeURIComponent(file)}`,
+            sizeBytes: stat.size,
+            category,
+            contentHash: hash,
+            uploadedAt: stat.birthtime ? stat.birthtime.toISOString() : stat.mtime.toISOString()
+          });
+        } catch (err) {
+          logger.error(`Error processing media file ${file}:`, err);
         }
-
-        seenHashes.set(hash, file);
-
-        const ext = path.extname(file).toLowerCase();
-        let category = 'Document';
-        if (['.png', '.jpg', '.jpeg', '.webp', '.svg', '.gif'].includes(ext)) {
-          category = 'Image';
-        } else if (ext === '.pdf') {
-          category = 'PDF';
-        }
-
-        const sec = this.classifyMediaSection(file, ext);
-        const displayName = this.formatMediaDisplayName(file);
-
-        uniqueList.push({
-          filename: file,
-          displayName,
-          folder: sec.folder,
-          folderLabel: sec.folderLabel,
-          folderIcon: sec.icon,
-          folderColor: sec.color,
-          url: `/media/${encodeURIComponent(file)}`,
-          sizeBytes: stat.size,
-          category,
-          contentHash: hash,
-          uploadedAt: stat.birthtime ? stat.birthtime.toISOString() : stat.mtime.toISOString()
-        });
-      } catch (err) {
-        logger.error(`Error processing media file ${file}:`, err);
       }
     }
 
@@ -1031,9 +1054,7 @@ class CmsService {
       throw new Error('Valid file buffer is required');
     }
 
-    if (!fs.existsSync(this.mediaDir)) {
-      fs.mkdirSync(this.mediaDir, { recursive: true });
-    }
+    this.ensureMediaDir();
 
     const newHash = this.getFileHash(fileBuffer);
 
