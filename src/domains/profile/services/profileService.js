@@ -65,6 +65,17 @@ class ProfileService {
       approvedBy
     });
 
+    // 6. Background Git Sync if running with local git repo (updates GitHub Pages automatically)
+    try {
+      const { exec } = require('child_process');
+      const gitCmd = 'git add profile.js data/db.json index.html && git commit -m "chore(publish): sync published portfolio" && git push origin main';
+      exec(gitCmd, { cwd: config.paths.root }, (err, stdout, stderr) => {
+        if (!err) {
+          logger.info('[Git Auto-Sync] Successfully pushed published profile to GitHub');
+        }
+      });
+    } catch (e) {}
+
     logger.info(`Published draft profile live (Backup snapshot: ${snapshotName})`);
     return {
       published: cloned,

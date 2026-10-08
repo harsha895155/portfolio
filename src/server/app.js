@@ -281,6 +281,48 @@ app.use('/admin-assets', express.static(path.resolve(__dirname, '../domains/admi
   }
 }));
 
+// ─── DYNAMIC SINGLE SOURCE OF TRUTH REAL-TIME ROUTING ────────────────────────
+// Serve profile.js dynamically from live published database state with zero cache
+app.get('/profile.js', (req, res) => {
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  res.set('Content-Type', 'application/javascript; charset=utf-8');
+  const published = db.get('published') || db.get('draft') || {};
+  res.send(`/**
+ * PORTFOLIO PROFILE -- SINGLE SOURCE OF TRUTH (LIVE DYNAMIC ENGINE)
+ * Automatically synchronized with live database state.
+ */
+const PROFILE = ${JSON.stringify(published, null, 2)};
+if (typeof window !== 'undefined') {
+  window.PROFILE = PROFILE;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = PROFILE;
+}
+`);
+});
+
+// Serve index.html dynamically with pre-injected real-time published state
+app.get(['/', '/index.html'], (req, res) => {
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  const indexPath = config.paths.indexHtml;
+  let html = fs.readFileSync(indexPath, 'utf-8');
+  const published = db.get('published') || db.get('draft') || {};
+  const t = Date.now();
+  html = html.replace('src="profile.js?v=3.0"', `src="profile.js?t=${t}"`);
+  html = html.replace('src="render.js?v=3.0"', `src="render.js?t=${t}"`);
+  const injection = `
+    <script>
+      window.PROFILE = ${JSON.stringify(published)};
+    </script>
+  `;
+  html = html.replace('</head>', `${injection}</head>`);
+  res.send(html);
+});
+
 // ─── SERVE PUBLIC PORTFOLIO STATIC FILES ─────────────────────────────────────
 app.use(express.static(config.paths.root, {
   index: 'index.html',
