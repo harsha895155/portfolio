@@ -1,7 +1,7 @@
 /**
  * PORTFOLIO PROFILE -- SINGLE SOURCE OF TRUTH
  * Automatically synchronized by the Private Portfolio Management System.
- * Last Published: 2026-10-21T16:51:18.909Z
+ * Last Published: 2026-10-21T16:54:24.516Z
  */
 
 const PROFILE = {
@@ -23,7 +23,7 @@ const PROFILE = {
     "I have earned two <span class=\"hl\">Grade-O (Outstanding, top 10%)</span> evaluations in structured virtual internships: an 8-week program in <span class=\"hl\">AWS Generative AI</span> (AICTE-EduSkills, Cert ID: 4c27968d147486a8bce1) covering SageMaker and LLM prompt engineering, and a 10-week (120-hour) <span class=\"hl\">Python Full Stack Developer</span> program (EduSkills &amp; APSCHE, Cert No: OGQTWAOCD2OR). Additionally, I hold an <span class=\"hl\">Elite NPTEL Certification in Natural Language Processing</span> from IIT Kharagpur (60%) and standardized Spoken Tutorial certifications from IIT Bombay in Java (85%) and PostgreSQL (90%).",
     "I am seeking a Software Engineering internship or entry-level software development role. Feel free to <a href=\"#contact\" class=\"hl\" style=\"text-decoration:underline\">reach out to discuss opportunities</a>."
   ],
-  "avatar": "/media/media_1791191882233_887kk.jpg",
+  "avatar": "/media/media_1792601399312_mmhb.jpg",
   "footer": {
     "locationText": "📍 Nellore, Andhra Pradesh, India",
     "copyrightText": "© 2026 Harshavardhan Reddy. All rights reserved."
@@ -93,7 +93,7 @@ const PROFILE = {
   "resume": {
     "url": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
     "label": "📄 View Resume",
-    "updatedAt": "2026-10-21T15:45:42.952Z"
+    "updatedAt": "2026-10-21T16:49:35.950Z"
   },
   "skills": [
     {
@@ -274,7 +274,7 @@ const PROFILE = {
     "availability": "Available for Software Engineering internships, full-stack development roles, and technical collaborations."
   },
   "heroTag": "Open to High-Impact Software Engineering Roles · Cloud Verified",
-  "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
+  "headline": "TEST_DRAFT_HEADLINE_1792601567737",
   "heroCtas": {
     "cta1": {
       "url": "#contact",
@@ -576,7 +576,6 @@ const PROFILE = {
     "email": "harshavardhan10003@gmail.com",
     "credly": "https://www.credly.com/users/harsha10003/badges/credly",
     "github": "https://github.com/harsha895155",
-    "leetcode": "https://leetcode.com/u/harsha10003/",
     "linkedin": "https://www.linkedin.com/in/harshavardhanreddy-280392298/",
     "portfolio": "https://harsha895155.github.io/portfolio/"
   },
