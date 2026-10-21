@@ -10,7 +10,7 @@
     "nickname": "Harsha",
     "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
     "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
-    "heroTag": "Verified Full-Stack Engineer · 1792583848899",
+    "heroTag": "Computer Science Engineering Student · Python & React",
     "heroDesc": "Architected and implemented production-grade software workflows. Detailed overview: Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.. Engineered modular components utilizing clean architecture principles, efficient data pipelines, resilient error boundaries, and scalable cloud integrations.",
     "about": [
       "I am <span class=\"hl\">Thimmareddygari Harshavardhan Reddy</span>, a final-year Bachelor of Technology (B.Tech) student in <span class=\"hl\">Computer Science and Engineering</span> at Geethanjali Institute of Science &amp; Technology (GIST, affiliated to JNTU Anantapur), Nellore, graduating in 2027.",
@@ -886,7 +886,7 @@
     "nickname": "Harsha",
     "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
     "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
-    "heroTag": "Verified Full-Stack Engineer · 1792583848899",
+    "heroTag": "Computer Science Engineering Student · Python & React",
     "heroDesc": "Architected and implemented production-grade software workflows. Detailed overview: Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.. Engineered modular components utilizing clean architecture principles, efficient data pipelines, resilient error boundaries, and scalable cloud integrations.",
     "about": [
       "I am <span class=\"hl\">Thimmareddygari Harshavardhan Reddy</span>, a final-year Bachelor of Technology (B.Tech) student in <span class=\"hl\">Computer Science and Engineering</span> at Geethanjali Institute of Science &amp; Technology (GIST, affiliated to JNTU Anantapur), Nellore, graduating in 2027.",
@@ -3366,6 +3366,26 @@
   ],
   "history": [
     {
+      "id": "hist_1792583873767_sprzx",
+      "timestamp": "2026-10-21T11:57:53.767Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1792583873694.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1792583873561_7jllt",
+      "timestamp": "2026-10-21T11:57:53.561Z",
+      "field": "profile_hero",
+      "oldValue": "Thimmareddygari Harshavardhan Reddy",
+      "newValue": "Thimmareddygari Harshavardhan Reddy",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
       "id": "hist_1792583849988_dp39p",
       "timestamp": "2026-10-21T11:57:29.988Z",
       "field": "full_profile",
@@ -4344,30 +4364,10 @@
       "source": "Admin CMS",
       "status": "Saved to Draft",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391479213_9xhre",
-      "timestamp": "2026-10-07T16:44:39.213Z",
-      "field": "project_add",
-      "oldValue": "None",
-      "newValue": "QuantumCipher CMS Test",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391479151_jflpb",
-      "timestamp": "2026-10-07T16:44:39.151Z",
-      "field": "experience_delete",
-      "oldValue": "Lead IoT Research Intern at Smart City Lab",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-21T11:57:29.942Z",
+    "lastPublishedAt": "2026-10-21T11:57:53.701Z",
     "lastSyncCheckAt": "2026-10-08T16:25:56.697Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,
