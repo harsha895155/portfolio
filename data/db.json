@@ -9,7 +9,7 @@
     "shortName": "Harshavardhan Reddy",
     "nickname": "Harsha",
     "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
-    "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
+    "headline": "Tested Headline Persistence 1792583261913",
     "heroTag": "Computer Science Engineering Student · Python & React",
     "heroDesc": "Architected and implemented production-grade software workflows. Detailed overview: Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.. Engineered modular components utilizing clean architecture principles, efficient data pipelines, resilient error boundaries, and scalable cloud integrations.",
     "about": [
@@ -881,7 +881,7 @@
     "shortName": "Harshavardhan Reddy",
     "nickname": "Harsha",
     "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
-    "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
+    "headline": "Tested Headline Persistence 1792583261913",
     "heroTag": "Computer Science Engineering Student · Python & React",
     "heroDesc": "Architected and implemented production-grade software workflows. Detailed overview: Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.. Engineered modular components utilizing clean architecture principles, efficient data pipelines, resilient error boundaries, and scalable cloud integrations.",
     "about": [
@@ -3358,6 +3358,26 @@
   ],
   "history": [
     {
+      "id": "hist_1792583262166_9vyka",
+      "timestamp": "2026-10-21T11:47:42.166Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1792583262036.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "test-admin"
+    },
+    {
+      "id": "hist_1792583261991_wsltw",
+      "timestamp": "2026-10-21T11:47:41.991Z",
+      "field": "profile_hero",
+      "oldValue": "Thimmareddygari Harshavardhan Reddy",
+      "newValue": "Thimmareddygari Harshavardhan Reddy",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
       "id": "hist_1791480890353_qahme",
       "timestamp": "2026-10-08T17:34:50.353Z",
       "field": "full_profile_rollback",
@@ -4336,30 +4356,10 @@
       "source": "Admin CMS",
       "status": "Saved to Draft",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391478425_661hx",
-      "timestamp": "2026-10-07T16:44:38.425Z",
-      "field": "profile_hero",
-      "oldValue": "Thimmareddygari Harshavardhan Reddy",
-      "newValue": "Thimmareddygari Harshavardhan Reddy",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391478027_dtwpd",
-      "timestamp": "2026-10-07T16:44:38.027Z",
-      "field": "remove_platform_unstop",
-      "oldValue": "unstop",
-      "newValue": "Removed / Unlinked",
-      "source": "Admin Platform Manager",
-      "status": "Platform Removed",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-08T17:34:50.204Z",
+    "lastPublishedAt": "2026-10-21T11:47:42.050Z",
     "lastSyncCheckAt": "2026-10-08T16:25:56.697Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,
@@ -9510,21 +9510,8 @@
   ],
   "verifiedRecords": [
     {
-      "id": "vr_test_exp_1",
-      "createdAt": "2026-10-08T16:25:36.044Z",
-      "type": "internship",
-      "title": "AWS Gen AI Virtual Intern",
-      "organization": "AICTE - EduSkills",
-      "candidateId": "STU67a3881a20bc81738770458",
-      "status": "VERIFIED",
-      "fileHashes": [
-        "hash_offer_123"
-      ],
-      "approvedAt": "2026-10-08T16:25:36.044Z"
-    },
-    {
       "id": "vr_test_nptel_1",
-      "createdAt": "2026-10-08T16:25:09.495Z",
+      "createdAt": "2026-10-21T09:56:49.947Z",
       "type": "certification",
       "title": "Natural Language Processing",
       "issuer": "NPTEL",
@@ -9538,7 +9525,20 @@
         "hash": "7d287727d444db4479c7f7e1172b777d425b2c20302127986fd33c3b90aee7de",
         "filename": "NOC26CS45S145150024704536444.pdf"
       },
-      "approvedAt": "2026-10-08T16:25:09.495Z"
+      "approvedAt": "2026-10-21T09:56:49.945Z"
+    },
+    {
+      "id": "vr_test_exp_1",
+      "createdAt": "2026-10-08T16:25:36.044Z",
+      "type": "internship",
+      "title": "AWS Gen AI Virtual Intern",
+      "organization": "AICTE - EduSkills",
+      "candidateId": "STU67a3881a20bc81738770458",
+      "status": "VERIFIED",
+      "fileHashes": [
+        "hash_offer_123"
+      ],
+      "approvedAt": "2026-10-08T16:25:36.044Z"
     }
   ],
   "verificationAuditLogs": [
