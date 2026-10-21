@@ -883,52 +883,52 @@
   "history": [
     {
       "id": "hist_1792601664529_k6p2f",
-      "timestamp": "2026-10-21T16:54:24.529Z",
       "field": "full_profile_rollback",
-      "oldValue": "Prior snapshot: snapshot_1792601664432.json",
-      "newValue": "Restored to snapshot: snapshot_1792601664256.json",
       "source": "Admin Rollback Action",
       "status": "Restored",
+      "newValue": "Restored to snapshot: snapshot_1792601664256.json",
+      "oldValue": "Prior snapshot: snapshot_1792601664432.json",
+      "timestamp": "2026-10-21T16:54:24.529Z",
       "approvedBy": "admin-test"
     },
     {
       "id": "hist_1792601664333_nsnfx",
-      "timestamp": "2026-10-21T16:54:24.333Z",
       "field": "full_profile",
-      "oldValue": "Snapshot: snapshot_1792601664256.json",
-      "newValue": "Published Draft to Live Portfolio",
       "source": "Admin Publish Action",
       "status": "Published",
+      "newValue": "Published Draft to Live Portfolio",
+      "oldValue": "Snapshot: snapshot_1792601664256.json",
+      "timestamp": "2026-10-21T16:54:24.333Z",
       "approvedBy": "admin-test"
     },
     {
       "id": "hist_1792601664189_sn7s8",
-      "timestamp": "2026-10-21T16:54:24.189Z",
       "field": "profile_hero",
-      "oldValue": "Thimmareddygari Harshavardhan Reddy",
-      "newValue": "Thimmareddygari Harshavardhan Reddy",
       "source": "Admin CMS",
       "status": "Saved to Draft",
+      "newValue": "Thimmareddygari Harshavardhan Reddy",
+      "oldValue": "Thimmareddygari Harshavardhan Reddy",
+      "timestamp": "2026-10-21T16:54:24.189Z",
       "approvedBy": "admin"
     },
     {
       "id": "hist_1792601567851_8q5ul",
-      "timestamp": "2026-10-21T16:52:47.851Z",
       "field": "full_profile",
-      "oldValue": "Snapshot: snapshot_1792601567799.json",
-      "newValue": "Published Draft to Live Portfolio",
       "source": "Admin Publish Action",
       "status": "Published",
+      "newValue": "Published Draft to Live Portfolio",
+      "oldValue": "Snapshot: snapshot_1792601567799.json",
+      "timestamp": "2026-10-21T16:52:47.851Z",
       "approvedBy": "admin-test"
     },
     {
       "id": "hist_1792601567785_6g9r5",
-      "timestamp": "2026-10-21T16:52:47.785Z",
       "field": "profile_hero",
-      "oldValue": "Thimmareddygari Harshavardhan Reddy",
-      "newValue": "Thimmareddygari Harshavardhan Reddy",
       "source": "Admin CMS",
       "status": "Saved to Draft",
+      "newValue": "Thimmareddygari Harshavardhan Reddy",
+      "oldValue": "Thimmareddygari Harshavardhan Reddy",
+      "timestamp": "2026-10-21T16:52:47.785Z",
       "approvedBy": "admin"
     },
     {
@@ -4854,9 +4854,6 @@
   },
   "snapshots": [
     {
-      "filename": "snapshot_1792601664432.json",
-      "createdAt": "2026-10-21T16:54:24.434Z",
-      "sizeBytes": 25777,
       "data": {
         "seo": {
           "ogImage": "https://harsha895155.github.io/portfolio/og-image.png",
@@ -5732,12 +5729,12 @@
           "experience": true,
           "achievements": true
         }
-      }
+      },
+      "filename": "snapshot_1792601664432.json",
+      "createdAt": "2026-10-21T16:54:24.434Z",
+      "sizeBytes": 25777
     },
     {
-      "filename": "snapshot_1792601664256.json",
-      "createdAt": "2026-10-21T16:54:24.258Z",
-      "sizeBytes": 25777,
       "data": {
         "seo": {
           "ogImage": "https://harsha895155.github.io/portfolio/og-image.png",
@@ -6613,12 +6610,12 @@
           "experience": true,
           "achievements": true
         }
-      }
+      },
+      "filename": "snapshot_1792601664256.json",
+      "createdAt": "2026-10-21T16:54:24.258Z",
+      "sizeBytes": 25777
     },
     {
-      "filename": "snapshot_1792601567799.json",
-      "createdAt": "2026-10-21T16:52:47.801Z",
-      "sizeBytes": 25897,
       "data": {
         "seo": {
           "ogImage": "https://harsha895155.github.io/portfolio/og-image.png",
@@ -7495,7 +7492,10 @@
           "experience": true,
           "achievements": true
         }
-      }
+      },
+      "filename": "snapshot_1792601567799.json",
+      "createdAt": "2026-10-21T16:52:47.801Z",
+      "sizeBytes": 25897
     },
     {
       "data": {

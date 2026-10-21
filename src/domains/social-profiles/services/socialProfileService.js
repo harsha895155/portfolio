@@ -13,9 +13,9 @@ const logger = require('../../../shared/utils/logger');
 
 class SocialProfileService {
   getPlatformsStatus() {
-    const published = db.get('published') || {};
-    const links = published.socialLinks || {};
-    const customPlatforms = published.customPlatforms || db.get('customPlatforms') || [];
+    const profile = db.get('draft') || db.get('published') || {};
+    const links = profile.socialLinks || {};
+    const customPlatforms = profile.customPlatforms || db.get('customPlatforms') || [];
     const settings = db.get('settings') || {};
     const overrides = settings.platformOverrides || {};
 
@@ -271,31 +271,25 @@ class SocialProfileService {
         return item;
       };
 
-      updateList(published.customPlatforms);
       updateList(draft.customPlatforms);
 
       if (updates.url !== undefined) {
-        published.socialLinks[id] = verifiedUrl;
         draft.socialLinks[id] = verifiedUrl;
       }
     }
 
-    db.set('published', published);
     db.set('draft', draft);
-
-    // Synchronize to profile.js and index.html
-    syncProfileService.syncToFiles(published);
 
     db.addHistory({
       field: `social_platform_${id}`,
       oldValue: oldUrl || 'Unconfigured',
       newValue: verifiedUrl || 'Updated (Verified)',
       source: 'Admin Platform Manager',
-      status: 'Verified & Synchronized',
+      status: 'Saved to Draft',
       approvedBy
     });
 
-    logger.info(`Platform ${id} verified, updated, and synchronized live by ${approvedBy}`);
+    logger.info(`Platform ${id} verified and updated in draft by ${approvedBy}`);
     return this.getPlatformsStatus();
   }
 
@@ -335,11 +329,8 @@ class SocialProfileService {
 
     const id = cleanName.toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 30) || `platform_${Date.now()}`;
 
-    const published = db.get('published') || {};
     const draft = db.get('draft') || {};
-    published.socialLinks = published.socialLinks || {};
     draft.socialLinks = draft.socialLinks || {};
-    published.customPlatforms = published.customPlatforms || [];
     draft.customPlatforms = draft.customPlatforms || [];
 
     const newPlatform = {
@@ -357,13 +348,9 @@ class SocialProfileService {
     };
 
     // Filter out if existing id
-    published.customPlatforms = published.customPlatforms.filter(p => p.id !== id);
-    published.customPlatforms.push(newPlatform);
-
     draft.customPlatforms = draft.customPlatforms.filter(p => p.id !== id);
     draft.customPlatforms.push(newPlatform);
 
-    published.socialLinks[id] = verifiedUrl;
     draft.socialLinks[id] = verifiedUrl;
 
     const settings = db.get('settings') || {};
@@ -372,32 +359,25 @@ class SocialProfileService {
       db.set('settings', settings);
     }
 
-    db.set('published', published);
     db.set('draft', draft);
-
-    // Synchronize to profile.js and index.html
-    syncProfileService.syncToFiles(published);
 
     db.addHistory({
       field: `add_platform_${id}`,
       oldValue: 'None',
       newValue: `${cleanName}: ${verifiedUrl} (Verified)`,
       source: 'Admin Platform Manager',
-      status: 'Verified & Linked Live',
+      status: 'Saved to Draft',
       approvedBy
     });
 
-    logger.info(`Added and verified new platform ${cleanName} (${id}) by ${approvedBy}`);
+    logger.info(`Added and verified new platform ${cleanName} (${id}) in draft by ${approvedBy}`);
     return newPlatform;
   }
 
   removePlatform(id, approvedBy = 'admin') {
     const cleanId = (id || '').toLowerCase().trim();
-    const published = db.get('published') || {};
     const draft = db.get('draft') || {};
-    published.socialLinks = published.socialLinks || {};
     draft.socialLinks = draft.socialLinks || {};
-    published.customPlatforms = published.customPlatforms || [];
     draft.customPlatforms = draft.customPlatforms || [];
 
     const settings = db.get('settings') || {};
@@ -408,51 +388,41 @@ class SocialProfileService {
     db.set('settings', settings);
 
     // Remove from social links
-    delete published.socialLinks[cleanId];
     delete draft.socialLinks[cleanId];
 
     // Remove from custom platforms if present
-    published.customPlatforms = published.customPlatforms.filter(p => p.id.toLowerCase() !== cleanId);
     draft.customPlatforms = draft.customPlatforms.filter(p => p.id.toLowerCase() !== cleanId);
 
-    db.set('published', published);
     db.set('draft', draft);
-
-    syncProfileService.syncToFiles(published);
 
     db.addHistory({
       field: `remove_platform_${cleanId}`,
       oldValue: cleanId,
       newValue: 'Removed / Unlinked',
       source: 'Admin Platform Manager',
-      status: 'Platform Removed',
+      status: 'Saved to Draft',
       approvedBy
     });
 
-    logger.info(`Removed/unlinked platform ${cleanId} and synchronized live by ${approvedBy}`);
+    logger.info(`Removed/unlinked platform ${cleanId} in draft by ${approvedBy}`);
     return this.getPlatformsStatus();
   }
 
   updateSocialLinks(newLinks, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
-    const published = db.get('published') || {};
     draft.socialLinks = { ...(draft.socialLinks || {}), ...newLinks };
-    published.socialLinks = { ...(published.socialLinks || {}), ...newLinks };
     db.set('draft', draft);
-    db.set('published', published);
-
-    syncProfileService.syncToFiles(published);
 
     db.addHistory({
       field: 'social_links',
       oldValue: 'Previous links',
       newValue: JSON.stringify(newLinks),
       source: 'Social Settings',
-      status: 'Synchronized & Live',
+      status: 'Saved to Draft',
       approvedBy
     });
 
-    logger.info('Updated social links in profile and synchronized');
+    logger.info('Updated social links in draft');
     return draft.socialLinks;
   }
 }

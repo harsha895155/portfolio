@@ -32,30 +32,22 @@ class CmsService {
     }
   }
 
-  /* ── Helper: Save Draft & Log History & Sync Live ── */
+  /* ── Helper: Save Draft & Log History ── */
   saveDraftAndLog(field, oldValue, newValue, actionDescription, approvedBy = 'admin') {
-    // 1. Keep draft and published in sync so all admin edits display immediately on portfolio
+    // 1. Save strictly to draft state — changes only go live on main website when "Publish Live" is clicked
     const draft = db.get('draft') || {};
     db.set('draft', draft);
-    db.set('published', JSON.parse(JSON.stringify(draft)));
     db.save();
-
-    // 2. Synchronize to profile.js and index.html
-    try {
-      syncProfileService.syncToFiles(draft);
-    } catch (e) {
-      logger.warn(`Could not sync to profile.js/index.html: ${e.message}`);
-    }
 
     db.addHistory({
       field,
       oldValue: typeof oldValue === 'object' ? JSON.stringify(oldValue).slice(0, 100) : String(oldValue || 'None'),
       newValue: typeof newValue === 'object' ? JSON.stringify(newValue).slice(0, 100) : String(newValue || 'Updated'),
       source: 'Admin CMS',
-      status: 'Published Live',
+      status: 'Saved to Draft',
       approvedBy
     });
-    logger.info(`[CMS] ${actionDescription} by ${approvedBy} and synchronized live`);
+    logger.info(`[CMS] ${actionDescription} by ${approvedBy} (saved to draft)`);
   }
 
   /* ── 1. Profile & Hero ── */
@@ -109,18 +101,6 @@ class CmsService {
       if (data.resume.url) draft.resume.url = String(data.resume.url).trim();
       if (data.resume.label) draft.resume.label = String(data.resume.label).trim();
       draft.resume.updatedAt = new Date().toISOString();
-
-      // Also update published profile and synchronize live files
-      const published = db.get('published');
-      if (published) {
-        published.resume = { ...draft.resume };
-        db.set('published', published);
-        try {
-          syncProfileService.syncToFiles(published);
-        } catch (e) {
-          logger.error('Failed to sync updated resume to profile.js', e);
-        }
-      }
     }
 
     if (data.footer) {
@@ -464,23 +444,12 @@ class CmsService {
   deleteExperience(id, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.experience = draft.experience || [];
-    const published = db.get('published') || {};
-    published.experience = published.experience || [];
 
     const index = draft.experience.findIndex(e => e.id === id);
-    let removed = null;
-    if (index !== -1) {
-      removed = draft.experience.splice(index, 1)[0];
-    }
+    if (index === -1) throw new Error(`Experience with ID "${id}" not found`);
 
-    const pubIndex = published.experience.findIndex(e => e.id === id);
-    if (pubIndex !== -1) {
-      if (!removed) removed = published.experience[pubIndex];
-      published.experience.splice(pubIndex, 1);
-      db.set('published', published);
-    }
-
-    if (!removed) throw new Error(`Experience with ID "${id}" not found`);
+    const removed = draft.experience.splice(index, 1)[0];
+    db.set('draft', draft);
 
     // Prune verifiedRecords so re-uploading documents or re-adding is never blocked
     const verifiedRecords = db.get('verifiedRecords') || [];
@@ -662,23 +631,12 @@ class CmsService {
   deleteCertification(id, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.certifications = draft.certifications || [];
-    const published = db.get('published') || {};
-    published.certifications = published.certifications || [];
 
     const index = draft.certifications.findIndex(c => c.id === id);
-    let removed = null;
-    if (index !== -1) {
-      removed = draft.certifications.splice(index, 1)[0];
-    }
+    if (index === -1) throw new Error(`Certification with ID "${id}" not found`);
 
-    const pubIndex = published.certifications.findIndex(c => c.id === id);
-    if (pubIndex !== -1) {
-      if (!removed) removed = published.certifications[pubIndex];
-      published.certifications.splice(pubIndex, 1);
-      db.set('published', published);
-    }
-
-    if (!removed) throw new Error(`Certification with ID "${id}" not found`);
+    const removed = draft.certifications.splice(index, 1)[0];
+    db.set('draft', draft);
 
     // Prune verifiedRecords
     const verifiedRecords = db.get('verifiedRecords') || [];
@@ -779,22 +737,6 @@ class CmsService {
 
     db.set('draft', draft);
     this.saveDraftAndLog('resume_update', 'Resume Link', draft.resume.url, `Updated active resume link to ${draft.resume.url}`, approvedBy);
-
-    // Also update published profile and synchronize profile.js and index.html so it takes effect live immediately!
-    const published = db.get('published');
-    if (published) {
-      published.resume = {
-        url: draft.resume.url,
-        label: draft.resume.label || '📄 View Resume',
-        updatedAt: draft.resume.updatedAt
-      };
-      db.set('published', published);
-      try {
-        syncProfileService.syncToFiles(published);
-      } catch (e) {
-        logger.error('Failed to sync updated resume to profile.js', e);
-      }
-    }
 
     return draft.resume;
   }
@@ -1329,27 +1271,6 @@ class CmsService {
     return draft.telemetry;
   }
 
-  _syncCodingProfilesLive(codingProfiles) {
-    try {
-      const published = db.get('published') || {};
-      published.codingProfiles = Array.isArray(codingProfiles) ? [...codingProfiles] : [];
-      db.set('published', published);
-      syncProfileService.syncToFiles(published);
-    } catch (e) {
-      logger.error('Failed to sync coding profiles live to profile.js', e);
-    }
-  }
-
-  _syncTelemetryLive(telemetry) {
-    try {
-      const published = db.get('published') || {};
-      published.telemetry = { ...telemetry };
-      db.set('published', published);
-      syncProfileService.syncToFiles(published);
-    } catch (e) {
-      logger.error('Failed to sync telemetry live to profile.js', e);
-    }
-  }
 }
 
 module.exports = new CmsService();

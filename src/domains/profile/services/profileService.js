@@ -24,14 +24,8 @@ class ProfileService {
     const currentDraft = db.get('draft') || {};
     const updatedDraft = { ...currentDraft, ...updates };
     db.set('draft', updatedDraft);
-    const cloned = JSON.parse(JSON.stringify(updatedDraft));
-    db.set('published', cloned);
-    try {
-      syncProfileService.syncToFiles(cloned);
-    } catch (e) {
-      logger.warn(`Could not sync to profile.js/index.html: ${e.message}`);
-    }
-    logger.info('Draft profile updated and synchronized live to published profile');
+    db.save();
+    logger.info('Draft profile updated and saved to draft');
     return updatedDraft;
   }
 
