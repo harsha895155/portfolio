@@ -10,7 +10,7 @@
     "nickname": "Harsha",
     "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
     "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
-    "heroTag": "Computer Science Engineering Student · Python & React",
+    "heroTag": "Verified Full-Stack Engineer · 1792583848899",
     "heroDesc": "Architected and implemented production-grade software workflows. Detailed overview: Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.. Engineered modular components utilizing clean architecture principles, efficient data pipelines, resilient error boundaries, and scalable cloud integrations.",
     "about": [
       "I am <span class=\"hl\">Thimmareddygari Harshavardhan Reddy</span>, a final-year Bachelor of Technology (B.Tech) student in <span class=\"hl\">Computer Science and Engineering</span> at Geethanjali Institute of Science &amp; Technology (GIST, affiliated to JNTU Anantapur), Nellore, graduating in 2027.",
@@ -870,10 +870,14 @@
     },
     "profileImage": "/media/harsha_profile.jpg",
     "telemetry": {
-      "problemsSolved": "350+",
+      "problemsSolved": "500+",
       "activeProfiles": "9+",
       "verified": "100%",
-      "openSourceRepos": "24+"
+      "openSourceRepos": "25+"
+    },
+    "footer": {
+      "copyrightText": "© 2026 Harshavardhan Reddy. All rights reserved.",
+      "locationText": "📍 Nellore, Andhra Pradesh, India"
     }
   },
   "draft": {
@@ -882,7 +886,7 @@
     "nickname": "Harsha",
     "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
     "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
-    "heroTag": "Computer Science Engineering Student · Python & React",
+    "heroTag": "Verified Full-Stack Engineer · 1792583848899",
     "heroDesc": "Architected and implemented production-grade software workflows. Detailed overview: Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.. Engineered modular components utilizing clean architecture principles, efficient data pipelines, resilient error boundaries, and scalable cloud integrations.",
     "about": [
       "I am <span class=\"hl\">Thimmareddygari Harshavardhan Reddy</span>, a final-year Bachelor of Technology (B.Tech) student in <span class=\"hl\">Computer Science and Engineering</span> at Geethanjali Institute of Science &amp; Technology (GIST, affiliated to JNTU Anantapur), Nellore, graduating in 2027.",
@@ -1742,10 +1746,14 @@
     },
     "profileImage": "/media/harsha_profile.jpg",
     "telemetry": {
-      "problemsSolved": "350+",
+      "problemsSolved": "500+",
       "activeProfiles": "9+",
       "verified": "100%",
-      "openSourceRepos": "24+"
+      "openSourceRepos": "25+"
+    },
+    "footer": {
+      "copyrightText": "© 2026 Harshavardhan Reddy. All rights reserved.",
+      "locationText": "📍 Nellore, Andhra Pradesh, India"
     }
   },
   "pendingChanges": [
@@ -3358,6 +3366,56 @@
   ],
   "history": [
     {
+      "id": "hist_1792583849988_dp39p",
+      "timestamp": "2026-10-21T11:57:29.988Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1792583849917.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1792583849876_76ha2",
+      "timestamp": "2026-10-21T11:57:29.876Z",
+      "field": "telemetry",
+      "oldValue": "null",
+      "newValue": "{\"problemsSolved\":\"500+\",\"activeProfiles\":\"9+\",\"verified\":\"100%\",\"openSourceRepos\":\"25+\"}",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1792583849459_zvop5",
+      "timestamp": "2026-10-21T11:57:29.459Z",
+      "field": "section_visibility",
+      "oldValue": "Prior Visibility",
+      "newValue": "{\"hero\":true,\"marquee\":true,\"about\":true,\"skills\":true,\"experience\":true,\"projects\":true,\"certs\":true,\"achievements\":true,\"contact\":true}",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1792583849239_vxa8e",
+      "timestamp": "2026-10-21T11:57:29.239Z",
+      "field": "about_section",
+      "oldValue": "Prior About",
+      "newValue": "6 paragraphs",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
+      "id": "hist_1792583848989_dc8pn",
+      "timestamp": "2026-10-21T11:57:28.989Z",
+      "field": "profile_hero",
+      "oldValue": "Thimmareddygari Harshavardhan Reddy",
+      "newValue": "Thimmareddygari Harshavardhan Reddy",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
       "id": "hist_1792583297883_tn5b8",
       "timestamp": "2026-10-21T11:48:17.883Z",
       "field": "full_profile",
@@ -4306,60 +4364,10 @@
       "source": "Admin CMS",
       "status": "Saved to Draft",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391479015_z49z7",
-      "timestamp": "2026-10-07T16:44:39.015Z",
-      "field": "experience_update",
-      "oldValue": "exp_muyc8fim_18do",
-      "newValue": "Lead IoT Research Intern at Smart City Lab",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391478946_3s6md",
-      "timestamp": "2026-10-07T16:44:38.946Z",
-      "field": "experience_add",
-      "oldValue": "None",
-      "newValue": "IoT Research Intern at Smart City Lab",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391478873_lkzk9",
-      "timestamp": "2026-10-07T16:44:38.873Z",
-      "field": "education_delete",
-      "oldValue": "Test University",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391478771_lavgh",
-      "timestamp": "2026-10-07T16:44:38.771Z",
-      "field": "education_add",
-      "oldValue": "None",
-      "newValue": "Test University",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391478690_ko8fm",
-      "timestamp": "2026-10-07T16:44:38.690Z",
-      "field": "skill_delete",
-      "oldValue": "GraphQL",
-      "newValue": "Removed",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-21T11:48:17.785Z",
+    "lastPublishedAt": "2026-10-21T11:57:29.942Z",
     "lastSyncCheckAt": "2026-10-08T16:25:56.697Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,
