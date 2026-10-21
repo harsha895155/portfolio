@@ -8,6 +8,7 @@ const path = require('path');
 const config = require('../../../../config');
 const db = require('../../../infrastructure/database/db');
 const syncProfileService = require('./syncProfileService');
+const historyService = require('../../admin/services/historyService');
 const logger = require('../../../shared/utils/logger');
 
 class ProfileService {
@@ -85,14 +86,10 @@ class ProfileService {
   }
 
   rollback(snapshotName, approvedBy = 'admin') {
-    const safeName = path.basename(snapshotName);
-    const snapshotPath = path.join(config.paths.historyDir, safeName);
-    if (!fs.existsSync(snapshotPath)) {
-      throw new Error(`Snapshot file ${snapshotName} does not exist`);
+    const restoredProfile = historyService.getSnapshotContent(snapshotName);
+    if (!restoredProfile) {
+      throw new Error(`Snapshot file ${snapshotName} could not be found or loaded`);
     }
-
-    const raw = fs.readFileSync(snapshotPath, 'utf-8');
-    const restoredProfile = JSON.parse(raw);
 
     // Save previous state as well
     let priorSnapshot = 'snapshot_pre_rollback';

@@ -145,6 +145,11 @@ if (typeof module !== 'undefined' && module.exports) {
       );
     }
 
+    // Update cache-buster timestamp on profile.js & render.js to avoid stale browser cache
+    const cacheBuster = Date.now();
+    html = html.replace(/src="profile\.js(\?[^"]*)?"/g, `src="profile.js?v=${cacheBuster}"`);
+    html = html.replace(/src="render\.js(\?[^"]*)?"/g, `src="render.js?v=${cacheBuster}"`);
+
     this._safeWriteFileSync(indexPath, html);
   }
 

@@ -123,6 +123,12 @@ class CmsService {
       }
     }
 
+    if (data.footer) {
+      draft.footer = draft.footer || {};
+      if (data.footer.copyrightText !== undefined) draft.footer.copyrightText = String(data.footer.copyrightText).trim();
+      if (data.footer.locationText !== undefined) draft.footer.locationText = String(data.footer.locationText).trim();
+    }
+
     db.set('draft', draft);
     this.saveDraftAndLog('profile_hero', oldName, draft.name, 'Updated Profile & Hero details', approvedBy);
     return draft;

@@ -24,6 +24,9 @@ const profileController = {
   // Private / Admin endpoints
   getDraft: (req, res) => {
     try {
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
       const data = profileService.getDraft();
       return responseHelper.success(res, data, 'Draft profile fetched');
     } catch (err) {

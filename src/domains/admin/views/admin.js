@@ -178,15 +178,15 @@
   /* ── 1. Dashboard Overview & Analytics ── */
   async function loadDashboard() {
     try {
-      // 1. Fetch draft profile
-      const draftRes = await fetch('/api/profile/draft');
+      // 1. Fetch draft profile with zero-cache guarantee
+      const draftRes = await fetch('/api/profile/draft?t=' + Date.now(), { cache: 'no-store' });
       const draftJson = await draftRes.json();
       if (draftRes.ok && draftJson.success) {
         currentDraftProfile = draftJson.data;
       }
 
-      // 2. Fetch admin stats
-      const statsRes = await fetch('/api/admin/stats');
+      // 2. Fetch admin stats with zero-cache guarantee
+      const statsRes = await fetch('/api/admin/stats?t=' + Date.now(), { cache: 'no-store' });
       const statsJson = await statsRes.json();
       if (statsRes.ok && statsJson.success) {
         const stats = statsJson.data;
@@ -535,37 +535,44 @@
   document.getElementById('btn-hero-preview-resume')?.addEventListener('click', previewHeroResume);
   document.getElementById('btn-hero-resume-view-ext')?.addEventListener('click', previewHeroResume);
 
-  document.getElementById('form-profile-hero')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  async function saveProfileHero() {
+    const nameInput = document.getElementById('prof-name');
+    const nameVal = nameInput ? nameInput.value.trim() : '';
+    if (!nameVal) {
+      showToast('Please enter your Full Name', 'warning');
+      nameInput?.focus();
+      return false;
+    }
+
     const payload = {
-      name: document.getElementById('prof-name').value.trim(),
-      shortName: document.getElementById('prof-shortname').value.trim(),
-      nickname: document.getElementById('prof-nickname').value.trim(),
-      headline: document.getElementById('prof-headline').value.trim(),
-      heroTag: document.getElementById('prof-herotag').value.trim(),
-      profileImage: document.getElementById('prof-image').value.trim(),
-      heroDesc: document.getElementById('prof-herodesc').value.trim(),
-      heroTags: document.getElementById('prof-herotags').value.split(',').map(s => s.trim()).filter(Boolean),
-      marqueeItems: document.getElementById('prof-marquee').value.split(',').map(s => s.trim()).filter(Boolean),
+      name: nameVal,
+      shortName: document.getElementById('prof-shortname')?.value?.trim() || '',
+      nickname: document.getElementById('prof-nickname')?.value?.trim() || '',
+      headline: document.getElementById('prof-headline')?.value?.trim() || '',
+      heroTag: document.getElementById('prof-herotag')?.value?.trim() || '',
+      profileImage: document.getElementById('prof-image')?.value?.trim() || '',
+      heroDesc: document.getElementById('prof-herodesc')?.value?.trim() || '',
+      heroTags: (document.getElementById('prof-herotags')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
+      marqueeItems: (document.getElementById('prof-marquee')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
       heroCtas: {
         cta1: {
-          label: document.getElementById('prof-cta1-label')?.value.trim() || '↗ Get In Touch',
-          url: document.getElementById('prof-cta1-url')?.value.trim() || '#contact'
+          label: document.getElementById('prof-cta1-label')?.value?.trim() || '↗ Get In Touch',
+          url: document.getElementById('prof-cta1-url')?.value?.trim() || '#contact'
         },
         cta2: {
-          label: document.getElementById('prof-cta2-label')?.value.trim() || 'View Projects →',
-          url: document.getElementById('prof-cta2-url')?.value.trim() || '#projects'
+          label: document.getElementById('prof-cta2-label')?.value?.trim() || 'View Projects →',
+          url: document.getElementById('prof-cta2-url')?.value?.trim() || '#projects'
         }
       },
       resume: {
-        label: document.getElementById('prof-resume-label')?.value.trim() || '📄 View Resume',
-        url: document.getElementById('prof-resume-url')?.value.trim() || './Thimmareddygari_Harshavardhan_Reddy_Resume.pdf'
+        label: document.getElementById('prof-resume-label')?.value?.trim() || '📄 View Resume',
+        url: document.getElementById('prof-resume-url')?.value?.trim() || './Thimmareddygari_Harshavardhan_Reddy_Resume.pdf'
       },
       contact: {
-        email: document.getElementById('prof-email').value.trim(),
-        phone: document.getElementById('prof-phone').value.trim(),
-        location: document.getElementById('prof-location').value.trim(),
-        availability: document.getElementById('prof-availability').value.trim()
+        email: document.getElementById('prof-email')?.value?.trim() || '',
+        phone: document.getElementById('prof-phone')?.value?.trim() || '',
+        location: document.getElementById('prof-location')?.value?.trim() || '',
+        availability: document.getElementById('prof-availability')?.value?.trim() || ''
       }
     };
 
@@ -578,17 +585,45 @@
       const json = await res.json();
       if (res.ok && json.success) {
         showToast('✓ Profile, Hero CTAs & Resume saved to draft!', 'success');
-        loadDashboard();
+        if (json.data) {
+          currentDraftProfile = json.data;
+        } else if (currentDraftProfile) {
+          Object.assign(currentDraftProfile, payload);
+        }
+        await loadDashboard();
+        return true;
       } else {
-        showToast('Error: ' + json.message, 'error');
+        showToast('Error: ' + (json.message || 'Failed to update profile'), 'error');
+        throw new Error(json.message || 'Failed to update profile');
       }
     } catch (err) {
-      showToast('Connection error updating profile', 'error');
+      showToast('Connection error updating profile: ' + (err.message || 'Network error'), 'error');
+      throw err;
     }
+  }
+
+  document.getElementById('form-profile-hero')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await saveProfileHero();
   });
 
-  document.getElementById('save-profile-btn')?.addEventListener('click', () => {
-    document.getElementById('form-profile-hero')?.dispatchEvent(new Event('submit'));
+  document.getElementById('save-profile-btn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('save-profile-btn');
+    if (!btn) return;
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Saving Profile...';
+    try {
+      await saveProfileHero();
+      btn.innerHTML = '✓ Saved to Draft!';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }, 2000);
+    } catch (e) {
+      btn.disabled = false;
+      btn.innerHTML = origText;
+    }
   });
 
   /* ── 4. About Section ── */
@@ -624,7 +659,7 @@
     container.appendChild(div);
   });
 
-  document.getElementById('save-about-btn')?.addEventListener('click', async () => {
+  async function saveAboutSection() {
     const inputs = document.querySelectorAll('.about-para-input');
     const paragraphs = Array.from(inputs).map(i => i.value.trim()).filter(Boolean);
 
@@ -637,12 +672,35 @@
       const json = await res.json();
       if (res.ok && json.success) {
         showToast('✓ About section paragraphs saved to draft!', 'success');
-        loadDashboard();
+        if (currentDraftProfile) currentDraftProfile.about = paragraphs;
+        await loadDashboard();
+        return true;
       } else {
-        showToast('Error: ' + json.message, 'error');
+        showToast('Error: ' + (json.message || 'Failed to update about section'), 'error');
+        throw new Error(json.message || 'Failed to update about section');
       }
     } catch (e) {
-      showToast('Connection error updating about section', 'error');
+      showToast('Connection error updating about section: ' + (e.message || 'Network error'), 'error');
+      throw e;
+    }
+  }
+
+  document.getElementById('save-about-btn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('save-about-btn');
+    if (!btn) return;
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Saving About...';
+    try {
+      await saveAboutSection();
+      btn.innerHTML = '✓ Saved to Draft!';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }, 2000);
+    } catch (e) {
+      btn.disabled = false;
+      btn.innerHTML = origText;
     }
   });
 
@@ -2543,17 +2601,17 @@
     setChecked('sec-contact', v.contact);
   }
 
-  document.getElementById('save-sections-btn')?.addEventListener('click', async () => {
+  async function saveSectionsVisibility() {
     const payload = {
-      hero: document.getElementById('sec-hero').checked,
-      marquee: document.getElementById('sec-marquee').checked,
-      about: document.getElementById('sec-about').checked,
-      skills: document.getElementById('sec-skills').checked,
-      experience: document.getElementById('sec-experience').checked,
-      projects: document.getElementById('sec-projects').checked,
-      certs: document.getElementById('sec-certs').checked,
-      achievements: document.getElementById('sec-achievements').checked,
-      contact: document.getElementById('sec-contact').checked
+      hero: document.getElementById('sec-hero')?.checked ?? true,
+      marquee: document.getElementById('sec-marquee')?.checked ?? true,
+      about: document.getElementById('sec-about')?.checked ?? true,
+      skills: document.getElementById('sec-skills')?.checked ?? true,
+      experience: document.getElementById('sec-experience')?.checked ?? true,
+      projects: document.getElementById('sec-projects')?.checked ?? true,
+      certs: document.getElementById('sec-certs')?.checked ?? true,
+      achievements: document.getElementById('sec-achievements')?.checked ?? true,
+      contact: document.getElementById('sec-contact')?.checked ?? true
     };
 
     try {
@@ -2565,12 +2623,35 @@
       const json = await res.json();
       if (res.ok && json.success) {
         showToast('✓ Public section visibility updated in draft!', 'success');
-        loadDashboard();
+        if (currentDraftProfile) currentDraftProfile.sectionVisibility = payload;
+        await loadDashboard();
+        return true;
       } else {
         showToast('Error: ' + json.message, 'error');
+        throw new Error(json.message || 'Failed to save section visibility');
       }
     } catch (e) {
-      showToast('Connection error saving section visibility', 'error');
+      showToast('Connection error saving section visibility: ' + (e.message || 'Network error'), 'error');
+      throw e;
+    }
+  }
+
+  document.getElementById('save-sections-btn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('save-sections-btn');
+    if (!btn) return;
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Saving Visibility...';
+    try {
+      await saveSectionsVisibility();
+      btn.innerHTML = '✓ Saved to Draft!';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }, 2000);
+    } catch (e) {
+      btn.disabled = false;
+      btn.innerHTML = origText;
     }
   });
 
@@ -2585,11 +2666,11 @@
     if (location) location.value = p.footer?.locationText || (p.contact?.location ? `📍 ${p.contact.location}` : '');
   }
 
-  document.getElementById('save-contact-btn')?.addEventListener('click', async () => {
+  async function saveContactFooter() {
     const payload = {
       footer: {
-        copyrightText: document.getElementById('footer-copyright-text').value.trim(),
-        locationText: document.getElementById('footer-location-text').value.trim()
+        copyrightText: document.getElementById('footer-copyright-text')?.value?.trim() || '',
+        locationText: document.getElementById('footer-location-text')?.value?.trim() || ''
       }
     };
 
@@ -2602,12 +2683,35 @@
       const json = await res.json();
       if (res.ok && json.success) {
         showToast('✓ Footer configuration saved to draft!', 'success');
-        loadDashboard();
+        if (currentDraftProfile) currentDraftProfile.footer = payload.footer;
+        await loadDashboard();
+        return true;
       } else {
         showToast('Error: ' + json.message, 'error');
+        throw new Error(json.message || 'Failed to save footer');
       }
     } catch (e) {
-      showToast('Connection error saving footer', 'error');
+      showToast('Connection error saving footer: ' + (e.message || 'Network error'), 'error');
+      throw e;
+    }
+  }
+
+  document.getElementById('save-contact-btn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('save-contact-btn');
+    if (!btn) return;
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Saving Footer...';
+    try {
+      await saveContactFooter();
+      btn.innerHTML = '✓ Saved to Draft!';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }, 2000);
+    } catch (e) {
+      btn.disabled = false;
+      btn.innerHTML = origText;
     }
   });
 
@@ -2658,15 +2762,15 @@
     }
   }
 
-  document.getElementById('save-seo-btn')?.addEventListener('click', async () => {
+  async function saveSeoSettings() {
     const payload = {
-      pageTitle: document.getElementById('seo-page-title').value.trim(),
+      pageTitle: document.getElementById('seo-page-title')?.value?.trim() || '',
       seo: {
-        description: document.getElementById('seo-meta-desc').value.trim(),
-        keywords: document.getElementById('seo-meta-keywords').value.trim(),
-        canonicalUrl: document.getElementById('seo-canonical-url').value.trim(),
-        googleSiteVerification: document.getElementById('seo-google-token').value.trim(),
-        ogImage: document.getElementById('seo-og-image').value.trim()
+        description: document.getElementById('seo-meta-desc')?.value?.trim() || '',
+        keywords: document.getElementById('seo-meta-keywords')?.value?.trim() || '',
+        canonicalUrl: document.getElementById('seo-canonical-url')?.value?.trim() || '',
+        googleSiteVerification: document.getElementById('seo-google-token')?.value?.trim() || '',
+        ogImage: document.getElementById('seo-og-image')?.value?.trim() || ''
       }
     };
 
@@ -2679,12 +2783,38 @@
       const json = await res.json();
       if (res.ok && json.success) {
         showToast('✓ SEO parameters and structured data saved to draft!', 'success');
-        loadDashboard();
+        if (currentDraftProfile) {
+          currentDraftProfile.seo = payload.seo;
+          currentDraftProfile.pageTitle = payload.pageTitle;
+        }
+        await loadDashboard();
+        return true;
       } else {
         showToast('Error: ' + json.message, 'error');
+        throw new Error(json.message || 'Failed to save SEO');
       }
     } catch (e) {
-      showToast('Connection error saving SEO', 'error');
+      showToast('Connection error saving SEO: ' + (e.message || 'Network error'), 'error');
+      throw e;
+    }
+  }
+
+  document.getElementById('save-seo-btn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('save-seo-btn');
+    if (!btn) return;
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Saving SEO...';
+    try {
+      await saveSeoSettings();
+      btn.innerHTML = '✓ Saved to Draft!';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }, 2000);
+    } catch (e) {
+      btn.disabled = false;
+      btn.innerHTML = origText;
     }
   });
 
@@ -3014,10 +3144,26 @@
   }
 
   async function loadHistory() {
+    const snapContainer = document.getElementById('snapshots-list');
     try {
-      const res = await fetch('/api/admin/history');
+      // Always bust cache so real-time snapshots are fetched instantly
+      const res = await fetch(`/api/admin/history?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' }
+      });
       const json = await res.json();
-      if (!res.ok || !json.success) return;
+      if (!res.ok || !json.success) {
+        if (snapContainer) {
+          snapContainer.innerHTML = `
+            <div style="padding:1.5rem;text-align:center;color:var(--text-muted);">
+              ⚠️ Unable to fetch snapshots (${escapeHtml(json?.message || res.statusText || 'Server error')}).
+              <div style="margin-top:0.75rem;">
+                <button type="button" class="btn-secondary" style="font-size:0.75rem;padding:0.3rem 0.8rem;" onclick="loadHistory()">🔄 Retry Fetch</button>
+              </div>
+            </div>`;
+        }
+        return;
+      }
 
       const { history, snapshots } = json.data;
       _cachedAuditHistory = history || [];
@@ -3028,24 +3174,32 @@
         countBadge.textContent = `${(snapshots || []).length} Snapshots`;
       }
 
-      const snapContainer = document.getElementById('snapshots-list');
       if (!snapshots || snapshots.length === 0) {
-        snapContainer.innerHTML = '<div class="text-muted" style="padding:1.5rem;text-align:center;">No snapshots recorded yet. Click "📸 Take Instant Snapshot" above to create one now.</div>';
-      } else {
+        if (snapContainer) {
+          snapContainer.innerHTML = '<div class="text-muted" style="padding:1.5rem;text-align:center;">No snapshots recorded yet. Click "📸 Take Instant Snapshot" above to create one now.</div>';
+        }
+      } else if (snapContainer) {
         // Group by Month (e.g. "October 2026") and Day (e.g. "Wednesday, October 7, 2026")
         const monthGroups = {};
 
         snapshots.forEach(s => {
-          const d = new Date(s.createdAt);
+          let d = new Date(s.createdAt);
+          if (isNaN(d.getTime())) {
+            const match = (s.filename || '').match(/snapshot_(\d+)\.json/);
+            if (match) {
+              d = new Date(parseInt(match[1], 10));
+            }
+          }
+
           const monthKey = !isNaN(d.getTime())
             ? d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-            : 'Unknown Date';
+            : 'Recent Snapshots';
           const dayKey = !isNaN(d.getTime())
             ? d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
-            : 'Unknown Date';
+            : 'Recorded Today';
           const dayShort = !isNaN(d.getTime())
             ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-            : 'Day';
+            : 'Today';
 
           if (!monthGroups[monthKey]) {
             monthGroups[monthKey] = {
@@ -3072,9 +3226,13 @@
             const filenamesJson = JSON.stringify(day.snapshots.map(s => s.filename)).replace(/"/g, '&quot;');
 
             const cardsHtml = day.snapshots.map(s => {
-              const d = new Date(s.createdAt);
+              let d = new Date(s.createdAt);
+              if (isNaN(d.getTime())) {
+                const match = (s.filename || '').match(/snapshot_(\d+)\.json/);
+                if (match) d = new Date(parseInt(match[1], 10));
+              }
               const timeStr = !isNaN(d.getTime())
-                ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
                 : '';
 
               return `
@@ -3135,6 +3293,15 @@
       renderAuditHistoryTable(_cachedAuditHistory);
     } catch (e) {
       console.error('Error loading history:', e);
+      if (snapContainer) {
+        snapContainer.innerHTML = `
+          <div style="padding:1.5rem;text-align:center;color:var(--text-muted);">
+            ⚠️ Error communicating with server.
+            <div style="margin-top:0.75rem;">
+              <button type="button" class="btn-secondary" style="font-size:0.75rem;padding:0.3rem 0.8rem;" onclick="loadHistory()">🔄 Retry Fetch</button>
+            </div>
+          </div>`;
+      }
     }
   }
 
@@ -3159,11 +3326,15 @@
     btn.innerHTML = '<span>⏳</span> Creating Snapshot...';
 
     try {
-      const res = await fetch('/api/admin/history/snapshots', { method: 'POST' });
+      const res = await fetch('/api/admin/history/snapshots', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
       const json = await res.json();
       if (res.ok && json.success) {
         showToast(`✓ Instant snapshot "${json.data?.filename}" created successfully!`, 'success');
         await loadHistory();
+        await loadDashboard();
       } else {
         showToast('Failed to create snapshot: ' + (json.message || ''), 'error');
       }
@@ -3177,8 +3348,11 @@
 
   // Refresh history button
   document.getElementById('btn-refresh-history')?.addEventListener('click', async () => {
+    const btn = document.getElementById('btn-refresh-history');
+    if (btn) btn.innerHTML = '⏳ Refreshing...';
     await loadHistory();
-    showToast('✓ History & snapshots refreshed', 'info');
+    if (btn) btn.innerHTML = '🔄 Refresh';
+    showToast('✓ History & snapshots refreshed from live state', 'info');
   });
 
   // Export audit log as CSV
@@ -3237,17 +3411,40 @@
       return;
     }
 
+    const btn = document.getElementById('quick-publish-btn');
+    const origHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-sm"></span> Publishing Live...';
+    }
+
     try {
       const res = await fetch('/api/profile/publish', { method: 'POST' });
       const json = await res.json();
       if (res.ok && json.success) {
         showToast('🚀 Live portfolio updated and synchronized successfully!', 'success');
-        loadDashboard();
+        await loadDashboard();
+        await loadHistory();
+        if (btn) {
+          btn.innerHTML = '✓ Published Live!';
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = origHtml;
+          }, 3000);
+        }
       } else {
-        showToast('Publish failed: ' + json.message, 'error');
+        showToast('Publish failed: ' + (json.message || 'Error occurred'), 'error');
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
       }
     } catch (e) {
-      showToast('Connection error while publishing', 'error');
+      showToast('Connection error while publishing: ' + (e.message || 'Network error'), 'error');
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+      }
     }
   });
 
@@ -5425,7 +5622,7 @@
   }
 
   // Telemetry save
-  document.getElementById('btn-save-telemetry-stats')?.addEventListener('click', async () => {
+  async function saveTelemetryStats() {
     const stats = {
       problemsSolved: document.getElementById('telemetry-edit-problems')?.value || '',
       activeProfiles: document.getElementById('telemetry-edit-profiles')?.value || '',
@@ -5440,12 +5637,36 @@
       });
       const json = await res.json();
       if (res.ok && json.success) {
-        showToast('Telemetry stats saved successfully', 'success');
+        showToast('✓ Telemetry stats saved successfully!', 'success');
+        if (currentDraftProfile) currentDraftProfile.telemetry = stats;
+        await loadDashboard();
+        return true;
       } else {
         showToast('Failed to save telemetry: ' + (json.message || ''), 'error');
+        throw new Error(json.message || 'Failed to save telemetry');
       }
     } catch (e) {
-      showToast('Connection error saving telemetry', 'error');
+      showToast('Connection error saving telemetry: ' + (e.message || 'Network error'), 'error');
+      throw e;
+    }
+  }
+
+  document.getElementById('btn-save-telemetry-stats')?.addEventListener('click', async () => {
+    const btn = document.getElementById('btn-save-telemetry-stats');
+    if (!btn) return;
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Saving Stats...';
+    try {
+      await saveTelemetryStats();
+      btn.innerHTML = '✓ Saved!';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }, 2000);
+    } catch (e) {
+      btn.disabled = false;
+      btn.innerHTML = origText;
     }
   });
 
@@ -5716,6 +5937,28 @@
         } catch (e) {
           showToast('Connection error deleting snapshot', 'error');
         }
+      },
+      rollbackSnapshot: async (snapshotName) => {
+        if (!confirm(`Are you sure you want to rollback to snapshot "${snapshotName}"? This will restore portfolio data to this state.`)) return;
+        try {
+          const res = await fetch('/api/profile/rollback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ snapshotName })
+          });
+          const json = await res.json();
+          if (res.ok && json.success) {
+            showToast(`✓ Successfully rolled back to ${snapshotName}!`, 'success');
+            const modal = document.getElementById('modal-view-snapshot');
+            if (modal) modal.style.display = 'none';
+            await loadDashboard();
+            await loadHistory();
+          } else {
+            showToast('Rollback failed: ' + (json.message || 'Error occurred'), 'error');
+          }
+        } catch (e) {
+          showToast('Connection error during rollback', 'error');
+        }
       }
     });
   } else {
@@ -5735,6 +5978,28 @@
         }
       } catch (e) {
         showToast('Connection error deleting snapshot', 'error');
+      }
+    };
+    window.adminActions.rollbackSnapshot = async (snapshotName) => {
+      if (!confirm(`Are you sure you want to rollback to snapshot "${snapshotName}"? This will restore portfolio data to this state.`)) return;
+      try {
+        const res = await fetch('/api/profile/rollback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ snapshotName })
+        });
+        const json = await res.json();
+        if (res.ok && json.success) {
+          showToast(`✓ Successfully rolled back to ${snapshotName}!`, 'success');
+          const modal = document.getElementById('modal-view-snapshot');
+          if (modal) modal.style.display = 'none';
+          await loadDashboard();
+          await loadHistory();
+        } else {
+          showToast('Rollback failed: ' + (json.message || 'Error occurred'), 'error');
+        }
+      } catch (e) {
+        showToast('Connection error during rollback', 'error');
       }
     };
   }
@@ -5948,56 +6213,69 @@
     extractCandidateIdFromOfferLetter(fileInput.files[0]);
   });
 
+  // Universal Draft Section Saver
+  async function saveSectionDraft(sectionKey, data, label) {
+    const res = await fetch('/api/profile/draft', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ [sectionKey]: data })
+    });
+    const json = await res.json();
+    if (res.ok && json.success) {
+      showToast(`✓ ${label || sectionKey} saved to draft!`, 'success');
+      if (json.data) {
+        currentDraftProfile = json.data;
+      } else if (currentDraftProfile) {
+        currentDraftProfile[sectionKey] = data;
+      }
+      await loadDashboard();
+      return true;
+    } else {
+      throw new Error(json.message || `Failed to save ${sectionKey}`);
+    }
+  }
+
   // ─── Content CMS Sidebar Save Buttons ───
   function initSidebarSaveButtons() {
     const tabSaveMap = {
       'tab-profile': async () => {
-        const form = document.getElementById('form-profile-hero');
-        if (form) form.requestSubmit();
-        else showToast('✓ Profile & Hero saved to draft', 'success');
+        await saveProfileHero();
       },
       'tab-about': async () => {
-        const btn = document.getElementById('save-about-btn');
-        if (btn) btn.click();
-        else showToast('✓ About section saved to draft', 'success');
+        await saveAboutSection();
       },
       'tab-skills': async () => {
-        showToast('✓ Skills & categories saved and confirmed!', 'success');
+        await saveSectionDraft('skills', currentDraftProfile?.skills || [], 'Skills & categories');
       },
       'tab-experience': async () => {
-        showToast('✓ Experience & internships saved and confirmed!', 'success');
+        await saveSectionDraft('experience', currentDraftProfile?.experience || [], 'Experience & internships');
       },
       'tab-projects': async () => {
-        showToast('✓ Projects CMS saved and confirmed!', 'success');
+        await saveSectionDraft('projects', currentDraftProfile?.projects || [], 'Projects CMS');
       },
       'tab-education': async () => {
-        showToast('✓ Education milestones saved and confirmed!', 'success');
+        await saveSectionDraft('education', currentDraftProfile?.education || [], 'Education milestones');
       },
       'tab-certs': async () => {
-        showToast('✓ Certifications saved and confirmed!', 'success');
+        await saveSectionDraft('certifications', currentDraftProfile?.certifications || [], 'Certifications');
       },
       'tab-achievements': async () => {
-        showToast('✓ Achievements saved and confirmed!', 'success');
+        await saveSectionDraft('achievements', currentDraftProfile?.achievements || [], 'Achievements & hackathons');
       },
       'tab-coding-profiles': async () => {
-        const btn = document.getElementById('btn-save-telemetry-stats');
-        if (btn) btn.click();
-        else showToast('✓ Competitive profiles & telemetry saved!', 'success');
+        await saveTelemetryStats();
+        if (currentDraftProfile?.codingProfiles) {
+          await saveSectionDraft('codingProfiles', currentDraftProfile.codingProfiles, 'Coding profiles');
+        }
       },
       'tab-sections': async () => {
-        const btn = document.getElementById('save-sections-btn');
-        if (btn) btn.click();
-        else showToast('✓ Section visibility saved to draft', 'success');
+        await saveSectionsVisibility();
       },
       'tab-contact': async () => {
-        const btn = document.getElementById('save-contact-btn');
-        if (btn) btn.click();
-        else showToast('✓ Contact & footer saved to draft', 'success');
+        await saveContactFooter();
       },
       'tab-seo': async () => {
-        const btn = document.getElementById('save-seo-btn');
-        if (btn) btn.click();
-        else showToast('✓ SEO & meta settings saved to draft', 'success');
+        await saveSeoSettings();
       }
     };
 

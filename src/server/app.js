@@ -43,6 +43,14 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
+// Zero-Cache policy for all API endpoints to guarantee instant updates
+app.use('/api', (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
+
 // ─── AUTHENTICATION ROUTES ───────────────────────────────────────────────────
 app.post('/api/auth/login', authController.login);
 app.post('/api/auth/logout', authController.logout);

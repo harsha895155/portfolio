@@ -106,6 +106,9 @@ const adminController = {
 
   getAuditHistory: (req, res) => {
     try {
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
       const limit = parseInt(req.query.limit || '50', 10);
       const history = historyService.getAuditLog(limit);
       const snapshots = historyService.getSnapshots();
@@ -118,6 +121,9 @@ const adminController = {
 
   getSnapshot: (req, res) => {
     try {
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
       const { filename } = req.params;
       const data = historyService.getSnapshotContent(filename);
       if (!data) {
@@ -132,6 +138,9 @@ const adminController = {
 
   createSnapshot: (req, res) => {
     try {
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
       const snapshotName = db.createBackupSnapshot();
       db.addHistory({
         field: 'manual_snapshot',

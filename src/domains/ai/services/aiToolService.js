@@ -102,6 +102,7 @@ class AIToolService {
       throw new Error('Valid source media file path is required');
     }
     const ext = path.extname(sourcePath) || (originalName ? path.extname(originalName) : '.jpg');
+    const safeName = `media_${Date.now()}_${Math.random().toString(36).substring(2, 6)}${ext}`;
     cmsService.ensureMediaDir();
     const targetDir = cmsService.mediaDir;
 

@@ -52,16 +52,34 @@ class Database {
       const requiredCollections = [
         'admin', 'published', 'draft', 'pendingChanges', 'documents',
         'history', 'settings', 'aiConversations', 'aiChangeSets', 'aiAudits', 'contentVersions',
-        'verifiedRecords', 'verificationAuditLogs'
+        'verifiedRecords', 'verificationAuditLogs', 'snapshots', 'deletedSnapshots'
       ];
       let updated = false;
       for (const col of requiredCollections) {
         if (!this.data[col]) {
-          const isArray = ['pendingChanges', 'documents', 'history', 'aiConversations', 'aiChangeSets', 'aiAudits', 'contentVersions', 'verifiedRecords', 'verificationAuditLogs'].includes(col);
+          const isArray = ['pendingChanges', 'documents', 'history', 'aiConversations', 'aiChangeSets', 'aiAudits', 'contentVersions', 'verifiedRecords', 'verificationAuditLogs', 'snapshots', 'deletedSnapshots'].includes(col);
           this.data[col] = isArray ? [] : {};
           updated = true;
         }
       }
+
+      // Seed snapshots directory if in serverless environment
+      if (this.historyDir !== config.paths.historyDir && fs.existsSync(config.paths.historyDir)) {
+        try {
+          const sourceFiles = fs.readdirSync(config.paths.historyDir);
+          for (const file of sourceFiles) {
+            if (file.startsWith('snapshot_') && file.endsWith('.json')) {
+              const destPath = path.join(this.historyDir, file);
+              if (!fs.existsSync(destPath)) {
+                fs.copyFileSync(path.join(config.paths.historyDir, file), destPath);
+              }
+            }
+          }
+        } catch (copyErr) {
+          logger.warn('Could not copy bundled snapshots to serverless tmp dir:', copyErr.message);
+        }
+      }
+
       if (updated) this.save();
 
       logger.info('Database initialized successfully');
@@ -289,10 +307,32 @@ class Database {
     try {
       const snapshotName = `snapshot_${Date.now()}.json`;
       const snapshotPath = path.join(this.historyDir, snapshotName);
-      fs.writeFileSync(snapshotPath, JSON.stringify(this.data.published, null, 2), 'utf-8');
+      const snapshotData = JSON.parse(JSON.stringify(this.data.published || {}));
+
+      // Write to disk in historyDir if possible
+      try {
+        fs.writeFileSync(snapshotPath, JSON.stringify(snapshotData, null, 2), 'utf-8');
+      } catch (writeErr) {
+        logger.warn('Could not write backup snapshot to disk (' + writeErr.message + '), saving in database memory');
+      }
+
+      // Also persist in database snapshots collection for instant, reliable real-time access
+      if (!this.data.snapshots) this.data.snapshots = [];
+      const record = {
+        filename: snapshotName,
+        createdAt: new Date().toISOString(),
+        sizeBytes: Buffer.byteLength(JSON.stringify(snapshotData)),
+        data: snapshotData
+      };
+      this.data.snapshots.unshift(record);
+      if (this.data.snapshots.length > 80) {
+        this.data.snapshots = this.data.snapshots.slice(0, 80);
+      }
+      this.save();
+
       return snapshotName;
     } catch (e) {
-      logger.warn('Could not write backup snapshot to disk:', e.message);
+      logger.warn('Could not complete backup snapshot:', e.message);
       return `snapshot_mem_${Date.now()}.json`;
     }
   }
