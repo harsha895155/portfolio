@@ -131,6 +131,12 @@ class Database {
 
       if (data && data.data && typeof data.data === 'object' && Object.keys(data.data).length > 0) {
         this.data = data.data;
+        if (!Array.isArray(this.data.deletedSnapshots)) {
+          this.data.deletedSnapshots = [];
+        }
+        if (!Array.isArray(this.data.snapshots)) {
+          this.data.snapshots = [];
+        }
         try {
           fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8');
         } catch (_) {}

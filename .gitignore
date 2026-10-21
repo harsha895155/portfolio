@@ -14,6 +14,10 @@ yarn-error.log*
 storage/private_documents/*
 !storage/private_documents/.gitkeep
 
+# Dynamic backup snapshots (runtime generated)
+data/history/*.json
+!data/history/.gitkeep
+
 # System & IDE files
 .DS_Store
 Thumbs.db
@@ -22,4 +26,5 @@ Thumbs.db
 scratch/
 scratch_edge_profile/
 *.tmp
+
 

@@ -1,7 +1,7 @@
 /**
  * PORTFOLIO PROFILE -- SINGLE SOURCE OF TRUTH
  * Automatically synchronized by the Private Portfolio Management System.
- * Last Published: 2026-10-21T18:28:29.174Z
+ * Last Published: 2026-10-21T18:29:27.968Z
  */
 
 const PROFILE = {
@@ -23,7 +23,7 @@ const PROFILE = {
     "I have earned two <span class=\"hl\">Grade-O (Outstanding, top 10%)</span> evaluations in structured virtual internships: an 8-week program in <span class=\"hl\">AWS Generative AI</span> (AICTE-EduSkills, Cert ID: 4c27968d147486a8bce1) covering SageMaker and LLM prompt engineering, and a 10-week (120-hour) <span class=\"hl\">Python Full Stack Developer</span> program (EduSkills &amp; APSCHE, Cert No: OGQTWAOCD2OR). Additionally, I hold an <span class=\"hl\">Elite NPTEL Certification in Natural Language Processing</span> from IIT Kharagpur (60%) and standardized Spoken Tutorial certifications from IIT Bombay in Java (85%) and PostgreSQL (90%).",
     "I am seeking a Software Engineering internship or entry-level software development role. Feel free to <a href=\"#contact\" class=\"hl\" style=\"text-decoration:underline\">reach out to discuss opportunities</a>."
   ],
-  "avatar": "/media/media_1792601399312_mmhb.jpg",
+  "avatar": "/media/media_1792607357723_vbiq.jpg",
   "footer": {
     "locationText": "📍 Nellore, Andhra Pradesh, India",
     "copyrightText": "© 2026 Harshavardhan Reddy. All rights reserved."
@@ -477,99 +477,13 @@ const PROFILE = {
   },
   "experience": [
     {
-      "id": "exp-mutvhxjc",
-      "role": "Web Development Intern",
-      "company": "AWS Academy / EduSkills",
-      "current": false,
-      "endDate": "",
-      "location": "Remote",
-      "startDate": "Sep 2026",
-      "companyUrl": "",
-      "employmentType": "Internship",
-      "responsibilities": [
-        "Performance-evaluated professional deliverables and technical tasks."
-      ]
-    },
-    {
-      "id": "aws-genai",
       "role": "AWS Gen AI Virtual Intern",
-      "company": "AICTE - EduSkills Virtual Internship Program · AWS Academy Curriculum",
-      "current": false,
-      "endDate": "Jun 2026",
-      "location": "Remote",
+      "company": "AICTE - EduSkills",
+      "candidateId": "STU67a3881a20bc81738770458",
+      "verified": true,
+      "verificationStatus": "VERIFIED",
       "startDate": "Apr 2026",
-      "companyUrl": "",
-      "employmentType": "Virtual Internship",
-      "responsibilities": [
-        "Selected for the competitive 8-week virtual internship in the AWS Generative AI track.",
-        "Completed structured modules covering Machine Learning foundations with Amazon SageMaker, Natural Language Processing, and Generative AI prompt engineering.",
-        "Scored in the top 10% of all participants (score band 90-100 out of 100), achieving a <span class=\"badge\">Grade-O (Outstanding)</span> evaluation across weekly assessments, practical submissions, and final testing.",
-        "<strong>Official Verification:</strong> Certificate ID: <span class=\"badge\">4c27968d147486a8bce1</span> · Student ID: <span class=\"badge\">STU67a3881a20bc81738770458</span>.",
-        "Gained practical exposure to Foundation Models, responsible AI practices, governance, and cloud security architectures."
-      ]
-    },
-    {
-      "id": "python-fullstack",
-      "role": "Python Full Stack Developer Virtual Intern",
-      "company": "EduSkills & Andhra Pradesh State Council of Higher Education (APSCHE) · AICTE Portal",
-      "current": false,
-      "endDate": "Mar 2026",
-      "location": "Remote",
-      "startDate": "Jan 2026",
-      "companyUrl": "",
-      "employmentType": "Virtual Internship",
-      "responsibilities": [
-        "Completed an intensive 10-week, 120-hour program covering the full software development life cycle (SDLC).",
-        "Developed backend business layers using Python, Django, and SQL paired with HTML5, CSS3, and JavaScript frontends.",
-        "Employed Git version control and modern database modeling patterns across all course deliverables.",
-        "Scored in the top 10% of all participants, securing a <span class=\"badge\">Grade-O (Outstanding)</span> evaluation for all project deliverables and testing modules.",
-        "<strong>Official Verification:</strong> Certificate No: <span class=\"badge\">OGQTWAOCD2OR</span> · 120 Hours Short-Term Internship (APSCHE &amp; JNTU Anantapur)."
-      ]
-    },
-    {
-      "id": "amdox-web",
-      "role": "Web Development Intern",
-      "company": "Amdox Technologies · Remote",
-      "current": false,
-      "endDate": "Feb 2026",
-      "location": "Remote",
-      "startDate": "Dec 2025",
-      "companyUrl": "",
-      "employmentType": "Internship",
-      "responsibilities": [
-        "Selected for web development internship with remote working structure and performance-based evaluation.",
-        "Worked on responsive web interface implementations, cross-browser compatibility testing, and client-side logic."
-      ]
-    },
-    {
-      "id": "java-iitb",
-      "role": "Java Training & National Certification",
-      "company": "IIT Bombay Spoken Tutorial (EduPyramids, SINE)",
-      "current": false,
-      "endDate": "",
-      "location": "Remote",
-      "startDate": "March 2026",
-      "companyUrl": "",
-      "employmentType": "Training Program",
-      "responsibilities": [
-        "Mastered OOP principles, class hierarchies, polymorphism, interfaces, exception handling, and core Java APIs.",
-        "Cleared the national standardized remote exam with an honors score of <span class=\"badge\">85.00%</span> (4 Academic Credits)."
-      ]
-    },
-    {
-      "id": "postgres-iitb",
-      "role": "RDBMS PostgreSQL Training & Certification",
-      "company": "IIT Bombay Spoken Tutorial (EduPyramids, SINE)",
-      "current": false,
-      "endDate": "",
-      "location": "Remote",
-      "startDate": "December 2025",
-      "companyUrl": "",
-      "employmentType": "Training Program",
-      "responsibilities": [
-        "Acquired deep proficiency in relational schema design, query optimization, indexing, stored constraints, and ACID transactions.",
-        "Secured an outstanding consolidated assessment score of <span class=\"badge\">90.00%</span> in the national remote exam (1 Academic Credit)."
-      ]
+      "endDate": "Jun 2026"
     }
   ],
   "socialLinks": {
@@ -662,137 +576,12 @@ const PROFILE = {
   "profileImage": "/media/harsha_profile.jpg",
   "certifications": [
     {
-      "id": "nptel-nlp",
-      "date": "Jan–Apr 2026",
-      "icon": "🏅",
-      "name": "Natural Language Processing — Elite",
-      "score": "60% · 4 Academic Credits",
+      "name": "Verified NPTEL NLP",
       "issuer": "NPTEL · IIT Kharagpur",
-      "bgClass": "bg-pattern-1",
       "credentialId": "NPTEL26CS45S1451500247",
-      "credentialUrl": "./NOC26CS45S145150024704536444.pdf"
-    },
-    {
-      "id": "aws-ml-nlp-badge",
-      "date": "May 2026 · 20 Hours",
-      "icon": "☁️",
-      "name": "AWS Academy ML for NLP — Training Badge",
-      "issuer": "AWS Academy",
-      "bgClass": "bg-pattern-2",
-      "credentialId": "credly.com/go/kCg7it0n",
-      "credentialUrl": "https://www.credly.com/go/kCg7it0n"
-    },
-    {
-      "id": "google-resp-ai",
-      "date": "Sep 2025",
-      "icon": "🤖",
-      "name": "Introduction to Responsible AI",
-      "issuer": "Google Cloud · Coursera",
-      "bgClass": "bg-pattern-4",
-      "credentialId": "coursera.org/verify/AS6TIAD3EVQN",
-      "credentialUrl": "./Coursera AS6TIAD3EVQN.pdf"
-    },
-    {
-      "id": "google-gen-ai",
-      "date": "Sep 2025",
-      "icon": "✨",
-      "name": "Introduction to Generative AI",
-      "issuer": "Google Cloud · Coursera",
-      "bgClass": "bg-pattern-5",
-      "credentialId": "coursera.org/verify/Q2TKBQ0LW3WE",
-      "credentialUrl": "./Coursera Q2TKBQ0LW3WE.pdf"
-    },
-    {
-      "id": "google-llm",
-      "date": "Sep 2025",
-      "icon": "💬",
-      "name": "Introduction to Large Language Models",
-      "issuer": "Google Cloud · Coursera",
-      "bgClass": "bg-pattern-3",
-      "credentialId": "coursera.org/verify/QT5BESYQBKGF",
-      "credentialUrl": "./Coursera QT5BESYQBKGF.pdf"
-    },
-    {
-      "id": "infosys-ml-python",
-      "date": "Dec 25, 2025",
-      "icon": "🐍",
-      "name": "Explore Machine Learning using Python",
-      "issuer": "Infosys Springboard",
-      "bgClass": "bg-pattern-2",
-      "credentialId": "verify.onwingspan.com",
-      "credentialUrl": "https://verify.onwingspan.com"
-    },
-    {
-      "id": "infosys-ai",
-      "date": "Dec 25, 2025",
-      "icon": "🧠",
-      "name": "Introduction to Artificial Intelligence",
-      "issuer": "Infosys Springboard",
-      "bgClass": "bg-pattern-1",
-      "credentialId": "verify.onwingspan.com",
-      "credentialUrl": "https://verify.onwingspan.com"
-    },
-    {
-      "id": "infosys-dl",
-      "date": "Dec 25, 2025",
-      "icon": "🔗",
-      "name": "Introduction to Deep Learning",
-      "issuer": "Infosys Springboard",
-      "bgClass": "bg-pattern-5",
-      "credentialId": "verify.onwingspan.com",
-      "credentialUrl": "https://verify.onwingspan.com"
-    },
-    {
-      "id": "infosys-nlp",
-      "date": "Dec 25, 2025",
-      "icon": "🌿",
-      "name": "Introduction to NLP",
-      "issuer": "Infosys Springboard",
-      "bgClass": "bg-pattern-4",
-      "credentialId": "verify.onwingspan.com",
-      "credentialUrl": "https://verify.onwingspan.com"
-    },
-    {
-      "id": "infosys-python",
-      "date": "Dec 23, 2025",
-      "icon": "📘",
-      "name": "Basics of Python",
-      "issuer": "Infosys Springboard",
-      "bgClass": "bg-pattern-3",
-      "credentialId": "verify.onwingspan.com",
-      "credentialUrl": "https://verify.onwingspan.com"
-    },
-    {
-      "id": "udemy-conflict",
-      "date": "Sep 17, 2025 · 2 Hours",
-      "icon": "🏆",
-      "name": "Conflict Resolution in Leadership",
-      "issuer": "Udemy",
-      "bgClass": "bg-pattern-1",
-      "credentialId": "UC-6611d901-33c5-4e6c-9184-2cabec503adf",
-      "credentialUrl": "./Conflict Resolution.pdf.pdf"
-    },
-    {
-      "id": "nptel-quantum",
-      "date": "Jan–Feb 2026",
-      "icon": "⚛️",
-      "name": "Intro to Quantum Computing & Qiskit",
-      "score": "47% · 1 Academic Credit",
-      "issuer": "NPTEL · IIT Madras",
-      "bgClass": "bg-pattern-2",
-      "credentialId": "260900053",
-      "credentialUrl": "./Introduction to Quantum Computing_ Quantum Algorithms and Qiskit (harsha).pdf"
-    },
-    {
-      "id": "natural-language-processing-el",
-      "date": "Apr 2026",
-      "icon": "📜",
-      "name": "Natural Language Processing Elite",
-      "score": "60%",
-      "issuer": "NPTEL - IIT Kharagpur / SWAYAM",
-      "bgClass": "bg-pattern-1",
-      "credentialId": "NPTEL26CS45S1451500247",
-      "credentialUrl": ""
+      "credentialUrl": "https://nptel.ac.in",
+      "verified": true,
+      "verificationStatus": "VERIFIED"
     }
   ],
   "codingProfiles": [

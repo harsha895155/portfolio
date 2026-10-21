@@ -157,10 +157,10 @@ const adminController = {
     }
   },
 
-  deleteSnapshot: (req, res) => {
+  deleteSnapshot: async (req, res) => {
     try {
       const { filename } = req.params;
-      const deleted = historyService.deleteSnapshot(filename);
+      const deleted = await historyService.deleteSnapshot(filename);
       if (!deleted) {
         return responseHelper.notFound(res, 'Snapshot not found');
       }
@@ -171,13 +171,13 @@ const adminController = {
     }
   },
 
-  batchDeleteSnapshots: (req, res) => {
+  batchDeleteSnapshots: async (req, res) => {
     try {
       const { filenames } = req.body;
       if (!Array.isArray(filenames) || filenames.length === 0) {
         return responseHelper.badRequest(res, 'Array of filenames is required');
       }
-      const result = historyService.deleteSnapshots(filenames);
+      const result = await historyService.deleteSnapshots(filenames);
       return responseHelper.success(res, result, `Successfully deleted ${result.count} snapshots`);
     } catch (err) {
       logger.error('Error batch deleting snapshots', err);

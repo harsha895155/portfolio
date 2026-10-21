@@ -44,6 +44,9 @@ class HistoryService {
           const files = fs.readdirSync(dir);
           for (const f of files) {
             if (!f.startsWith('snapshot_') || !f.endsWith('.json') || deleted.has(f)) {
+              if (deleted.has(f)) {
+                try { fs.unlinkSync(path.join(dir, f)); } catch (_) {}
+              }
               continue;
             }
             if (snapshotMap.has(f)) continue;
@@ -142,9 +145,9 @@ class HistoryService {
   }
 
   /**
-   * Deletes a snapshot from disk and database records.
+   * Deletes a snapshot from disk and database records with guaranteed cloud persistence.
    */
-  deleteSnapshot(filename) {
+  async deleteSnapshot(filename) {
     try {
       const safeName = path.basename(filename);
       if (!safeName.startsWith('snapshot_') || !safeName.endsWith('.json')) {
@@ -152,19 +155,15 @@ class HistoryService {
       }
 
       // 1. Track in deletedSnapshots database collection
-      const deletedList = db.get('deletedSnapshots') || [];
+      const deletedList = Array.isArray(db.get('deletedSnapshots')) ? [...db.get('deletedSnapshots')] : [];
       if (!deletedList.includes(safeName)) {
         deletedList.push(safeName);
-        db.set('deletedSnapshots', deletedList);
+        db.data.deletedSnapshots = deletedList;
       }
 
       // 2. Remove from database snapshots collection if present
-      const dbSnapshots = db.get('snapshots') || [];
-      const filteredSnapshots = dbSnapshots.filter(s => s.filename !== safeName);
-      if (filteredSnapshots.length !== dbSnapshots.length) {
-        db.set('snapshots', filteredSnapshots);
-      }
-      db.save();
+      const dbSnapshots = Array.isArray(db.get('snapshots')) ? db.get('snapshots') : [];
+      db.data.snapshots = dbSnapshots.filter(s => s.filename !== safeName);
 
       // 3. Try physical unlink on all candidate history directories
       for (const dir of this.getHistoryDirs()) {
@@ -178,6 +177,13 @@ class HistoryService {
         }
       }
 
+      // 4. Save and await cloud synchronization to Supabase
+      db.save();
+      if (db.supabase) {
+        await db.pushToSupabase();
+      }
+
+      logger.info(`Snapshot ${safeName} permanently deleted from disk and cloud database`);
       return true;
     } catch (err) {
       logger.error('Error deleting snapshot file', err);
@@ -185,21 +191,47 @@ class HistoryService {
     }
   }
 
-  deleteSnapshots(filenames) {
+  async deleteSnapshots(filenames) {
     if (!Array.isArray(filenames) || filenames.length === 0) {
       return { success: true, count: 0 };
     }
     let count = 0;
     const errors = [];
+    const deletedList = Array.isArray(db.get('deletedSnapshots')) ? [...db.get('deletedSnapshots')] : [];
+    let dbSnapshots = Array.isArray(db.get('snapshots')) ? db.get('snapshots') : [];
+
     for (const filename of filenames) {
       try {
-        if (this.deleteSnapshot(filename)) {
-          count++;
+        const safeName = path.basename(filename);
+        if (!safeName.startsWith('snapshot_') || !safeName.endsWith('.json')) continue;
+
+        if (!deletedList.includes(safeName)) {
+          deletedList.push(safeName);
         }
+        dbSnapshots = dbSnapshots.filter(s => s.filename !== safeName);
+
+        for (const dir of this.getHistoryDirs()) {
+          try {
+            const fullPath = path.join(dir, safeName);
+            if (fs.existsSync(fullPath)) {
+              fs.unlinkSync(fullPath);
+            }
+          } catch (e) {}
+        }
+        count++;
       } catch (err) {
         errors.push({ filename, error: err.message });
       }
     }
+
+    db.data.deletedSnapshots = deletedList;
+    db.data.snapshots = dbSnapshots;
+    db.save();
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
+
+    logger.info(`Batch deleted ${count} snapshots with guaranteed cloud persistence`);
     return { success: true, count, errors };
   }
 }
