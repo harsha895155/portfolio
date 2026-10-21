@@ -33,10 +33,10 @@ class CmsService {
   }
 
   /* ── Helper: Save Draft & Log History ── */
-  saveDraftAndLog(field, oldValue, newValue, actionDescription, approvedBy = 'admin') {
+  async saveDraftAndLog(field, oldValue, newValue, actionDescription, approvedBy = 'admin') {
     // 1. Save strictly to draft state — changes only go live on main website when "Publish Live" is clicked
     const draft = db.get('draft') || {};
-    db.set('draft', draft);
+    db.data.draft = draft;
     db.save();
 
     db.addHistory({
@@ -47,11 +47,15 @@ class CmsService {
       status: 'Saved to Draft',
       approvedBy
     });
+
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
     logger.info(`[CMS] ${actionDescription} by ${approvedBy} (saved to draft)`);
   }
 
   /* ── 1. Profile & Hero ── */
-  updateProfileHero(data, approvedBy = 'admin') {
+  async updateProfileHero(data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     const oldName = draft.name;
 
@@ -109,13 +113,13 @@ class CmsService {
       if (data.footer.locationText !== undefined) draft.footer.locationText = String(data.footer.locationText).trim();
     }
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('profile_hero', oldName, draft.name, 'Updated Profile & Hero details', approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('profile_hero', oldName, draft.name, 'Updated Profile & Hero details', approvedBy);
     return draft;
   }
 
   /* ── 2. About Section ── */
-  updateAbout(data, approvedBy = 'admin') {
+  async updateAbout(data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     if (Array.isArray(data.about)) {
       draft.about = data.about.map(p => typeof p === 'string' ? p.trim() : p);
@@ -123,8 +127,8 @@ class CmsService {
     if (data.careerObjective !== undefined) draft.careerObjective = data.careerObjective.trim();
     if (data.aboutImage !== undefined) draft.aboutImage = data.aboutImage.trim();
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('about_section', 'Prior About', `${draft.about.length} paragraphs`, 'Updated About Section', approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('about_section', 'Prior About', `${draft.about.length} paragraphs`, 'Updated About Section', approvedBy);
     return draft.about;
   }
 
@@ -134,7 +138,7 @@ class CmsService {
     return draft.skills || [];
   }
 
-  addSkill({ category, name, skill, proficiency, icon }, approvedBy = 'admin') {
+  async addSkill({ category, name, skill, proficiency, icon }, approvedBy = 'admin') {
     const skillName = (name || skill || '').trim();
     if (!skillName) throw new Error('Skill name is required');
     if (!category || !category.trim()) throw new Error('Skill category is required');
@@ -166,12 +170,12 @@ class CmsService {
       }
     }
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('skill_add', 'None', `${catName}: ${skillName}`, `Added skill "${skillName}" to ${catName}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('skill_add', 'None', `${catName}: ${skillName}`, `Added skill "${skillName}" to ${catName}`, approvedBy);
     return draft.skills;
   }
 
-  addSkillCategory(categoryData, approvedBy = 'admin') {
+  async addSkillCategory(categoryData, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.skills = draft.skills || [];
 
@@ -203,12 +207,12 @@ class CmsService {
     };
 
     draft.skills.push(newCategory);
-    db.set('draft', draft);
-    this.saveDraftAndLog('skill_category_add', 'None', categoryName, `Added skill category "${categoryName}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('skill_category_add', 'None', categoryName, `Added skill category "${categoryName}"`, approvedBy);
     return draft.skills;
   }
 
-  updateSkillCategory(index, groupData, approvedBy = 'admin') {
+  async updateSkillCategory(index, groupData, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.skills = draft.skills || [];
 
@@ -255,12 +259,12 @@ class CmsService {
       bars
     };
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('skill_category_update', oldCategory, newCategoryName, `Updated skill category "${newCategoryName}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('skill_category_update', oldCategory, newCategoryName, `Updated skill category "${newCategoryName}"`, approvedBy);
     return draft.skills;
   }
 
-  deleteSkillCategory(identifier, approvedBy = 'admin') {
+  async deleteSkillCategory(identifier, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.skills = draft.skills || [];
 
@@ -277,12 +281,12 @@ class CmsService {
     if (index === -1) throw new Error(`Skill category "${identifier}" not found`);
 
     const removed = draft.skills.splice(index, 1)[0];
-    db.set('draft', draft);
-    this.saveDraftAndLog('skill_category_delete', removed.category, 'Removed', `Deleted skill category "${removed.category}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('skill_category_delete', removed.category, 'Removed', `Deleted skill category "${removed.category}"`, approvedBy);
     return draft.skills;
   }
 
-  deleteSkill(categoryName, skillName, approvedBy = 'admin') {
+  async deleteSkill(categoryName, skillName, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.skills = draft.skills || [];
 
@@ -294,8 +298,8 @@ class CmsService {
       group.bars = group.bars.filter(b => b.label.toLowerCase() !== skillName.toLowerCase());
     }
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('skill_delete', skillName, 'Removed', `Deleted skill "${skillName}" from ${categoryName}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('skill_delete', skillName, 'Removed', `Deleted skill "${skillName}" from ${categoryName}`, approvedBy);
     return draft.skills;
   }
 
@@ -305,7 +309,7 @@ class CmsService {
     return draft.education || [];
   }
 
-  addEducation(eduData, approvedBy = 'admin') {
+  async addEducation(eduData, approvedBy = 'admin') {
     if (!eduData.institution || !eduData.institution.trim()) throw new Error('Institution name is required');
     if (!eduData.degree || !eduData.degree.trim()) throw new Error('Degree is required');
 
@@ -326,12 +330,12 @@ class CmsService {
     };
 
     draft.education.push(item);
-    db.set('draft', draft);
-    this.saveDraftAndLog('education_add', 'None', item.institution, `Added education entry at ${item.institution}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('education_add', 'None', item.institution, `Added education entry at ${item.institution}`, approvedBy);
     return draft.education;
   }
 
-  updateEducation(index, eduData, approvedBy = 'admin') {
+  async updateEducation(index, eduData, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.education = draft.education || [];
 
@@ -353,12 +357,12 @@ class CmsService {
       location: eduData.location !== undefined ? eduData.location.trim() : draft.education[index].location
     };
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('education_update', 'Index ' + index, draft.education[index].institution, `Updated education entry at ${draft.education[index].institution}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('education_update', 'Index ' + index, draft.education[index].institution, `Updated education entry at ${draft.education[index].institution}`, approvedBy);
     return draft.education;
   }
 
-  deleteEducation(index, approvedBy = 'admin') {
+  async deleteEducation(index, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.education = draft.education || [];
 
@@ -367,8 +371,8 @@ class CmsService {
     }
 
     const removed = draft.education.splice(index, 1)[0];
-    db.set('draft', draft);
-    this.saveDraftAndLog('education_delete', removed.institution, 'Removed', `Deleted education entry at ${removed.institution}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('education_delete', removed.institution, 'Removed', `Deleted education entry at ${removed.institution}`, approvedBy);
     return draft.education;
   }
 
@@ -378,7 +382,7 @@ class CmsService {
     return draft.experience || [];
   }
 
-  addExperience(data, approvedBy = 'admin') {
+  async addExperience(data, approvedBy = 'admin') {
     if (!data.role || !data.role.trim()) throw new Error('Role / Position title is required');
     if (!data.company || !data.company.trim()) throw new Error('Company / Organization is required');
 
@@ -404,12 +408,12 @@ class CmsService {
     };
 
     draft.experience.push(item);
-    db.set('draft', draft);
-    this.saveDraftAndLog('experience_add', 'None', `${item.role} at ${item.company}`, `Added experience: ${item.role} at ${item.company}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('experience_add', 'None', `${item.role} at ${item.company}`, `Added experience: ${item.role} at ${item.company}`, approvedBy);
     return draft.experience;
   }
 
-  updateExperience(id, data, approvedBy = 'admin') {
+  async updateExperience(id, data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.experience = draft.experience || [];
 
@@ -436,12 +440,12 @@ class CmsService {
       responsibilities
     };
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('experience_update', id, `${draft.experience[index].role} at ${draft.experience[index].company}`, `Updated experience: ${draft.experience[index].role}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('experience_update', id, `${draft.experience[index].role} at ${draft.experience[index].company}`, `Updated experience: ${draft.experience[index].role}`, approvedBy);
     return draft.experience;
   }
 
-  deleteExperience(id, approvedBy = 'admin') {
+  async deleteExperience(id, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.experience = draft.experience || [];
 
@@ -465,8 +469,8 @@ class CmsService {
     const remainingDocs = documents.filter(d => d.entityId !== id);
     db.set('documents', remainingDocs);
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('experience_delete', `${removed.role} at ${removed.company}`, 'Removed', `Deleted experience: ${removed.role}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('experience_delete', `${removed.role} at ${removed.company}`, 'Removed', `Deleted experience: ${removed.role}`, approvedBy);
     return draft.experience;
   }
 
@@ -476,7 +480,7 @@ class CmsService {
     return draft.projects || [];
   }
 
-  addProject(data, approvedBy = 'admin') {
+  async addProject(data, approvedBy = 'admin') {
     if (!data.title || !data.title.trim()) throw new Error('Project title is required');
 
     const draft = db.get('draft') || {};
@@ -512,12 +516,12 @@ class CmsService {
     draft.projects = draft.projects.filter(p => p.id !== id);
     draft.projects.push(project);
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('project_add', 'None', project.title, `Added project "${project.title}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('project_add', 'None', project.title, `Added project "${project.title}"`, approvedBy);
     return draft.projects;
   }
 
-  updateProject(id, data, approvedBy = 'admin') {
+  async updateProject(id, data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.projects = draft.projects || [];
 
@@ -552,12 +556,12 @@ class CmsService {
       caseStudyContent: data.caseStudyContent !== undefined ? data.caseStudyContent.trim() : (draft.projects[index].caseStudyContent || '')
     };
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('project_update', id, draft.projects[index].title, `Updated project "${draft.projects[index].title}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('project_update', id, draft.projects[index].title, `Updated project "${draft.projects[index].title}"`, approvedBy);
     return draft.projects;
   }
 
-  deleteProject(id, approvedBy = 'admin') {
+  async deleteProject(id, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.projects = draft.projects || [];
 
@@ -565,8 +569,8 @@ class CmsService {
     if (index === -1) throw new Error(`Project with ID "${id}" not found`);
 
     const removed = draft.projects.splice(index, 1)[0];
-    db.set('draft', draft);
-    this.saveDraftAndLog('project_delete', removed.title, 'Removed', `Deleted project "${removed.title}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('project_delete', removed.title, 'Removed', `Deleted project "${removed.title}"`, approvedBy);
     return draft.projects;
   }
 
@@ -576,7 +580,7 @@ class CmsService {
     return draft.certifications || [];
   }
 
-  addCertification(data, approvedBy = 'admin') {
+  async addCertification(data, approvedBy = 'admin') {
     if (!data.name || !data.name.trim()) throw new Error('Certification name is required');
     if (!data.issuer || !data.issuer.trim()) throw new Error('Issuer / Organization is required');
 
@@ -599,12 +603,12 @@ class CmsService {
     draft.certifications = draft.certifications.filter(c => c.id !== id);
     draft.certifications.push(cert);
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('cert_add', 'None', cert.name, `Added certification "${cert.name}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('cert_add', 'None', cert.name, `Added certification "${cert.name}"`, approvedBy);
     return draft.certifications;
   }
 
-  updateCertification(id, data, approvedBy = 'admin') {
+  async updateCertification(id, data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.certifications = draft.certifications || [];
 
@@ -623,12 +627,12 @@ class CmsService {
       bgClass: data.bgClass !== undefined ? data.bgClass : draft.certifications[index].bgClass
     };
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('cert_update', id, draft.certifications[index].name, `Updated certification "${draft.certifications[index].name}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('cert_update', id, draft.certifications[index].name, `Updated certification "${draft.certifications[index].name}"`, approvedBy);
     return draft.certifications;
   }
 
-  deleteCertification(id, approvedBy = 'admin') {
+  async deleteCertification(id, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.certifications = draft.certifications || [];
 
@@ -652,8 +656,8 @@ class CmsService {
     const remainingDocs = documents.filter(d => d.entityId !== id);
     db.set('documents', remainingDocs);
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('cert_delete', removed.name, 'Removed', `Deleted certification "${removed.name}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('cert_delete', removed.name, 'Removed', `Deleted certification "${removed.name}"`, approvedBy);
     return draft.certifications;
   }
 
@@ -663,7 +667,7 @@ class CmsService {
     return draft.achievements || [];
   }
 
-  addAchievement(data, approvedBy = 'admin') {
+  async addAchievement(data, approvedBy = 'admin') {
     if (!data.title || !data.title.trim()) throw new Error('Achievement title is required');
 
     const draft = db.get('draft') || {};
@@ -682,12 +686,12 @@ class CmsService {
     draft.achievements = draft.achievements.filter(a => a.id !== id);
     draft.achievements.push(achv);
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('achievement_add', 'None', achv.title, `Added achievement "${achv.title}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('achievement_add', 'None', achv.title, `Added achievement "${achv.title}"`, approvedBy);
     return draft.achievements;
   }
 
-  updateAchievement(id, data, approvedBy = 'admin') {
+  async updateAchievement(id, data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.achievements = draft.achievements || [];
 
@@ -703,12 +707,12 @@ class CmsService {
       bgClass: data.bgClass !== undefined ? data.bgClass : draft.achievements[index].bgClass
     };
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('achievement_update', id, draft.achievements[index].title, `Updated achievement "${draft.achievements[index].title}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('achievement_update', id, draft.achievements[index].title, `Updated achievement "${draft.achievements[index].title}"`, approvedBy);
     return draft.achievements;
   }
 
-  deleteAchievement(id, approvedBy = 'admin') {
+  async deleteAchievement(id, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.achievements = draft.achievements || [];
 
@@ -716,8 +720,8 @@ class CmsService {
     if (index === -1) throw new Error(`Achievement with ID "${id}" not found`);
 
     const removed = draft.achievements.splice(index, 1)[0];
-    db.set('draft', draft);
-    this.saveDraftAndLog('achievement_delete', removed.title, 'Removed', `Deleted achievement "${removed.title}"`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('achievement_delete', removed.title, 'Removed', `Deleted achievement "${removed.title}"`, approvedBy);
     return draft.achievements;
   }
 
@@ -727,7 +731,7 @@ class CmsService {
     return draft.resume || { url: './Thimmareddygari_Harshavardhan_Reddy_Resume.pdf', label: 'View Resume' };
   }
 
-  updateResume(data, approvedBy = 'admin') {
+  async updateResume(data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.resume = draft.resume || {};
 
@@ -735,8 +739,8 @@ class CmsService {
     if (data.label) draft.resume.label = data.label.trim();
     draft.resume.updatedAt = new Date().toISOString();
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('resume_update', 'Resume Link', draft.resume.url, `Updated active resume link to ${draft.resume.url}`, approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('resume_update', 'Resume Link', draft.resume.url, `Updated active resume link to ${draft.resume.url}`, approvedBy);
 
     return draft.resume;
   }
@@ -757,11 +761,11 @@ class CmsService {
     };
   }
 
-  updateSections(visibilityMap, approvedBy = 'admin') {
+  async updateSections(visibilityMap, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.sectionVisibility = { ...(draft.sectionVisibility || {}), ...visibilityMap };
-    db.set('draft', draft);
-    this.saveDraftAndLog('section_visibility', 'Prior Visibility', JSON.stringify(draft.sectionVisibility), 'Updated section visibility settings', approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('section_visibility', 'Prior Visibility', JSON.stringify(draft.sectionVisibility), 'Updated section visibility settings', approvedBy);
     return draft.sectionVisibility;
   }
 
@@ -775,13 +779,13 @@ class CmsService {
     };
   }
 
-  updateSeo(data, approvedBy = 'admin') {
+  async updateSeo(data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     if (data.pageTitle !== undefined) draft.pageTitle = data.pageTitle.trim();
     draft.seo = { ...(draft.seo || {}), ...(data.seo || {}) };
 
-    db.set('draft', draft);
-    this.saveDraftAndLog('seo_update', 'Prior SEO', draft.pageTitle, 'Updated SEO & Meta parameters', approvedBy);
+    db.data.draft = draft;
+    await this.saveDraftAndLog('seo_update', 'Prior SEO', draft.pageTitle, 'Updated SEO & Meta parameters', approvedBy);
     return { pageTitle: draft.pageTitle, seo: draft.seo };
   }
 
@@ -1076,7 +1080,7 @@ class CmsService {
     };
   }
 
-  deleteMedia(filename, approvedBy = 'admin') {
+  async deleteMedia(filename, approvedBy = 'admin') {
     const safeName = path.basename(filename);
     const fullPath = path.join(this.mediaDir, safeName);
     if (!fs.existsSync(fullPath)) {
@@ -1084,7 +1088,7 @@ class CmsService {
     }
 
     fs.unlinkSync(fullPath);
-    this.saveDraftAndLog('media_delete', safeName, 'Deleted', `Deleted media asset ${safeName}`, approvedBy);
+    await this.saveDraftAndLog('media_delete', safeName, 'Deleted', `Deleted media asset ${safeName}`, approvedBy);
     return { filename: safeName, deleted: true };
   }
 
@@ -1100,7 +1104,7 @@ class CmsService {
     };
   }
 
-  restoreFullBackup(backupData, approvedBy = 'admin') {
+  async restoreFullBackup(backupData, approvedBy = 'admin') {
     if (!backupData || typeof backupData !== 'object') {
       throw new Error('Invalid backup file format');
     }
@@ -1121,7 +1125,7 @@ class CmsService {
     // 3. Sync to files
     syncProfileService.syncToFiles(db.get('published') || db.get('draft'));
 
-    this.saveDraftAndLog('backup_restore', priorSnapshot, 'Full Restore', 'Restored entire portfolio from backup JSON', approvedBy);
+    await this.saveDraftAndLog('backup_restore', priorSnapshot, 'Full Restore', 'Restored entire portfolio from backup JSON', approvedBy);
     return {
       success: true,
       priorSnapshot,
@@ -1143,7 +1147,7 @@ class CmsService {
     return { profiles, telemetry };
   }
 
-  addCodingProfile(data, approvedBy = 'admin') {
+  async addCodingProfile(data, approvedBy = 'admin') {
     if (!data.platform) throw new Error('Platform name is required');
     const draft = db.get('draft') || {};
     draft.codingProfiles = draft.codingProfiles || (db.get('published')?.codingProfiles || []);
@@ -1155,7 +1159,7 @@ class CmsService {
     );
     if (existingIndex !== -1) {
       const existingId = draft.codingProfiles[existingIndex].id;
-      return this.updateCodingProfile(existingId, data, approvedBy);
+      return await this.updateCodingProfile(existingId, data, approvedBy);
     }
 
     const url = data.url || data.profileUrl || '';
@@ -1195,14 +1199,14 @@ class CmsService {
     Object.keys(newProfile).forEach(k => newProfile[k] === undefined && delete newProfile[k]);
 
     draft.codingProfiles.push(newProfile);
-    db.set('draft', draft);
+    db.data.draft = draft;
     this._syncCodingProfilesLive(draft.codingProfiles);
 
-    this.saveDraftAndLog('codingProfiles', null, newProfile.platform, `Added coding profile: ${newProfile.platform}`, approvedBy);
+    await this.saveDraftAndLog('codingProfiles', null, newProfile.platform, `Added coding profile: ${newProfile.platform}`, approvedBy);
     return newProfile;
   }
 
-  updateCodingProfile(id, data, approvedBy = 'admin') {
+  async updateCodingProfile(id, data, approvedBy = 'admin') {
     if (!id) throw new Error('Profile id is required');
     const draft = db.get('draft') || {};
     draft.codingProfiles = draft.codingProfiles || (db.get('published')?.codingProfiles || []);
@@ -1229,14 +1233,14 @@ class CmsService {
     };
 
     draft.codingProfiles[idx] = updated;
-    db.set('draft', draft);
+    db.data.draft = draft;
     this._syncCodingProfilesLive(draft.codingProfiles);
 
-    this.saveDraftAndLog('codingProfiles', current.platform, updated.platform, `Updated coding profile: ${updated.platform}`, approvedBy);
+    await this.saveDraftAndLog('codingProfiles', current.platform, updated.platform, `Updated coding profile: ${updated.platform}`, approvedBy);
     return updated;
   }
 
-  deleteCodingProfile(id, approvedBy = 'admin') {
+  async deleteCodingProfile(id, approvedBy = 'admin') {
     if (!id) throw new Error('Profile id is required');
     const draft = db.get('draft') || {};
     draft.codingProfiles = draft.codingProfiles || (db.get('published')?.codingProfiles || []);
@@ -1247,14 +1251,14 @@ class CmsService {
     }
 
     const removed = draft.codingProfiles.splice(idx, 1)[0];
-    db.set('draft', draft);
+    db.data.draft = draft;
     this._syncCodingProfilesLive(draft.codingProfiles);
 
-    this.saveDraftAndLog('codingProfiles', removed.platform, null, `Deleted coding profile: ${removed.platform}`, approvedBy);
+    await this.saveDraftAndLog('codingProfiles', removed.platform, null, `Deleted coding profile: ${removed.platform}`, approvedBy);
     return { id, deleted: true };
   }
 
-  updateTelemetry(data, approvedBy = 'admin') {
+  async updateTelemetry(data, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.telemetry = draft.telemetry || (db.get('published')?.telemetry || {});
     draft.telemetry = {
@@ -1264,10 +1268,10 @@ class CmsService {
       verified: data.verified || draft.telemetry.verified || '100%',
       openSourceRepos: data.openSourceRepos || draft.telemetry.openSourceRepos || '24+'
     };
-    db.set('draft', draft);
+    db.data.draft = draft;
     this._syncTelemetryLive(draft.telemetry);
 
-    this.saveDraftAndLog('telemetry', null, draft.telemetry, 'Updated telemetry stats', approvedBy);
+    await this.saveDraftAndLog('telemetry', null, draft.telemetry, 'Updated telemetry stats', approvedBy);
     return draft.telemetry;
   }
 

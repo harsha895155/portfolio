@@ -959,6 +959,10 @@ class InternshipVerificationService {
       timestamp: new Date().toISOString()
     });
 
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
+
     logger.info(`Verified internship "${expRecord.role} at ${expRecord.company}" (Candidate ID: ${candidateId}) saved to draft by ${adminUser}`);
 
     return {

@@ -20,16 +20,19 @@ class ProfileService {
     return db.get('draft');
   }
 
-  updateDraft(updates) {
+  async updateDraft(updates) {
     const currentDraft = db.get('draft') || {};
     const updatedDraft = { ...currentDraft, ...updates };
-    db.set('draft', updatedDraft);
+    db.data.draft = updatedDraft;
     db.save();
-    logger.info('Draft profile updated and saved to draft');
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
+    logger.info('Draft profile updated and saved to draft & Supabase');
     return updatedDraft;
   }
 
-  publishDraft(approvedBy = 'admin') {
+  async publishDraft(approvedBy = 'admin') {
     const draft = db.get('draft');
     if (!draft) {
       throw new Error('No draft data available to publish');
@@ -60,6 +63,10 @@ class ProfileService {
       approvedBy
     });
 
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
+
     // 6. Background Git Sync if running with local git repo (updates GitHub Pages automatically)
     try {
       const { exec } = require('child_process');
@@ -79,7 +86,7 @@ class ProfileService {
     };
   }
 
-  rollback(snapshotName, approvedBy = 'admin') {
+  async rollback(snapshotName, approvedBy = 'admin') {
     const restoredProfile = historyService.getSnapshotContent(snapshotName);
     if (!restoredProfile) {
       throw new Error(`Snapshot file ${snapshotName} could not be found or loaded`);
@@ -110,6 +117,10 @@ class ProfileService {
       status: 'Restored',
       approvedBy
     });
+
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
 
     logger.info(`Rolled back portfolio to snapshot: ${snapshotName}`);
     return restoredProfile;

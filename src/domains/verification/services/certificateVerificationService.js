@@ -766,6 +766,10 @@ class CertificateVerificationService {
       timestamp: new Date().toISOString()
     });
 
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
+
     logger.info(`Verified certificate "${certRecord.name}" added to draft by ${adminUser}`);
 
     return {

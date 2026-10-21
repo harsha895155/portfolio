@@ -186,9 +186,27 @@ class Database {
       }
     }
 
-    // Always push to Supabase Cloud Database asynchronously
+    // Push to Supabase Cloud Database asynchronously
     if (this.supabase) {
-      this.pushToSupabase();
+      this.pushToSupabase().catch(() => {});
+    }
+  }
+
+  async saveAsync() {
+    try {
+      const payload = JSON.stringify(this.data, null, 2);
+      fs.writeFileSync(this.dbPath, payload, 'utf-8');
+    } catch (err) {
+      if (err.code === 'EROFS') {
+        logger.warn('Serverless read-only filesystem detected, maintaining state in-memory');
+      } else {
+        logger.error('Failed to write database file', err);
+        if (!process.env.VERCEL) throw err;
+      }
+    }
+
+    if (this.supabase) {
+      await this.pushToSupabase();
     }
   }
 
@@ -204,6 +222,12 @@ class Database {
   set(collection, value) {
     this.data[collection] = value;
     this.save();
+    return this.data[collection];
+  }
+
+  async setAsync(collection, value) {
+    this.data[collection] = value;
+    await this.saveAsync();
     return this.data[collection];
   }
 

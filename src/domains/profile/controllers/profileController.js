@@ -35,14 +35,14 @@ const profileController = {
     }
   },
 
-  updateDraft: (req, res) => {
+  updateDraft: async (req, res) => {
     try {
       const updates = req.body;
       if (!updates || typeof updates !== 'object') {
         return responseHelper.badRequest(res, 'Invalid profile updates payload');
       }
 
-      const updated = profileService.updateDraft(updates);
+      const updated = await profileService.updateDraft(updates);
       return responseHelper.success(res, updated, 'Draft updated successfully');
     } catch (err) {
       logger.error('Error updating draft profile', err);
@@ -50,10 +50,10 @@ const profileController = {
     }
   },
 
-  publish: (req, res) => {
+  publish: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const result = profileService.publishDraft(user);
+      const result = await profileService.publishDraft(user);
       return responseHelper.success(res, result, 'Portfolio profile published successfully!');
     } catch (err) {
       logger.error('Error publishing profile', err);
@@ -61,14 +61,14 @@ const profileController = {
     }
   },
 
-  rollback: (req, res) => {
+  rollback: async (req, res) => {
     try {
       const { snapshotName } = req.body;
       if (!snapshotName) {
         return responseHelper.badRequest(res, 'Snapshot name required for rollback');
       }
       const user = req.user ? req.user.username : 'admin';
-      const restored = profileService.rollback(snapshotName, user);
+      const restored = await profileService.rollback(snapshotName, user);
       return responseHelper.success(res, restored, `Successfully rolled back to ${snapshotName}`);
     } catch (err) {
       logger.error('Error during rollback', err);

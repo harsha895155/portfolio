@@ -12,10 +12,10 @@ const config = require('../../../../config');
 
 const cmsController = {
   /* ── 1. Profile & Hero ── */
-  updateProfileHero: (req, res) => {
+  updateProfileHero: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const updated = cmsService.updateProfileHero(req.body, user);
+      const updated = await cmsService.updateProfileHero(req.body, user);
       return responseHelper.success(res, updated, 'Profile and hero updated in draft');
     } catch (err) {
       logger.error('Error updating profile & hero', err);
@@ -24,10 +24,10 @@ const cmsController = {
   },
 
   /* ── 2. About Section ── */
-  updateAbout: (req, res) => {
+  updateAbout: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const updated = cmsService.updateAbout(req.body, user);
+      const updated = await cmsService.updateAbout(req.body, user);
       return responseHelper.success(res, updated, 'About section updated in draft');
     } catch (err) {
       logger.error('Error updating about section', err);
@@ -45,10 +45,10 @@ const cmsController = {
     }
   },
 
-  addSkill: (req, res) => {
+  addSkill: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const skills = cmsService.addSkill(req.body, user);
+      const skills = await cmsService.addSkill(req.body, user);
       return responseHelper.created(res, skills, 'Skill added to draft');
     } catch (err) {
       logger.error('Error adding skill', err);
@@ -56,10 +56,10 @@ const cmsController = {
     }
   },
 
-  addSkillCategory: (req, res) => {
+  addSkillCategory: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const skills = cmsService.addSkillCategory(req.body, user);
+      const skills = await cmsService.addSkillCategory(req.body, user);
       return responseHelper.created(res, skills, 'Skill category added to draft');
     } catch (err) {
       logger.error('Error adding skill category', err);
@@ -67,18 +67,18 @@ const cmsController = {
     }
   },
 
-  updateSkillCategory: (req, res) => {
+  updateSkillCategory: async (req, res) => {
     try {
       const index = req.params.index !== undefined ? req.params.index : req.params.identifier;
       const user = req.user ? req.user.username : 'admin';
-      const skills = cmsService.updateSkillCategory(index, req.body, user);
+      const skills = await cmsService.updateSkillCategory(index, req.body, user);
       return responseHelper.success(res, skills, 'Skill category updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  deleteSkillCategory: (req, res) => {
+  deleteSkillCategory: async (req, res) => {
     try {
       const identifier = req.params.identifier !== undefined
         ? req.params.identifier
@@ -87,14 +87,14 @@ const cmsController = {
         return responseHelper.badRequest(res, 'Category name or index is required to delete category');
       }
       const user = req.user ? req.user.username : 'admin';
-      const skills = cmsService.deleteSkillCategory(identifier, user);
+      const skills = await cmsService.deleteSkillCategory(identifier, user);
       return responseHelper.success(res, skills, 'Skill category deleted');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  deleteSkill: (req, res) => {
+  deleteSkill: async (req, res) => {
     try {
       const category = (req.query.category || (req.body && req.body.category) || '').trim();
       const name = (req.query.name || req.query.skill || (req.body && (req.body.name || req.body.skill)) || '').trim();
@@ -102,7 +102,7 @@ const cmsController = {
         return responseHelper.badRequest(res, 'Both category and name (or skill) are required to delete a skill');
       }
       const user = req.user ? req.user.username : 'admin';
-      const skills = cmsService.deleteSkill(category, name, user);
+      const skills = await cmsService.deleteSkill(category, name, user);
       return responseHelper.success(res, skills, `Skill "${name}" deleted`);
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -119,32 +119,32 @@ const cmsController = {
     }
   },
 
-  addEducation: (req, res) => {
+  addEducation: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const education = cmsService.addEducation(req.body, user);
+      const education = await cmsService.addEducation(req.body, user);
       return responseHelper.created(res, education, 'Education added to draft');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  updateEducation: (req, res) => {
+  updateEducation: async (req, res) => {
     try {
       const index = parseInt(req.params.index, 10);
       const user = req.user ? req.user.username : 'admin';
-      const education = cmsService.updateEducation(index, req.body, user);
+      const education = await cmsService.updateEducation(index, req.body, user);
       return responseHelper.success(res, education, 'Education updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  deleteEducation: (req, res) => {
+  deleteEducation: async (req, res) => {
     try {
       const index = parseInt(req.params.index, 10);
       const user = req.user ? req.user.username : 'admin';
-      const education = cmsService.deleteEducation(index, user);
+      const education = await cmsService.deleteEducation(index, user);
       return responseHelper.success(res, education, 'Education entry deleted');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -161,32 +161,32 @@ const cmsController = {
     }
   },
 
-  addExperience: (req, res) => {
+  addExperience: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const experience = cmsService.addExperience(req.body, user);
+      const experience = await cmsService.addExperience(req.body, user);
       return responseHelper.created(res, experience, 'Experience added to draft');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  updateExperience: (req, res) => {
+  updateExperience: async (req, res) => {
     try {
       const { id } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const experience = cmsService.updateExperience(id, req.body, user);
+      const experience = await cmsService.updateExperience(id, req.body, user);
       return responseHelper.success(res, experience, 'Experience updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  deleteExperience: (req, res) => {
+  deleteExperience: async (req, res) => {
     try {
       const { id } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const experience = cmsService.deleteExperience(id, user);
+      const experience = await cmsService.deleteExperience(id, user);
       return responseHelper.success(res, experience, 'Experience entry deleted');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -203,32 +203,32 @@ const cmsController = {
     }
   },
 
-  addProject: (req, res) => {
+  addProject: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const projects = cmsService.addProject(req.body, user);
+      const projects = await cmsService.addProject(req.body, user);
       return responseHelper.created(res, projects, 'Project added to draft');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  updateProject: (req, res) => {
+  updateProject: async (req, res) => {
     try {
       const { id } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const projects = cmsService.updateProject(id, req.body, user);
+      const projects = await cmsService.updateProject(id, req.body, user);
       return responseHelper.success(res, projects, 'Project updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  deleteProject: (req, res) => {
+  deleteProject: async (req, res) => {
     try {
       const { id } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const projects = cmsService.deleteProject(id, user);
+      const projects = await cmsService.deleteProject(id, user);
       return responseHelper.success(res, projects, 'Project deleted');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -245,32 +245,32 @@ const cmsController = {
     }
   },
 
-  addCertification: (req, res) => {
+  addCertification: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const certs = cmsService.addCertification(req.body, user);
+      const certs = await cmsService.addCertification(req.body, user);
       return responseHelper.created(res, certs, 'Certification added to draft');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  updateCertification: (req, res) => {
+  updateCertification: async (req, res) => {
     try {
       const { id } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const certs = cmsService.updateCertification(id, req.body, user);
+      const certs = await cmsService.updateCertification(id, req.body, user);
       return responseHelper.success(res, certs, 'Certification updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  deleteCertification: (req, res) => {
+  deleteCertification: async (req, res) => {
     try {
       const { id } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const certs = cmsService.deleteCertification(id, user);
+      const certs = await cmsService.deleteCertification(id, user);
       return responseHelper.success(res, certs, 'Certification deleted');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -287,32 +287,32 @@ const cmsController = {
     }
   },
 
-  addAchievement: (req, res) => {
+  addAchievement: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const achvs = cmsService.addAchievement(req.body, user);
+      const achvs = await cmsService.addAchievement(req.body, user);
       return responseHelper.created(res, achvs, 'Achievement added to draft');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  updateAchievement: (req, res) => {
+  updateAchievement: async (req, res) => {
     try {
       const { id } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const achvs = cmsService.updateAchievement(id, req.body, user);
+      const achvs = await cmsService.updateAchievement(id, req.body, user);
       return responseHelper.success(res, achvs, 'Achievement updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  deleteAchievement: (req, res) => {
+  deleteAchievement: async (req, res) => {
     try {
       const { id } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const achvs = cmsService.deleteAchievement(id, user);
+      const achvs = await cmsService.deleteAchievement(id, user);
       return responseHelper.success(res, achvs, 'Achievement deleted');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -329,17 +329,17 @@ const cmsController = {
     }
   },
 
-  updateResume: (req, res) => {
+  updateResume: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const resume = cmsService.updateResume(req.body, user);
+      const resume = await cmsService.updateResume(req.body, user);
       return responseHelper.success(res, resume, 'Resume settings updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
     }
   },
 
-  uploadResumeFile: (req, res) => {
+  uploadResumeFile: async (req, res) => {
     try {
       if (!req.file) {
         return responseHelper.badRequest(res, 'No resume file uploaded');
@@ -372,7 +372,7 @@ const cmsController = {
       const resumeUrl = `/media/${filename}`;
       const user = req.user ? req.user.username : 'admin';
       const label = (req.body && req.body.label) ? req.body.label.trim() : '📄 View Resume';
-      const resume = cmsService.updateResume({ url: resumeUrl, label }, user);
+      const resume = await cmsService.updateResume({ url: resumeUrl, label }, user);
 
       // Also copy to root standard resume file so public standard links continue working seamlessly (skip on serverless EROFS)
       try {
@@ -403,10 +403,10 @@ const cmsController = {
     }
   },
 
-  updateSections: (req, res) => {
+  updateSections: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const sections = cmsService.updateSections(req.body, user);
+      const sections = await cmsService.updateSections(req.body, user);
       return responseHelper.success(res, sections, 'Section visibility updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -423,10 +423,10 @@ const cmsController = {
     }
   },
 
-  updateSeo: (req, res) => {
+  updateSeo: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const seo = cmsService.updateSeo(req.body, user);
+      const seo = await cmsService.updateSeo(req.body, user);
       return responseHelper.success(res, seo, 'SEO parameters updated');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -450,7 +450,7 @@ const cmsController = {
     }
   },
 
-  uploadMediaFile: (req, res) => {
+  uploadMediaFile: async (req, res) => {
     try {
       const file = req.file || (req.files && (req.files['media']?.[0] || req.files['file']?.[0] || (Array.isArray(req.files) ? req.files[0] : Object.values(req.files)[0]?.[0])));
       if (!file) {
@@ -487,11 +487,11 @@ const cmsController = {
     }
   },
 
-  deleteMedia: (req, res) => {
+  deleteMedia: async (req, res) => {
     try {
       const { filename } = req.params;
       const user = req.user ? req.user.username : 'admin';
-      const result = cmsService.deleteMedia(filename, user);
+      const result = await cmsService.deleteMedia(filename, user);
       return responseHelper.success(res, result, 'Media file deleted');
     } catch (err) {
       return responseHelper.badRequest(res, err.message);
@@ -512,14 +512,14 @@ const cmsController = {
     }
   },
 
-  restoreBackup: (req, res) => {
+  restoreBackup: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
       let backupData = req.body;
       if (typeof backupData === 'string') {
         backupData = JSON.parse(backupData);
       }
-      const result = cmsService.restoreFullBackup(backupData, user);
+      const result = await cmsService.restoreFullBackup(backupData, user);
       return responseHelper.success(res, result, 'Portfolio restored from backup JSON successfully!');
     } catch (err) {
       logger.error('Error restoring backup', err);
@@ -538,10 +538,10 @@ const cmsController = {
     }
   },
 
-  addCodingProfile: (req, res) => {
+  addCodingProfile: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const created = cmsService.addCodingProfile(req.body, user);
+      const created = await cmsService.addCodingProfile(req.body, user);
       return responseHelper.created(res, created, 'Coding profile added to draft');
     } catch (err) {
       logger.error('Error adding coding profile', err);
@@ -549,10 +549,10 @@ const cmsController = {
     }
   },
 
-  updateCodingProfile: (req, res) => {
+  updateCodingProfile: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const updated = cmsService.updateCodingProfile(req.params.id, req.body, user);
+      const updated = await cmsService.updateCodingProfile(req.params.id, req.body, user);
       return responseHelper.success(res, updated, 'Coding profile updated in draft');
     } catch (err) {
       logger.error('Error updating coding profile', err);
@@ -560,10 +560,10 @@ const cmsController = {
     }
   },
 
-  deleteCodingProfile: (req, res) => {
+  deleteCodingProfile: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const result = cmsService.deleteCodingProfile(req.params.id, user);
+      const result = await cmsService.deleteCodingProfile(req.params.id, user);
       return responseHelper.success(res, result, 'Coding profile removed from draft');
     } catch (err) {
       logger.error('Error deleting coding profile', err);
@@ -571,10 +571,10 @@ const cmsController = {
     }
   },
 
-  updateTelemetry: (req, res) => {
+  updateTelemetry: async (req, res) => {
     try {
       const user = req.user ? req.user.username : 'admin';
-      const updated = cmsService.updateTelemetry(req.body, user);
+      const updated = await cmsService.updateTelemetry(req.body, user);
       return responseHelper.success(res, updated, 'Telemetry stats updated in draft');
     } catch (err) {
       logger.error('Error updating telemetry', err);

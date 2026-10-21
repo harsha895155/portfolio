@@ -136,7 +136,7 @@ const adminController = {
     }
   },
 
-  createSnapshot: (req, res) => {
+  createSnapshot: async (req, res) => {
     try {
       res.set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
       res.set('Pragma', 'no-cache');
@@ -150,6 +150,9 @@ const adminController = {
         status: 'Created',
         approvedBy: req.user ? req.user.username : 'admin'
       });
+      if (db.supabase) {
+        await db.pushToSupabase();
+      }
       return responseHelper.success(res, { filename: snapshotName }, `Snapshot ${snapshotName} created successfully`, 201);
     } catch (err) {
       logger.error('Error creating manual snapshot', err);

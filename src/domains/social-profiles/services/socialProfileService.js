@@ -289,6 +289,10 @@ class SocialProfileService {
       approvedBy
     });
 
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
+
     logger.info(`Platform ${id} verified and updated in draft by ${approvedBy}`);
     return this.getPlatformsStatus();
   }
@@ -370,11 +374,15 @@ class SocialProfileService {
       approvedBy
     });
 
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
+
     logger.info(`Added and verified new platform ${cleanName} (${id}) in draft by ${approvedBy}`);
     return newPlatform;
   }
 
-  removePlatform(id, approvedBy = 'admin') {
+  async removePlatform(id, approvedBy = 'admin') {
     const cleanId = (id || '').toLowerCase().trim();
     const draft = db.get('draft') || {};
     draft.socialLinks = draft.socialLinks || {};
@@ -404,11 +412,15 @@ class SocialProfileService {
       approvedBy
     });
 
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
+
     logger.info(`Removed/unlinked platform ${cleanId} in draft by ${approvedBy}`);
     return this.getPlatformsStatus();
   }
 
-  updateSocialLinks(newLinks, approvedBy = 'admin') {
+  async updateSocialLinks(newLinks, approvedBy = 'admin') {
     const draft = db.get('draft') || {};
     draft.socialLinks = { ...(draft.socialLinks || {}), ...newLinks };
     db.set('draft', draft);
@@ -421,6 +433,10 @@ class SocialProfileService {
       status: 'Saved to Draft',
       approvedBy
     });
+
+    if (db.supabase) {
+      await db.pushToSupabase();
+    }
 
     logger.info('Updated social links in draft');
     return draft.socialLinks;

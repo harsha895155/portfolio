@@ -181,8 +181,8 @@ async function main() {
   });
 
   console.log('\n5. Publishing, Snapshots & Rollback Tests:');
-  runTest('Publishing draft creates snapshot and updates profile.js', () => {
-    const pubResult = profileService.publishDraft('admin_test');
+  await runAsyncTest('Publishing draft creates snapshot and updates profile.js', async () => {
+    const pubResult = await profileService.publishDraft('admin_test');
     assert(pubResult.snapshotName, 'Snapshot was created');
     assert(fs.existsSync(config.paths.profileJs), 'profile.js exists');
 
@@ -190,7 +190,7 @@ async function main() {
     assert(profileJsContent.includes('const PROFILE ='), 'profile.js has PROFILE constant');
 
     // Test rollback
-    const rollbackResult = profileService.rollback(pubResult.snapshotName, 'admin_test');
+    const rollbackResult = await profileService.rollback(pubResult.snapshotName, 'admin_test');
     assert(rollbackResult.name, 'Rollback restored profile');
   });
 

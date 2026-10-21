@@ -43,7 +43,7 @@ const socialController = {
     }
   },
 
-  importGitHubRepo: (req, res) => {
+  importGitHubRepo: async (req, res) => {
     try {
       const { repoName, description, technologies, githubUrl, liveDemo } = req.body;
       if (!repoName) {
@@ -88,6 +88,10 @@ const socialController = {
         approvedBy: req.user ? req.user.username : 'admin'
       });
 
+      if (db.supabase) {
+        await db.pushToSupabase();
+      }
+
       logger.info(`Imported GitHub repository into draft projects: ${repoName}`);
       return responseHelper.success(res, projectData, `Project ${repoName} added to draft portfolio`);
     } catch (err) {
@@ -96,14 +100,14 @@ const socialController = {
     }
   },
 
-  updateLinks: (req, res) => {
+  updateLinks: async (req, res) => {
     try {
       const links = req.body;
       if (!links || typeof links !== 'object') {
         return responseHelper.badRequest(res, 'Invalid links payload');
       }
       const user = req.user ? req.user.username : 'admin';
-      const updated = socialProfileService.updateSocialLinks(links, user);
+      const updated = await socialProfileService.updateSocialLinks(links, user);
       return responseHelper.success(res, updated, 'Social links updated');
     } catch (err) {
       logger.error('Error updating social links', err);
@@ -156,14 +160,14 @@ const socialController = {
     }
   },
 
-  removePlatform: (req, res) => {
+  removePlatform: async (req, res) => {
     try {
       const { id } = req.params;
       if (!id) {
         return responseHelper.badRequest(res, 'Platform ID is required');
       }
       const user = req.user ? req.user.username : 'admin';
-      const remaining = socialProfileService.removePlatform(id, user);
+      const remaining = await socialProfileService.removePlatform(id, user);
       return responseHelper.success(res, remaining, `Platform removed successfully`);
     } catch (err) {
       logger.error('Error removing platform', err);
