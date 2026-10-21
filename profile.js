@@ -1,7 +1,7 @@
 /**
  * PORTFOLIO PROFILE -- SINGLE SOURCE OF TRUTH
  * Automatically synchronized by the Private Portfolio Management System.
- * Last Published: 2026-10-21T16:49:36.629Z
+ * Last Published: 2026-10-21T16:51:18.909Z
  */
 
 const PROFILE = {
@@ -93,7 +93,7 @@ const PROFILE = {
   "resume": {
     "url": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
     "label": "📄 View Resume",
-    "updatedAt": "2026-10-21T16:49:35.950Z"
+    "updatedAt": "2026-10-21T15:45:42.952Z"
   },
   "skills": [
     {
@@ -576,6 +576,7 @@ const PROFILE = {
     "email": "harshavardhan10003@gmail.com",
     "credly": "https://www.credly.com/users/harsha10003/badges/credly",
     "github": "https://github.com/harsha895155",
+    "leetcode": "https://leetcode.com/u/harsha10003/",
     "linkedin": "https://www.linkedin.com/in/harshavardhanreddy-280392298/",
     "portfolio": "https://harsha895155.github.io/portfolio/"
   },
