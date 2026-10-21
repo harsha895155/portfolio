@@ -7,6 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const { createClient } = require('@supabase/supabase-js');
 const config = require('../../../config');
 const logger = require('../../shared/utils/logger');
 
@@ -23,6 +24,19 @@ class Database {
       this.historyDir = config.paths.historyDir;
     }
     this.data = null;
+    this.supabase = null;
+    this._cloudSynced = false;
+
+    if (config.supabase && config.supabase.url && config.supabase.key) {
+      try {
+        this.supabase = createClient(config.supabase.url, config.supabase.key, {
+          auth: { persistSession: false }
+        });
+      } catch (err) {
+        logger.warn('Could not initialize Supabase client:', err.message);
+      }
+    }
+
     this.init();
   }
 
@@ -82,6 +96,11 @@ class Database {
 
       if (updated) this.save();
 
+      // Trigger asynchronous cloud sync from Supabase if configured
+      if (this.supabase) {
+        this.syncFromSupabase();
+      }
+
       logger.info('Database initialized successfully');
     } catch (err) {
       logger.error('Failed to initialize database, building default schema', err);
@@ -90,51 +109,62 @@ class Database {
     }
   }
 
-  createInitialData() {
-    // Read initial profile from profile.js if available
-    let initialProfile = {};
+  async ensureCloudSynced() {
+    if (this._cloudSynced || !this.supabase) return;
+    await this.syncFromSupabase();
+    this._cloudSynced = true;
+  }
+
+  async syncFromSupabase() {
+    if (!this.supabase) return;
     try {
-      if (fs.existsSync(config.paths.profileJs)) {
-        // Load PROFILE
-        initialProfile = require(config.paths.profileJs);
+      const { data, error } = await this.supabase
+        .from('portfolio_store')
+        .select('data, updated_at')
+        .eq('id', 'portfolio_main_db')
+        .maybeSingle();
+
+      if (error) {
+        logger.warn('Could not fetch from Supabase: ' + error.message);
+        return;
       }
-    } catch (e) {
-      logger.warn('Could not load profile.js for initial seed, using defaults');
+
+      if (data && data.data && typeof data.data === 'object' && Object.keys(data.data).length > 0) {
+        this.data = data.data;
+        try {
+          fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8');
+        } catch (_) {}
+        logger.info('Loaded persistent portfolio state from Supabase Cloud Database');
+      } else {
+        // Seed Supabase with current state
+        await this.pushToSupabase();
+        logger.info('Initialized Supabase Cloud Database with current portfolio state');
+      }
+    } catch (err) {
+      logger.warn('Supabase sync error: ' + err.message);
     }
+  }
 
-    const salt = bcrypt.genSaltSync(config.auth.saltRounds);
-    const passwordHash = bcrypt.hashSync(config.auth.adminPassword, salt);
+  async pushToSupabase() {
+    if (!this.supabase) return;
+    try {
+      const payload = {
+        id: 'portfolio_main_db',
+        data: this.data,
+        updated_at: new Date().toISOString()
+      };
+      const { error } = await this.supabase
+        .from('portfolio_store')
+        .upsert(payload);
 
-    return {
-      admin: {
-        username: config.auth.adminUsername,
-        passwordHash: passwordHash,
-        updatedAt: new Date().toISOString()
-      },
-      published: JSON.parse(JSON.stringify(initialProfile)),
-      draft: JSON.parse(JSON.stringify(initialProfile)),
-      pendingChanges: [],
-      documents: [],
-      history: [
-        {
-          id: 'init-1',
-          timestamp: new Date().toISOString(),
-          field: 'initial_setup',
-          oldValue: null,
-          newValue: 'Portfolio profile initialized',
-          source: 'System Initialization',
-          status: 'Published',
-          approvedBy: 'admin'
-        }
-      ],
-      settings: {
-        lastPublishedAt: new Date().toISOString(),
-        lastSyncCheckAt: new Date().toISOString(),
-        githubSyncEnabled: true,
-        autoSyncIntervalHours: 24,
-        sourcePriority: ['Manual Admin', 'Approved Resume', 'Approved Documents', 'GitHub API']
+      if (error) {
+        logger.warn('Failed to push state to Supabase: ' + error.message);
+      } else {
+        logger.info('Portfolio state saved to Supabase Cloud Database');
       }
-    };
+    } catch (err) {
+      logger.warn('Supabase push error: ' + err.message);
+    }
   }
 
   save() {
@@ -144,11 +174,15 @@ class Database {
     } catch (err) {
       if (err.code === 'EROFS') {
         logger.warn('Serverless read-only filesystem detected, maintaining state in-memory');
-        return;
+      } else {
+        logger.error('Failed to write database file', err);
+        if (!process.env.VERCEL) throw err;
       }
-      logger.error('Failed to write database file', err);
-      if (process.env.VERCEL) return;
-      throw err;
+    }
+
+    // Always push to Supabase Cloud Database asynchronously
+    if (this.supabase) {
+      this.pushToSupabase();
     }
   }
 

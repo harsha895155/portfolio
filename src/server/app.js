@@ -51,6 +51,14 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
+// Ensure database state is synchronized with Supabase on serverless cold starts
+app.use(async (req, res, next) => {
+  try {
+    await db.ensureCloudSynced();
+  } catch (_) {}
+  next();
+});
+
 // ─── AUTHENTICATION ROUTES ───────────────────────────────────────────────────
 app.post('/api/auth/login', authController.login);
 app.post('/api/auth/logout', authController.logout);

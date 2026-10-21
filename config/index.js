@@ -23,6 +23,12 @@ const config = {
     saltRounds: 10
   },
 
+  // Cloud Database (Supabase)
+  supabase: {
+    url: process.env.SUPABASE_URL || '',
+    key: process.env.SUPABASE_KEY || ''
+  },
+
   // Paths
   paths: {
     root: path.resolve(__dirname, '..'),
