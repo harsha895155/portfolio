@@ -9,7 +9,7 @@
     "shortName": "Harshavardhan Reddy",
     "nickname": "Harsha",
     "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
-    "headline": "Tested Headline Persistence 1792583261913",
+    "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
     "heroTag": "Computer Science Engineering Student · Python & React",
     "heroDesc": "Architected and implemented production-grade software workflows. Detailed overview: Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.. Engineered modular components utilizing clean architecture principles, efficient data pipelines, resilient error boundaries, and scalable cloud integrations.",
     "about": [
@@ -881,7 +881,7 @@
     "shortName": "Harshavardhan Reddy",
     "nickname": "Harsha",
     "pageTitle": "Thimmareddygari Harshavardhan Reddy | Computer Science Engineering Student & Full-Stack Developer | Portfolio",
-    "headline": "Tested Headline Persistence 1792583261913",
+    "headline": "Computer Science Engineering Student | Full-Stack Developer | Java & React Developer | AI/ML Enthusiast",
     "heroTag": "Computer Science Engineering Student · Python & React",
     "heroDesc": "Architected and implemented production-grade software workflows. Detailed overview: Final-year Computer Science Engineering student with practical expertise building scalable full-stack web applications, IoT architectures, and secure backend systems. Proficient in Java, React.js, Python, Node.js, and AWS with Grade-O outstanding internship evaluations.. Engineered modular components utilizing clean architecture principles, efficient data pipelines, resilient error boundaries, and scalable cloud integrations.",
     "about": [
@@ -3358,6 +3358,26 @@
   ],
   "history": [
     {
+      "id": "hist_1792583297883_tn5b8",
+      "timestamp": "2026-10-21T11:48:17.883Z",
+      "field": "full_profile",
+      "oldValue": "Snapshot: snapshot_1792583297767.json",
+      "newValue": "Published Draft to Live Portfolio",
+      "source": "Admin Publish Action",
+      "status": "Published",
+      "approvedBy": "system"
+    },
+    {
+      "id": "hist_1792583297752_fcg71",
+      "timestamp": "2026-10-21T11:48:17.752Z",
+      "field": "profile_hero",
+      "oldValue": "Thimmareddygari Harshavardhan Reddy",
+      "newValue": "Thimmareddygari Harshavardhan Reddy",
+      "source": "Admin CMS",
+      "status": "Published Live",
+      "approvedBy": "admin"
+    },
+    {
       "id": "hist_1792583262166_9vyka",
       "timestamp": "2026-10-21T11:47:42.166Z",
       "field": "full_profile",
@@ -4336,30 +4356,10 @@
       "source": "Admin CMS",
       "status": "Saved to Draft",
       "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391478593_kyp1d",
-      "timestamp": "2026-10-07T16:44:38.593Z",
-      "field": "skill_add",
-      "oldValue": "None",
-      "newValue": "Languages: GraphQL",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
-    },
-    {
-      "id": "hist_1791391478502_qe02a",
-      "timestamp": "2026-10-07T16:44:38.502Z",
-      "field": "about_section",
-      "oldValue": "Prior About",
-      "newValue": "6 paragraphs",
-      "source": "Admin CMS",
-      "status": "Saved to Draft",
-      "approvedBy": "admin"
     }
   ],
   "settings": {
-    "lastPublishedAt": "2026-10-21T11:47:42.050Z",
+    "lastPublishedAt": "2026-10-21T11:48:17.785Z",
     "lastSyncCheckAt": "2026-10-08T16:25:56.697Z",
     "githubSyncEnabled": true,
     "autoSyncIntervalHours": 24,
