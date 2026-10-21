@@ -1,7 +1,7 @@
 /**
  * PORTFOLIO PROFILE -- SINGLE SOURCE OF TRUTH
  * Automatically synchronized by the Private Portfolio Management System.
- * Last Published: 2026-10-21T18:26:54.809Z
+ * Last Published: 2026-10-21T18:28:29.174Z
  */
 
 const PROFILE = {
@@ -93,7 +93,7 @@ const PROFILE = {
   "resume": {
     "url": "/media/Thimmareddygari_Harshavardhan_Reddy_Resume.pdf",
     "label": "📄 View Resume",
-    "updatedAt": "2026-10-21T16:49:35.950Z"
+    "updatedAt": "2026-10-21T18:28:27.854Z"
   },
   "skills": [
     {
