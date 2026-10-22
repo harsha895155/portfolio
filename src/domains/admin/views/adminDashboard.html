@@ -1097,8 +1097,15 @@
 
           <!-- UPLOADED DOCUMENTS TABLE -->
           <div class="card mt-4">
-            <h3 class="card-title">Uploaded Private Documents</h3>
-            <p class="card-desc">These files are stored in private storage and are NEVER publicly exposed or linked directly on your portfolio.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.8rem;">
+              <div>
+                <h3 class="card-title" style="margin-bottom: 0.2rem;">Uploaded Private Documents</h3>
+                <p class="card-desc" style="margin-bottom: 0;">These files are stored in private storage and are NEVER publicly exposed or linked directly on your portfolio.</p>
+              </div>
+              <button type="button" class="btn-ghost-sm" id="btn-batch-delete-test-docs" style="color: #f87171; border-color: rgba(239, 68, 68, 0.4); display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; padding: 0.35rem 0.75rem;" onclick="window.adminActions.clearTestDocuments()">
+                🗑️ Clean Test Documents
+              </button>
+            </div>
             <div class="table-responsive">
               <table class="data-table">
                 <thead>

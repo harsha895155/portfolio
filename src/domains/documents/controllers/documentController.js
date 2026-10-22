@@ -165,12 +165,31 @@ const documentController = {
     return res.sendFile(resolved.filePath);
   },
 
-  delete: (req, res) => {
-    const success = documentService.deleteDocument(req.params.id);
-    if (!success) {
-      return responseHelper.notFound(res, 'Document not found or could not be removed');
+  delete: async (req, res) => {
+    try {
+      const success = await documentService.deleteDocument(req.params.id);
+      if (!success) {
+        return responseHelper.notFound(res, 'Document not found or could not be removed');
+      }
+      return responseHelper.success(res, null, 'Document removed successfully');
+    } catch (err) {
+      logger.error('Error removing document', err);
+      return responseHelper.badRequest(res, err.message);
     }
-    return responseHelper.success(res, null, 'Document removed successfully');
+  },
+
+  batchDelete: async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return responseHelper.badRequest(res, 'Array of document ids is required');
+      }
+      const result = await documentService.batchDeleteDocuments(ids);
+      return responseHelper.success(res, result, `Successfully removed ${result.count} document(s)`);
+    } catch (err) {
+      logger.error('Error batch removing documents', err);
+      return responseHelper.badRequest(res, err.message);
+    }
   }
 };
 

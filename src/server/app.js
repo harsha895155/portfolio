@@ -81,6 +81,7 @@ app.get('/api/documents/:id', requireAuth, documentController.getById);
 app.get('/api/documents/:id/view', documentController.view);
 app.get('/api/documents/:id/download', documentController.download);
 app.delete('/api/documents/:id', requireAuth, documentController.delete);
+app.post('/api/documents/batch-delete', requireAuth, documentController.batchDelete);
 
 // ─── PRIVATE SOCIAL INTEGRATION ROUTES ──────────────────────────────────────
 app.get('/api/social/status', requireAuth, socialController.getStatus);

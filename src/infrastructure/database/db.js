@@ -344,13 +344,62 @@ class Database {
   }
 
   removeDocument(id) {
-    const idx = this.data.documents.findIndex(d => d.id === id);
+    if (!id || !Array.isArray(this.data.documents)) return null;
+    const cleanId = String(id).trim();
+    const idx = this.data.documents.findIndex(d =>
+      d.id === cleanId ||
+      d.diskFilename === cleanId ||
+      d.originalName === cleanId
+    );
     if (idx !== -1) {
       const removed = this.data.documents.splice(idx, 1)[0];
       this.save();
       return removed;
     }
     return null;
+  }
+
+  async removeDocumentAsync(id) {
+    if (!id || !Array.isArray(this.data.documents)) return null;
+    const cleanId = String(id).trim();
+    const idx = this.data.documents.findIndex(d =>
+      d.id === cleanId ||
+      d.diskFilename === cleanId ||
+      d.originalName === cleanId
+    );
+    if (idx !== -1) {
+      const removed = this.data.documents.splice(idx, 1)[0];
+      try {
+        fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8');
+      } catch (_) {}
+      if (this.supabase) {
+        await this.pushToSupabase();
+      }
+      return removed;
+    }
+    return null;
+  }
+
+  async removeDocumentsBatchAsync(ids) {
+    if (!Array.isArray(ids) || ids.length === 0 || !Array.isArray(this.data.documents)) return [];
+    const cleanIds = new Set(ids.map(id => String(id).trim()));
+    const removedDocs = [];
+    this.data.documents = this.data.documents.filter(d => {
+      const matches = cleanIds.has(d.id) || cleanIds.has(d.diskFilename) || cleanIds.has(d.originalName);
+      if (matches) {
+        removedDocs.push(d);
+        return false;
+      }
+      return true;
+    });
+
+    try {
+      fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8');
+    } catch (_) {}
+    if (this.supabase) {
+      await this.pushToSupabase();
+    }
+    return removedDocs;
   }
 
   // Pending Changes Operations

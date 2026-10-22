@@ -66,17 +66,42 @@ class DocumentService {
     return db.getDocument(id);
   }
 
-  deleteDocument(id) {
+  async deleteDocument(id) {
     const doc = db.getDocument(id);
-    if (!doc) return false;
+    const targetId = doc ? doc.id : id;
 
-    // Delete disk file
-    fileStorage.deleteFile(doc.diskFilename);
+    // Delete disk file if present
+    if (doc && doc.diskFilename) {
+      try {
+        fileStorage.deleteFile(doc.diskFilename);
+      } catch (e) {
+        logger.warn(`Could not remove file on disk: ${doc.diskFilename}`);
+      }
+    }
 
-    // Remove from DB
-    db.removeDocument(id);
-    logger.info(`Removed document: ${doc.originalName} (${id})`);
-    return true;
+    // Remove from DB with guaranteed Supabase push
+    const removed = await db.removeDocumentAsync(targetId);
+    if (removed) {
+      logger.info(`Removed document: ${removed.originalName || targetId} (${targetId})`);
+      return true;
+    }
+    return false;
+  }
+
+  async batchDeleteDocuments(ids) {
+    if (!Array.isArray(ids) || ids.length === 0) return { count: 0 };
+    for (const id of ids) {
+      const doc = db.getDocument(id);
+      if (doc && doc.diskFilename) {
+        try {
+          fileStorage.deleteFile(doc.diskFilename);
+        } catch (_) {}
+      }
+    }
+
+    const removed = await db.removeDocumentsBatchAsync(ids);
+    logger.info(`Batch removed ${removed.length} documents from storage & Supabase`);
+    return { count: removed.length, removed };
   }
 }
 

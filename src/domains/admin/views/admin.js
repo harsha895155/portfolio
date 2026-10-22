@@ -2967,7 +2967,7 @@
               <div class="table-actions">
                 <button type="button" class="btn-sm-sync" onclick="window.adminActions.viewDocument('${d.id}', '${escapeHtml(d.originalName)}')">👁️ View</button>
                 <a href="/api/documents/${d.id}/download" download class="btn-sm-sync" style="text-decoration: none;">⬇️ Download</a>
-                <button class="btn-sm-delete" onclick="window.adminActions.deleteDocument('${d.id}')">🗑️</button>
+                <button type="button" class="btn-sm-delete" title="Delete this document" onclick="window.adminActions.deleteDocument('${d.id}')">🗑️</button>
               </div>
             </td>
           </tr>
@@ -4309,15 +4309,52 @@
 
     // Documents
     deleteDocument: async (id) => {
-      if (!confirm('Are you sure you want to delete this uploaded document?')) return;
+      if (!confirm('Are you sure you want to permanently delete this uploaded document?')) return;
       try {
-        const res = await fetch(`/api/documents/${id}`, { method: 'DELETE' });
-        if (res.ok) {
-          showToast('Document deleted', 'success');
-          loadDocuments();
-          loadDashboard();
+        const res = await fetch(`/api/documents/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        const json = await res.json();
+        if (res.ok && json.success) {
+          showToast('✓ Document deleted successfully from private storage & database', 'success');
+          await loadDocuments();
+          await loadDashboard();
+        } else {
+          showToast('Failed to delete document: ' + (json.message || 'Server error'), 'error');
         }
-      } catch (e) { }
+      } catch (e) {
+        showToast('Connection error deleting document', 'error');
+      }
+    },
+    clearTestDocuments: async () => {
+      try {
+        const res = await fetch('/api/documents');
+        const json = await res.json();
+        if (!res.ok || !json.success || !Array.isArray(json.data)) return;
+        const testDocs = json.data.filter(d => 
+          d.originalName.toLowerCase().startsWith('test_') ||
+          d.originalName.toLowerCase().includes('test_harsha')
+        );
+        if (testDocs.length === 0) {
+          showToast('No test documents found to clean up.', 'info');
+          return;
+        }
+        if (!confirm(`Found ${testDocs.length} test document(s). Permanently delete all of them?`)) return;
+        const ids = testDocs.map(d => d.id);
+        const delRes = await fetch('/api/documents/batch-delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ids })
+        });
+        const delJson = await delRes.json();
+        if (delRes.ok && delJson.success) {
+          showToast(`✓ Successfully removed ${delJson.data?.count || testDocs.length} test document(s)`, 'success');
+          await loadDocuments();
+          await loadDashboard();
+        } else {
+          showToast('Failed to batch delete documents: ' + (delJson.message || ''), 'error');
+        }
+      } catch (e) {
+        showToast('Connection error during batch delete', 'error');
+      }
     },
 
     // Snapshots management
