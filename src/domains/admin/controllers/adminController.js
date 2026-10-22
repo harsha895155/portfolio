@@ -203,13 +203,29 @@ const adminController = {
   getCloudStatus: (req, res) => {
     try {
       const db = require('../../../infrastructure/database/db');
+      const config = require('../../../../config');
       const isConnected = Boolean(db.supabase);
       const isSynced = Boolean(db._cloudSynced);
+      const hasUrl = Boolean(config.supabase && config.supabase.url);
+      const hasKey = Boolean(config.supabase && config.supabase.key);
+      let statusMessage = 'Cloud persistence active';
+      if (!hasUrl && !hasKey) {
+        statusMessage = 'SUPABASE_URL and SUPABASE_KEY are missing in Render Environment Variables';
+      } else if (!hasUrl) {
+        statusMessage = 'SUPABASE_URL is missing in Render Environment Variables';
+      } else if (!hasKey) {
+        statusMessage = 'SUPABASE_KEY is missing in Render Environment Variables';
+      } else if (db.supabaseError) {
+        statusMessage = 'Supabase client error: ' + db.supabaseError;
+      }
+
       return responseHelper.success(res, {
         supabaseConnected: isConnected,
         cloudSynced: isSynced,
+        hasUrl,
+        hasKey,
         provider: isConnected ? 'Supabase Cloud Database (Persistent)' : 'Local File Storage (Ephemeral)',
-        message: isConnected ? 'Cloud persistence active' : 'Supabase credentials not detected'
+        message: statusMessage
       }, 'Cloud status retrieved');
     } catch (err) {
       return responseHelper.error(res, err.message);

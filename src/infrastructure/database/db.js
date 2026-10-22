@@ -27,13 +27,15 @@ class Database {
     this.supabase = null;
     this._cloudSynced = false;
     this._cloudSyncPromise = null;
+    this.supabaseError = null;
 
     if (config.supabase && config.supabase.url && config.supabase.key) {
       try {
-        this.supabase = createClient(config.supabase.url, config.supabase.key, {
+        this.supabase = createClient(config.supabase.url.trim(), config.supabase.key.trim(), {
           auth: { persistSession: false }
         });
       } catch (err) {
+        this.supabaseError = err.message;
         logger.warn('Could not initialize Supabase client:', err.message);
       }
     }

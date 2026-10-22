@@ -197,9 +197,10 @@
             badgeEl.style.borderColor = 'rgba(74, 222, 128, 0.5)';
             badgeEl.title = 'Persistent Supabase Cloud Database active. All changes are stored in the cloud and persist indefinitely.';
           } else {
+            const reason = cloudJson.data?.message || 'Supabase credentials not active';
             statusEl.innerHTML = '<span style="color:#f87171;">⚠️ Ephemeral Disk Only</span>';
             badgeEl.style.borderColor = 'rgba(239, 68, 68, 0.6)';
-            badgeEl.title = 'Supabase credentials not active. Check Render Environment Variables.';
+            badgeEl.title = 'Warning: ' + reason + '. Set SUPABASE_URL and SUPABASE_KEY in Render Environment Variables.';
           }
         }
       } catch (_) {}
