@@ -185,6 +185,25 @@
         currentDraftProfile = draftJson.data;
       }
 
+      // 1b. Fetch and display Cloud Database Persistence Status
+      try {
+        const cloudRes = await fetch('/api/admin/system/cloud-status?t=' + Date.now(), { cache: 'no-store' });
+        const cloudJson = await cloudRes.json();
+        const statusEl = document.getElementById('status-text');
+        const badgeEl = document.getElementById('system-status-badge');
+        if (cloudRes.ok && cloudJson.success && statusEl && badgeEl) {
+          if (cloudJson.data.supabaseConnected) {
+            statusEl.innerHTML = '<span style="color:#4ade80;">☁️ Supabase Synced</span>';
+            badgeEl.style.borderColor = 'rgba(74, 222, 128, 0.5)';
+            badgeEl.title = 'Persistent Supabase Cloud Database active. All changes are stored in the cloud and persist indefinitely.';
+          } else {
+            statusEl.innerHTML = '<span style="color:#f87171;">⚠️ Ephemeral Disk Only</span>';
+            badgeEl.style.borderColor = 'rgba(239, 68, 68, 0.6)';
+            badgeEl.title = 'Supabase credentials not active. Check Render Environment Variables.';
+          }
+        }
+      } catch (_) {}
+
       // 2. Fetch admin stats with zero-cache guarantee
       const statsRes = await fetch('/api/admin/stats?t=' + Date.now(), { cache: 'no-store' });
       const statsJson = await statsRes.json();

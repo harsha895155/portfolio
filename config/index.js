@@ -16,7 +16,7 @@ const config = {
 
   // Security
   auth: {
-    secret: process.env.AUTH_SECRET || 'dev_secret_key_change_in_production_9988776655',
+    secret: process.env.AUTH_SECRET || process.env.SESSION_SECRET || 'dev_secret_key_change_in_production_9988776655',
     sessionExpiry: process.env.SESSION_EXPIRY || '24h',
     adminUsername: process.env.ADMIN_USERNAME || 'admin',
     adminPassword: process.env.ADMIN_PASSWORD || 'AdminSecure2026!',
@@ -25,8 +25,8 @@ const config = {
 
   // Cloud Database (Supabase)
   supabase: {
-    url: process.env.SUPABASE_URL || '',
-    key: process.env.SUPABASE_KEY || ''
+    url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    key: process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || ''
   },
 
   // Paths

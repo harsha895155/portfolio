@@ -198,6 +198,22 @@ const adminController = {
       logger.error('Error executing admin global search', err);
       return responseHelper.error(res, 'Global search failed: ' + err.message);
     }
+  },
+
+  getCloudStatus: (req, res) => {
+    try {
+      const db = require('../../../infrastructure/database/db');
+      const isConnected = Boolean(db.supabase);
+      const isSynced = Boolean(db._cloudSynced);
+      return responseHelper.success(res, {
+        supabaseConnected: isConnected,
+        cloudSynced: isSynced,
+        provider: isConnected ? 'Supabase Cloud Database (Persistent)' : 'Local File Storage (Ephemeral)',
+        message: isConnected ? 'Cloud persistence active' : 'Supabase credentials not detected'
+      }, 'Cloud status retrieved');
+    } catch (err) {
+      return responseHelper.error(res, err.message);
+    }
   }
 };
 

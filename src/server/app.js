@@ -110,6 +110,7 @@ app.post('/api/admin/history/snapshots', requireAuth, adminController.createSnap
 app.delete('/api/admin/history/snapshots/:filename', requireAuth, adminController.deleteSnapshot);
 app.post('/api/admin/history/snapshots/batch-delete', requireAuth, adminController.batchDeleteSnapshots);
 app.get('/api/admin/search', requireAuth, adminController.globalSearch);
+app.get('/api/admin/system/cloud-status', requireAuth, adminController.getCloudStatus);
 
 // ─── PRIVATE CMS CONTENT MANAGEMENT ROUTES ─────────────────────────────────
 app.put('/api/cms/profile-hero', requireAuth, cmsController.updateProfileHero);

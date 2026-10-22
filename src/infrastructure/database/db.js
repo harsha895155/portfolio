@@ -26,6 +26,7 @@ class Database {
     this.data = null;
     this.supabase = null;
     this._cloudSynced = false;
+    this._cloudSyncPromise = null;
 
     if (config.supabase && config.supabase.url && config.supabase.key) {
       try {
@@ -56,10 +57,10 @@ class Database {
       } else if (fs.existsSync(config.paths.dbFile)) {
         const raw = fs.readFileSync(config.paths.dbFile, 'utf-8');
         this.data = JSON.parse(raw);
-        try { this.save(); } catch (e) {}
+        try { fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8'); } catch (e) {}
       } else {
         this.data = this.createInitialData();
-        try { this.save(); } catch (e) {}
+        try { fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8'); } catch (e) {}
       }
 
       // Ensure all collections exist
@@ -94,25 +95,44 @@ class Database {
         }
       }
 
-      if (updated) this.save();
+      // Save schema adjustments strictly to disk without triggering cloud push
+      if (updated) {
+        try {
+          fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8');
+        } catch (_) {}
+      }
 
-      // Trigger asynchronous cloud sync from Supabase if configured
+      // Initiate cloud sync safely
       if (this.supabase) {
-        this.syncFromSupabase();
+        this.ensureCloudSynced().catch(e => {
+          logger.warn('Initial background cloud sync warning:', e.message);
+        });
       }
 
       logger.info('Database initialized successfully');
     } catch (err) {
       logger.error('Failed to initialize database, building default schema', err);
       this.data = this.createInitialData();
-      this.save();
+      try {
+        fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8');
+      } catch (_) {}
     }
   }
 
   async ensureCloudSynced() {
     if (this._cloudSynced || !this.supabase) return;
-    await this.syncFromSupabase();
-    this._cloudSynced = true;
+    if (this._cloudSyncPromise) {
+      return this._cloudSyncPromise;
+    }
+    this._cloudSyncPromise = (async () => {
+      try {
+        await this.syncFromSupabase();
+        this._cloudSynced = true;
+      } finally {
+        this._cloudSyncPromise = null;
+      }
+    })();
+    return this._cloudSyncPromise;
   }
 
   async syncFromSupabase() {
@@ -140,9 +160,20 @@ class Database {
         try {
           fs.writeFileSync(this.dbPath, JSON.stringify(this.data, null, 2), 'utf-8');
         } catch (_) {}
+
+        // Automatically synchronize static portfolio files to match loaded published state
+        if (this.data.published && Object.keys(this.data.published).length > 0) {
+          try {
+            const syncProfileService = require('../../domains/profile/services/syncProfileService');
+            syncProfileService.syncToFiles(this.data.published);
+          } catch (syncErr) {
+            logger.warn('Could not sync loaded profile to static files:', syncErr.message);
+          }
+        }
+
         logger.info('Loaded persistent portfolio state from Supabase Cloud Database');
       } else {
-        // Seed Supabase with current state
+        // Only seed Supabase if the cloud store is completely empty
         await this.pushToSupabase();
         logger.info('Initialized Supabase Cloud Database with current portfolio state');
       }
